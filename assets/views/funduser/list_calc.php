@@ -1,5 +1,5 @@
 <fieldset>
-    <legend>Список всех расчетов фондов стимулурующих выплат для университета</legend>
+    <legend>Список всех расчетов фондов стимулурующих выплат для преподавателей </legend>
 </fieldset>
 <table class="table table_for_years">
     <tr class="title">
@@ -7,16 +7,16 @@
             №
         </td>
         <td >
-            <a href="/fund/list_calc/?sort=faculty&dir=<?php echo getDir("faculty");?>" class="sorter">Факультет<?php echo dirText("faculty");?></a>
+            <a href="/funduser/list_calc/?sort=faculty&dir=<?php echo getDir("faculty");?>" class="sorter">Факультет<?php echo dirText("faculty");?></a>
         </td>
         <td >
-            <a href="/fund/list_calc/?sort=date&dir=<?php echo getDir("date");?>" class="sorter">Дата <?php echo dirText("date");?></a>
+            <a href="/funduser/list_calc/?sort=date&dir=<?php echo getDir("date");?>" class="sorter">Дата <?php echo dirText("date");?></a>
         </td>
         <td >
-            <a href="/fund/list_calc/?sort=sum&dir=<?php echo getDir("sum");?>" class="sorter">Сумма <?php echo dirText("sum");?></a>
+            <a href="/funduser/list_calc/?sort=sum&dir=<?php echo getDir("sum");?>" class="sorter">Фонд факультета <?php echo dirText("sum");?></a>
         </td>
         <td >
-            <a href="/fund/list_calc/?sort=year&dir=<?php echo getDir("year");?>" class="sorter">Год <?php echo dirText("year");?></a>
+            <a href="/funduser/list_calc/?sort=year&dir=<?php echo getDir("year");?>" class="sorter">Год <?php echo dirText("year");?></a>
         </td>
         <td >
             Просмотр
@@ -38,14 +38,14 @@
                 '.$a->date.'
             </td>
             <td class="float_value">';
-        echo number_format($a->fsu, 2, ",", " ");
+        echo number_format($a->money, 2, ",", " ");
         echo
             '</td>
             <td>
                 '.$a->year.'
             </td>
             <td>
-                <a href="/fund/list_fund/'.$a->year.'/'.$a->stage->id.'">Просмотр</a>
+                <a href="/funduser/list_fund/'.$a->year.'/'.$a->stage->id.'">Просмотр</a>
             </td>
             ';
         echo

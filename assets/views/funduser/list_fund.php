@@ -48,10 +48,10 @@
             №
         </td>
         <td >
-            <a href="/fund/list_fund/<?php echo $year;?>/<?php echo $stage?>/?sort=faculty&dir=<?php echo getDir("faculty");?>" class="sorter">Факультет<?php echo dirText("faculty");?></a>
+            <a href="/funduser/list_fund/<?php echo $year;?>/<?php echo $stage?>/?sort=fio&dir=<?php echo getDir("fio");?>" class="sorter">ФИО<?php echo dirText("fio");?></a>
         </td>
         <td >
-            <a href="/fund/list_fund/<?php echo $year;?>/<?php echo $stage?>/?sort=money&dir=<?php echo getDir("money");?>" class="sorter">Год <?php echo $year; echo dirText("money");?></a>
+            <a href="/funduser/list_fund/<?php echo $year;?>/<?php echo $stage?>/?sort=money&dir=<?php echo getDir("money");?>" class="sorter">Год <?php echo $year; echo dirText("money");?></a>
         </td>
     </tr>
     <?php
@@ -59,12 +59,12 @@
     foreach ($awards as $a) {
         $i++;
         echo '
-        <tr id="tr_'.$a->idoperation.'">
+        <tr id="tr_'.$a->idoperation_user.'">
             <td class="n">
                 '.$i.'
             </td>
             <td>
-                '.$a->faculty->name.'
+                '.$a->awarduser->user->fio.'
             </td>
             <td class="float_value">';
         echo number_format($a->money, 2, ",", " ");
@@ -84,7 +84,7 @@
                 params = window.location.href.substring(index);
             }
 
-            location.href="/fund/list_fund/" + $("#year").val() + "/" + $("#stage").val() + "/" + params;
+            location.href="/funduser/list_fund/" + $("#year").val() + "/" + $("#stage").val() + "/" + params;
         });
 
         $("#sort").val($.url().param("sort"));

@@ -78,6 +78,22 @@ class Ajax extends \PHPixie\Controller {
         $a->delete();
     }
 
+    /**
+     * проверяет коичество расчетов на выбранный факультет, Если их нет то печалька
+     */
+    public function action_check_funduser_calc_count() {
+        if(!$this->logged_in('admin'))
+            return;
+        if ($this->request->method == 'GET'){
+            $fac = $this->request->get('id');
+            $year = $this->request->get('year');
+            $stage_id = $this->request->get('stage');
+            $qwe = $this->pixie->orm->get('awarduser')->with('user.faculty')->where('year',$year)->where('stage_id',$stage_id)->where('a1.id',$fac)->find_all()->as_array();
+
+            echo count($qwe);
+        }
+    }
+
 
     protected function logged_in($role = null){
         if($this->pixie->auth->user() == null){

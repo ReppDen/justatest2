@@ -21,4 +21,11 @@ class AwardUser extends \PHPixie\ORM\Model {
             'key'=>'stage_id'
         )
     );
+
+    protected $has_many=array(
+        'operationuser'=>array(
+            'model'=>'operationuser',
+            'key'=>'idoperation_user'
+        )
+    );
 }
