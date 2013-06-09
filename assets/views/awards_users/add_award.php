@@ -5,7 +5,7 @@
     <div class="col_container">
         <div class="column">
             <label>Преподаватель</label>
-            <select id="faculty" name="faculty">
+            <select id="user" name="user">
                 <?php
                 foreach($users as $f) {
                     echo '<option value="'.$f->id.'">'.$f->fio.' '.$f->faculty->name.'</option>';
@@ -73,7 +73,7 @@
                 type: "GET",
                 url: "/ajax/check_awarduser",
                 data: {
-                    id: $('#faculty').val(),
+                    id: $('#user').val(),
                     stage: stage,
                     year:$('#year').val()
                 },

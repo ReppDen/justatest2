@@ -103,7 +103,7 @@ function formatDate($date) {
             <a href="/awarduser/list_award/<?php echo $year;?>/?sort=sum&dir=<?php echo getDir("sum");?>" class="sorter">Баллы<?php echo dirText("sum");?></a>
         </td>
         <td>
-            <a href="/awarduser/list_award/<?php echo $year;?>/?sort=faculty&dir=<?php echo getDir("faculty");?>" class="sorter">Факультет<?php echo dirText("faculty");?></a>
+            <a href="/awarduser/list_award/<?php echo $year;?>/?sort=user&dir=<?php echo getDir("user");?>" class="sorter">Преподаватель<?php echo dirText("user");?></a>
         </td>
         <?php
         if ($can_delete) {
@@ -132,7 +132,7 @@ function formatDate($date) {
                '.$a->sum.'
             </td>
             <td>
-               '.$a->faculty->name.'
+               '.$a->user->fio.'
             </td>
 
 

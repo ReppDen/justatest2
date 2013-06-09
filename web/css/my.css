@@ -106,3 +106,11 @@ tr.table_title td{
 hr {
     margin: 0px;
 }
+
+fieldset.stage2 select {
+    width: 250px;
+}
+
+input[type=checkbox],input[type=radio] {
+    margin: 2px;
+}

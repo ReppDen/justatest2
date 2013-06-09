@@ -62,6 +62,22 @@ class Ajax extends \PHPixie\Controller {
         $a->delete();
     }
 
+    /**
+     * удаляет указанный рассчет для пользователя
+     */
+    public function action_delete_awarduser() {
+        if(!$this->logged_in('admin'))
+            return;
+
+        $id = $this->request->param("id");
+        if (!$id) {
+            return;
+        }
+        $a = $this->pixie->orm->get('awarduser')->where('id',$id)->find();
+
+        $a->delete();
+    }
+
 
     protected function logged_in($role = null){
         if($this->pixie->auth->user() == null){
