@@ -45,7 +45,6 @@
         </div>
     </div>
     </fieldset>
-    <input type="hidden" id="overwrite" name="overwrite" value="0" required/>
     <button type="button" class="btn" id="next_btn">Далее</button>
     <button type="submit" class="hidden" id="submit_btn">submit</button>
 
@@ -83,7 +82,6 @@
                         var year = $("#year").val();
                         var stage = $("#stage").val();
                         if (confirm("Расчет для выбранного года и этапа уже существет. Перезаписать имеющийся?")) {
-                            $("#overwrite").val(1);
                             $("#form").submit();
                         }
                     } else {

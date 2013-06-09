@@ -7,9 +7,6 @@
             №
         </td>
         <td >
-            <a href="/fund/list_calc/?sort=faculty&dir=<?php echo getDir("faculty");?>" class="sorter">Факультет<?php echo dirText("faculty");?></a>
-        </td>
-        <td >
             <a href="/fund/list_calc/?sort=date&dir=<?php echo getDir("date");?>" class="sorter">Дата <?php echo dirText("date");?></a>
         </td>
         <td >
@@ -31,10 +28,7 @@
             <td class="n">
                 '.$i.'
             </td>
-            <td >
-                '.$a->stage->name.'
-            </td>
-             <td>
+            <td>
                 '.$a->date.'
             </td>
             <td class="float_value">';
@@ -45,7 +39,7 @@
                 '.$a->year.'
             </td>
             <td>
-                <a href="/fund/list_fund/'.$a->year.'/'.$a->stage->id.'">Просмотр</a>
+                <a href="/fund/list_fund/'.$a->year.'">Просмотр</a>
             </td>
             ';
         echo

@@ -11,10 +11,4 @@ class CalcFund extends \PHPixie\ORM\Model {
     //Specify table name
     public $table='calc_fund';
 
-    protected $belongs_to = array(
-        'stage'=>array(
-            'model'=>'stage',
-            'key'=>'stage_id'
-        )
-    );
 }

@@ -5,7 +5,7 @@ return array(
 					'action' => 'index'
 					)
 				),
-    'fund' => array('(/<controller>/<action>/<year>/<stage>)', array(
+    'fund' => array('(/<controller>/<action>/<year>)', array(
         'controller' => 'Fund',
         'action' => 'index'
     )

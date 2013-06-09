@@ -41,16 +41,15 @@
                     <div class="column" style="width:690px;">
                         <label>Количество студентов факультета (приведенный контингент) или студентов,
                             обслуживаемых кафедрой</label>
-                        <input type="number" name="nf"  required/>
+                        <input type="number" id="nf" name="nf" value="<?php echo get_val($nf);?>" required/>
                         <br/>
 
                         <label>Количество штатных преподавателей на факультете (кафедре)</label>
-                        <input type="number" name="nprf" required/>
+                        <input type="number" id="nprf" name="nprf" value="<?php echo get_val($nprf);?>" required/>
                         <br/>
                     </div>
         </div>
     </fieldset>
-    <input type="hidden" id="overwrite" name="overwrite" value="0" required/>
     <button type="button" class="btn" id="next_btn">Далее</button>
     <button type="submit" class="hidden" id="submit_btn">submit</button>
 
@@ -100,5 +99,43 @@
                 }
             });
         });
+        $("#faculty").trigger('change');
+        $("#faculty").change(function() {
+            $.ajax({
+                type: "GET",
+                url: "/ajax/get_fac_info",
+                data: {
+                    id: $('#faculty').val()
+                },
+                success: function (res) {
+                    var obj = jQuery.parseJSON(res);
+                    if (obj != null) {
+                        console.log(obj);
+                        console.log(obj.nf);
+                        console.log(obj.nprf);
+                        $("#nf").val(Number(obj.nf));
+                        $("#nprf").val(Number(obj.nprf));
+                    }
+                },
+                error: function(res) {
+                    $.jGrowl("Произошла ошибка во время запроса к серверу");
+                }
+            });
+        });
+
+
+
+
     });
 </script>
+
+
+<?php
+function get_val($a) {
+    if ($a != null) {
+        echo $a;
+    } else {
+        echo 0;
+    }
+}
+?>

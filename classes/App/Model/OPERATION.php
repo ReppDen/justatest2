@@ -12,9 +12,9 @@ class Operation extends \PHPixie\ORM\Model {
     public $table='operation';
 
     protected $belongs_to = array(
-        'award'=>array(
-            'model'=>'award',
-            'key'=>'awards_id'
+        'faculty'=>array(
+            'model'=>'faculty',
+            'key'=>'faculties_id'
         ),
         'calcfund'=>array(
             'model'=>'calcfund',

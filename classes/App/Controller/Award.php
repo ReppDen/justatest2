@@ -11,6 +11,9 @@ class Award extends \App\Page {
         $faculties = $this->pixie->orm->get('faculty')->find_all();
         $this->view->stages = $stages;
         $this->view->faculties =$faculties;
+        $this->view->nf =$this->pixie->orm->get('faculty')->find()->nf;
+        $this->view->nprf =$this->pixie->orm->get('faculty')->find()->nprf;
+
         $this->view->subview = '/awards/add_award';
     }
 
@@ -19,14 +22,23 @@ class Award extends \App\Page {
             return;
 
         if($this->request->method == 'POST'){
+            // запишем данные о факе
+            $nf = $this->request->post('nf');
+            $nprf = $this->request->post('nprf');
+            $fac = $this->request->post('faculty');
+
+            $f = $this->pixie->orm->get('faculty')->where('id',$fac)->find();
+            if ($f->loaded()) {
+                $f->nf = $nf;
+                $f->nprf = $nprf;
+                $f->save();
+            }
+
             $stage = $this->pixie->orm->get('stage')->where('id',$this->request->post('stage'))->find();
             $year = $this->request->post('year');
             $this->view->stage = $stage;
             $this->view->year = $year;
-            $this->view->nf = $this->request->post('nf');
-            $this->view->nprf = $this->request->post('nprf');
             $this->view->faculty = $this->request->post('faculty');
-            $this->view->overwrite = $this->request->post('overwrite');
             $this->view->subview = '/awards/fill_award';
 
         } else {
@@ -42,10 +54,12 @@ class Award extends \App\Page {
             return;
 
         if($this->request->method == 'POST'){
+
+            $fac = $this->request->post('faculty');
             // сносим старую запись
-            if ($this->request->post('overwrite')) {
-                $old = $this->pixie->orm->get('award')->where('faculties_id',$this->request->post('faculty'))->where('year', $this->request->post('year'))->find();
-                $old->delete();
+            $old = $this->pixie->orm->get('award')->where('faculties_id',$fac)->where('year', $this->request->post('year'))->find();
+            if (!$old->loaded()) {
+                $old = $this->pixie->orm->get('award');
             }
 
             $stage_id = $this->request->post('stage_id');
@@ -101,8 +115,6 @@ class Award extends \App\Page {
             // $this->pixie->orm->get('user')->where('id',$this->pixie->auth->user()->id)->find()->faculty->id;
             $a->faculties_id = $this->request->post('faculty');
             $a->stage_id = $stage_id;
-            $a->nf = $this->request->post('nf');
-            $a->nprf = $this->request->post('nprf');
 
             // сохранить
             $a->save();

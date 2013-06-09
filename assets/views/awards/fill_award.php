@@ -193,10 +193,7 @@ function third_stage() {
     <fieldset>
         <input type="hidden" name="stage_id" value="<?php echo $stage->id; ?>"/>
         <input type="hidden" name="year" value="<?php echo $year; ?>"/>
-        <input type="hidden" name="nf" value="<?php echo $nf; ?>"/>
-        <input type="hidden" name="nprf" value="<?php echo $nprf; ?>"/>
         <input type="hidden" name="faculty" value="<?php echo $faculty; ?>"/>
-        <input type="hidden" name="overwrite" value="<?php echo $overwrite; ?>"/>
 
         <legend>Добавить расчет стимулирующих выплат </legend>
         <span class="subtitle">за период "<?php echo $stage->name ?>" в <?php echo $year?>г.</span>

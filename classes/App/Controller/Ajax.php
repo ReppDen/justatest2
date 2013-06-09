@@ -95,6 +95,26 @@ class Ajax extends \PHPixie\Controller {
     }
 
 
+    public function action_get_fac_info() {
+        if(!$this->logged_in('admin'))
+            return;
+
+        $id = $this->request->get("id");
+        $nf = 0;
+        $nprf = 0;
+        if ($id != null) {
+            $fac = $this->pixie->orm->get('faculty')->where('id',$id)->find();
+            $nf = $fac->nf;
+            $nprf = $fac->nprf;
+        }
+        echo json_encode(array(
+            'nprf'=>$nprf,
+            'nf'=>$nf
+        ));
+
+
+    }
+
     protected function logged_in($role = null){
         if($this->pixie->auth->user() == null){
             return false;

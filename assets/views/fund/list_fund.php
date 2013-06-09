@@ -48,10 +48,10 @@
             №
         </td>
         <td >
-            <a href="/fund/list_fund/<?php echo $year;?>/<?php echo $stage?>/?sort=faculty&dir=<?php echo getDir("faculty");?>" class="sorter">Факультет<?php echo dirText("faculty");?></a>
+            <a href="/fund/list_fund/<?php echo $year;?>/?sort=faculty&dir=<?php echo getDir("faculty");?>" class="sorter">Факультет<?php echo dirText("faculty");?></a>
         </td>
         <td >
-            <a href="/fund/list_fund/<?php echo $year;?>/<?php echo $stage?>/?sort=money&dir=<?php echo getDir("money");?>" class="sorter">Год <?php echo $year; echo dirText("money");?></a>
+            <a href="/fund/list_fund/<?php echo $year;?>/?sort=money&dir=<?php echo getDir("money");?>" class="sorter">Год <?php echo $year; echo dirText("money");?></a>
         </td>
     </tr>
     <?php
@@ -64,7 +64,7 @@
                 '.$i.'
             </td>
             <td>
-                '.$a->award->faculty->name.'
+                '.$a->faculty->name.'
             </td>
             <td class="float_value">';
         echo number_format($a->money, 2, ",", " ");
