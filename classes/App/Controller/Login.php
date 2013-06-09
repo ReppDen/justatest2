@@ -75,6 +75,11 @@ class Login extends \App\Page {
             $user->password = $hash;
             $user->fio = $fio;
             $user->faculty = $this->pixie->orm->get('faculty')->where('id',$fac)->find();
+            // FIXME
+            $user->main_job = 1;
+            $user->rate = 1.0;
+
+            $user->dismissed = 0;
             $user->save();
             $this->redirect('/');
         }

@@ -21,4 +21,12 @@ class Award extends \PHPixie\ORM\Model {
             'key'=>'stage_id'
         )
     );
+
+
+    protected $has_many=array(
+        'operation'=>array(
+            'model'=>'operation',
+            'key'=>'idoperation'
+        )
+    );
 }

@@ -64,7 +64,7 @@
                 '.$i.'
             </td>
             <td>
-                '.$a->award->faculty->name.'
+                '.$a->faculty->name.'
             </td>
             <td class="float_value">';
         echo number_format($a->money, 2, ",", " ");

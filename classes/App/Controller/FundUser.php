@@ -1,7 +1,7 @@
 <?php
 namespace App\Controller;
 
-class Fund extends \App\Page {
+class FundUser extends \App\Page {
 
     public function action_index(){
         if(!$this->logged_in('admin'))
@@ -65,11 +65,8 @@ class Fund extends \App\Page {
                 $pbf = $a->sum * $kf;
                 $s = $fsu/$pbu;
                 $fsf = $pbf * $s;
-                $oper = $this->pixie->orm->get('operation');
-                $oper->calc_fund_idcalc_fund = $cf->idcalc_fund;
-                $oper->money = (float) $fsf;
-                $oper->awards_id = $a->id;
-                $oper->save();
+                $a->money = (float) $fsf;
+                $a->save();
             }
             $this->view->awards = $awards;
             $this->redirect('/fund/list_fund/'.$year.'/'.$stage);
@@ -102,10 +99,10 @@ class Fund extends \App\Page {
         $awards = null;
         switch ($sort) {
             case 'faculty':
-                $awards = $this->pixie->orm->get('operation')->with('award')->with('award.faculty')->where('a0.year',$year)->where('a0.stage_id',$stage_id)->order_by('a1.name',$dir)->find_all();
+                $awards = $this->pixie->orm->get('award')->with('faculty')->where('year',$year)->where('stage_id',$stage_id)->order_by('name',$dir)->find_all();
                 break;
            default :
-                $awards = $this->pixie->orm->get('operation')->with('award')->with('award.faculty')->where('a0.year',$year)->where('a0.stage_id',$stage_id)->order_by('operation.money',$dir)->find_all();
+                $awards = $this->pixie->orm->get('award')->with('faculty')->where('year',$year)->where('stage_id',$stage_id)->order_by('awards.money',$dir)->find_all();
         }
 
         $this->view->stage = $stage_id;
