@@ -8,28 +8,28 @@ function first_stage() {
 
     <label>Индекс научной эффективности подразделения</label>
     число аспирантов/докторантов, защитившихся в отчетный период
-    <br/><input type="number" name="o7_2" value="0" required/>
+    <br/><input type="number" name="o7_2" value="0" min="0" max="10000" required/>
     <br/><br/>
     руководство грантами РФФИ, РГНФ, федеральных  целевых Программ, Программы стратегического развития вуза
-    <br/><input type="number" name="o7_3" value="0" required/>
+    <br/><input type="number" name="o7_3" value="0" min="0" max="10000" required/>
     <br/><br/>
     организация конференций любого уровня
-    <br/><input type="number" name="o7_4" value="0" required/>
+    <br/><input type="number" name="o7_4" value="0" min="0" max="10000" required/>
     <br/><br/>
     выступления сотрудников с докладами на международных и всероссийских конференциях
-    <br/><input type="number" name="o7_5" value="0" required/>
+    <br/><input type="number" name="o7_5" value="0" min="0" max="10000" required/>
     <br/><br/>
     количество монографий с  ISBN, или разделов в коллективных монографиях,  учебников с грифом МОН РФ, Рособразования, УМО
-    <br/><input type="number" name="o7_6" value="0" required/>
+    <br/><input type="number" name="o7_6" value="0" min="0" max="10000" required/>
     <br/><br/>
     количество статей в рецензируемых (ВАК) изданиях
-    <br/><input type="number" name="o7_7" value="0" required/>
+    <br/><input type="number" name="o7_7" value="0" min="0" max="10000" required/>
     <br/><br/>
     в зарубежных индексируемых изданиях
-    <br/><input type="number" name="o7_8" value="0" required/>
+    <br/><input type="number" name="o7_8" value="0" min="0" max="10000" required/>
     <br/><br/>
     количество статей в других изданиях
-    <br/><input type="number" name="o7_9" value="0" required/>
+    <br/><input type="number" name="o7_9" value="0" min="0" max="10000" required/>
 </fieldset>
 ';
 }
@@ -38,14 +38,14 @@ function first_stage() {
 function second_stage() {
     echo '<fieldset>
     <label>Проектирование и разработка образовательных программ</label>
-    Разработка и реализация основных образовательных программ
-    <br/><input type="number" name="o2_1" value="0" required/>
+    Разработка и реализация основных образовательных программ (количество)
+    <br/><input type="number" name="o2_1" value="0" min="0"  max="2000" required/>
     <br/><br/>
 
     Разработка и  реализация
     образовательных программ
-    повышения квалификации
-    <br/><input type="number" name="o2_2" value="0" required/>
+    повышения квалификации (количество)
+    <br/><input type="number" name="o2_2" value="0" min="0"  max="2000" required/>
     <br/><br/>
 
     <label>Реализация образовательных программ</label>
@@ -170,6 +170,7 @@ function third_stage() {
         сотрудниками, для которых
         ПГГПУ является основным местом
         работы (в долях ставок)
+        <br/>
         <select name="b1_2" required>
             <option value="1.0">От 75% и более</option>
             <option value="0.5">74%-50%</option>
@@ -189,13 +190,13 @@ function third_stage() {
 }
 ?>
 
-<form method="POST" action="/award/save_stage">
+<form method="POST" id="form" action="/award/save_stage">
     <fieldset>
         <input type="hidden" name="stage_id" value="<?php echo $stage->id; ?>"/>
         <input type="hidden" name="year" value="<?php echo $year; ?>"/>
         <input type="hidden" name="faculty" value="<?php echo $faculty; ?>"/>
 
-        <legend>Добавить расчет стимулирующих выплат </legend>
+        <legend>Добавить расчет баллов стимулирующих выплат </legend>
         <span class="subtitle">за период "<?php echo $stage->name ?>" в <?php echo $year?>г.</span>
         <?php
             switch ($stage->id) {
@@ -213,6 +214,24 @@ function third_stage() {
             }
         ?>
         <br/>
-        <button type="submit" class="btn  btn-success">Добавить</button>
+        <button id="add_btn" type="button" class="btn  btn-success">Добавить</button>
+        <button type="submit" class="hidden" id="submit_btn">submit</button>
     </fieldset>
 </form>
+
+<script>
+    $(document).ready(function() {
+        $("#add_btn").click(function() {
+            // если форма не валидна - выходим
+            var form = $('#form')[0];
+            if (!form.checkValidity()) {
+                $('#form').find('#submit_btn').click();
+                return;
+            }
+            if (hand_made_validation() != 0) {
+                return;
+            }
+            $("#form").submit();
+        });
+    });
+</script>

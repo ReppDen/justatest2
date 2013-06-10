@@ -13,10 +13,10 @@
         <input type="password" name="password" required/>
         <br/>
         Ставка от 0 до 1
+        <br/>
         <input type="number" name="rate" value="1.0" required/>
         <br/>
-        Оснвоное место работы
-        <input type="checkbox" name="main" checked required/>
+        <input type="checkbox" name="main" checked required>Оснвоное место работы</input>
         <br/>
         <label>Факультет</label>
         <select name="faculty">

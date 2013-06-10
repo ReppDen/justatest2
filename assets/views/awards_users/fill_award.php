@@ -193,13 +193,11 @@ function third_stage() {
 }
 ?>
 
-<form method="POST" action="/awarduser/save_stage">
+<form method="POST" id="form" action="/awarduser/save_stage">
     <fieldset>
         <input type="hidden" name="stage_id" value="<?php echo $stage->id; ?>"/>
         <input type="hidden" name="year" value="<?php echo $year; ?>"/>
-        <input type="hidden" name="pr_count" value="<?php echo $pr_count; ?>"/>
         <input type="hidden" name="user" value="<?php echo $user; ?>"/>
-        <input type="hidden" name="overwrite" value="<?php echo $overwrite; ?>"/>
 
         <legend>Добавить расчет стимулирующих выплат для пользователя</legend>
         <span class="subtitle">за период "<?php echo $stage->name ?>" в <?php echo $year?>г.</span>
@@ -219,6 +217,24 @@ function third_stage() {
         }
         ?>
         <br/>
-        <button type="submit" class="btn  btn-success">Добавить</button>
+        <button id="add_btn" type="button" class="btn  btn-success">Добавить</button>
+        <button type="submit" class="hidden" id="submit_btn">submit</button>
     </fieldset>
 </form>
+
+<script>
+    $(document).ready(function() {
+        $("#add_btn").click(function() {
+            // если форма не валидна - выходим
+            var form = $('#form')[0];
+            if (!form.checkValidity()) {
+                $('#form').find('#submit_btn').click();
+                return;
+            }
+            if (hand_made_validation() != 0) {
+                return;
+            }
+            $("#form").submit();
+        });
+    });
+</script>

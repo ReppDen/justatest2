@@ -41,11 +41,11 @@
                     <div class="column" style="width:690px;">
                         <label>Количество студентов факультета (приведенный контингент) или студентов,
                             обслуживаемых кафедрой</label>
-                        <input type="number" id="nf" name="nf" value="<?php echo get_val($nf);?>" required/>
+                        <input type="number" id="nf" name="nf" min="0" max="100000" value="<?php echo get_val($nf);?>" required/>
                         <br/>
 
                         <label>Количество штатных преподавателей на факультете (кафедре)</label>
-                        <input type="number" id="nprf" name="nprf" value="<?php echo get_val($nprf);?>" required/>
+                        <input type="number" id="nprf" name="nprf" min="0" max="100000" value="<?php echo get_val($nprf);?>" required/>
                         <br/>
                     </div>
         </div>
@@ -63,14 +63,18 @@
                 $('#form').find('#submit_btn').click();
                 return;
             }
+            if (hand_made_validation() != 0) {
+                return;
+            }
 
             // ищем этап и в путь
             var s = $('#form').serialize();
             var vals = s.split("&");
             var stage = 0;
             for (var i=0; i < vals.length; i++) {
-                if (vals[i].startsWith("stage")) {
-                    stage = vals[i].substr(vals[i].lastIndexOf("=")+1);
+                var s = vals[i];
+                if (s.indexOf("stage") == 0) {
+                    stage = s.substr(s.lastIndexOf("=")+1);
                 }
             }
             $.ajax({

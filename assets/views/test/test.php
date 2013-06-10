@@ -19,7 +19,7 @@
 ////        ." ".$c->user->faculty->name
 //        ."<br/>";
 //}
-
+echo $inActual;
 
 
 

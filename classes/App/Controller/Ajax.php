@@ -53,6 +53,8 @@ class Ajax extends \PHPixie\Controller {
         if(!$this->logged_in('admin'))
             return;
 
+//        Session::set('inActual',true);
+
         $id = $this->request->param("id");
         if (!$id) {
             return;

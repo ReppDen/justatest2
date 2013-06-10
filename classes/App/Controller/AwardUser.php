@@ -41,7 +41,7 @@ class AwardUser extends \App\Page {
         if($this->request->method == 'POST'){
             // сносим старую запись
             $a = $this->pixie->orm->get('awarduser')->where('users_id',$this->request->post('user'))->where('year', $this->request->post('year'))->find();
-            if (!$a.loaded()) {
+            if (!$a->loaded()) {
                $a = $this->pixie->orm->get('awarduser');
             }
 
@@ -101,7 +101,6 @@ class AwardUser extends \App\Page {
             $user_id = $this->request->post('user');
             $a->users_id = $user_id;
             $a->stage_id = $stage_id;
-            $a->pr_count = $this->request->post('pr_count');
 
             // сохранить
             $a->save();

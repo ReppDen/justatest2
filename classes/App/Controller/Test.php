@@ -4,6 +4,14 @@ namespace App\Controller;
 class Test extends \App\Page {
 
     public function action_index(){
+
+        Session::flash('success',"You have added a fairy");
+//        $inActual = Session::get('inActual');
+        $this->pixie ->inActual = Session::flash('success');
+        $this->view->subview = '/test/test';
+    }
+
+    public function qwe() {
         $year = 2013;
         $awards = $this->pixie->orm->get('awarduser')->with('user')->where('year',$year)->find_all();
 //        $prf = 0.0;

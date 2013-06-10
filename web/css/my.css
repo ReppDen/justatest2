@@ -114,3 +114,11 @@ fieldset.stage2 select {
 input[type=checkbox],input[type=radio] {
     margin: 2px;
 }
+
+.main_container {
+    min-width: 600px;
+}
+
+input.invalid {
+    border: 1px solid red;
+}
