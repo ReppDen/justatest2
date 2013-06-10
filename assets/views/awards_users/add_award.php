@@ -38,11 +38,6 @@
 
             <br/>
         </div>
-        <div class="column" style="width:690px;">
-            <label>Количество штатных преподавателей на факультете (кафедре)</label>
-            <input type="number" name="pr_count" required/>
-            <br/>
-        </div>
     </div>
     </fieldset>
     <button type="button" class="btn" id="next_btn">Далее</button>

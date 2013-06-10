@@ -8,7 +8,7 @@ class AwardUser extends \App\Page {
             return;
 
         $stages = $this->pixie->orm->get('stage')->find_all();
-        $users = $this->pixie->orm->get('user')->find_all();
+        $users = $this->pixie->orm->get('user')->where('main_job',1)->find_all();
         $this->view->stages = $stages;
         $this->view->users =$users;
         $this->view->subview = '/awards_users/add_award';
@@ -23,9 +23,7 @@ class AwardUser extends \App\Page {
             $year = $this->request->post('year');
             $this->view->stage = $stage;
             $this->view->year = $year;
-            $this->view->pr_count = $this->request->post('pr_count');
             $this->view->user = $this->request->post('user');
-            $this->view->overwrite = $this->request->post('overwrite');
             $this->view->subview = '/awards_users/fill_award';
 
         } else {
@@ -42,9 +40,9 @@ class AwardUser extends \App\Page {
 
         if($this->request->method == 'POST'){
             // сносим старую запись
-            if ($this->request->post('overwrite')) {
-                $old = $this->pixie->orm->get('awarduser')->where('users_id',$this->request->post('user'))->where('year', $this->request->post('year'))->find();
-                $old->delete();
+            $a = $this->pixie->orm->get('awarduser')->where('users_id',$this->request->post('user'))->where('year', $this->request->post('year'))->find();
+            if (!$a.loaded()) {
+               $a = $this->pixie->orm->get('awarduser');
             }
 
             $stage_id = $this->request->post('stage_id');
@@ -95,9 +93,6 @@ class AwardUser extends \App\Page {
                     break;
             }
 
-
-            // создать запись
-            $a = $this->pixie->orm->get('awarduser');
 
             // слоижть в запись данные с формы
             $a->date = date("Y-m-d H:i");

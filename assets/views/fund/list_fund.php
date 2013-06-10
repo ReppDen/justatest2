@@ -1,23 +1,8 @@
+
 <fieldset>
     <legend>Список всех расчетов за <?php echo $year; ?> год</legend>
     <table>
         <tr>
-            <td>
-                <div style="padding-bottom: 10px;">Этап:</div>
-            </td>
-            <td>
-                <select id="stage" name="stage">
-                    <?php
-                    foreach($stages as $s) {
-                        if ($s->id == $stage) {
-                            echo '<option value="'.$s->id.'" selected>'.$s->name.'</option>';
-                        } else {
-                            echo '<option value="'.$s->id.'">'.$s->name.'</option>';
-                        }
-                    }
-                    ?>
-                </select>
-            </td>
             <td>
                 <div style="padding-bottom: 10px;">Год:</div>
             </td>
@@ -56,7 +41,9 @@
     </tr>
     <?php
     $i = 0;
+    $s = 0.0;
     foreach ($awards as $a) {
+        $s += $a->money;
         $i++;
         echo '
         <tr id="tr_'.$a->idoperation.'">
@@ -74,7 +61,6 @@
     }
     ?>
 </table>
-
 <script>
     $(document).ready(function() {
         $("#set_filter").click(function() {
@@ -84,7 +70,7 @@
                 params = window.location.href.substring(index);
             }
 
-            location.href="/fund/list_fund/" + $("#year").val() + "/" + $("#stage").val() + "/" + params;
+            location.href="/fund/list_fund/" + $("#year").val() + "/" + params;
         });
 
         $("#sort").val($.url().param("sort"));

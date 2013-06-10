@@ -14,8 +14,8 @@ foreach ($calcs as $c) {
     echo ''
 
         ." ".$c->money
-        ." ".$c->award->id
-        ." ".$c->award->year
+//        ." ".$c->award->id
+        ." ".$c->calcfund->year
         ."<br/>";
 }
 

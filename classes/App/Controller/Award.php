@@ -57,9 +57,11 @@ class Award extends \App\Page {
 
             $fac = $this->request->post('faculty');
             // сносим старую запись
-            $old = $this->pixie->orm->get('award')->where('faculties_id',$fac)->where('year', $this->request->post('year'))->find();
-            if (!$old->loaded()) {
-                $old = $this->pixie->orm->get('award');
+            // создать запись
+
+            $a = $this->pixie->orm->get('award')->where('faculties_id',$fac)->where('year', $this->request->post('year'))->find();
+            if (!$a->loaded()) {
+                $a = $this->pixie->orm->get('award');
             }
 
             $stage_id = $this->request->post('stage_id');
@@ -105,8 +107,6 @@ class Award extends \App\Page {
             }
 
 
-            // создать запись
-            $a = $this->pixie->orm->get('award');
 
             // слоижть в запись данные с формы
             $a->date = date("Y-m-d H:i");

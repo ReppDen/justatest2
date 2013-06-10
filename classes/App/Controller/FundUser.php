@@ -10,82 +10,6 @@ class FundUser extends \App\Page {
         $this->view->subview = '/admin/admin';
     }
 
-    public function action_logout() {
-        $this->pixie->auth->logout();
-        $this->redirect('/');
-    }
-
-    public function action_calc_fund() {
-        if(!$this->logged_in('admin'))
-            return;
-
-        if ($this->request->method=="POST") {
-            $stage = $this->request->post('stage');
-            $year = $this->request->post('year');
-            $cfu = $this->pixie->orm->get('calcfunduser')->where('year',$year)->where('stage_id',$stage)->find();
-            if (!$cfu->loaded()) {
-                $cfu = $this->pixie->orm->get('calcfunduser');
-            }
-            $faculty = $this->request->post('faculty');
-            $cfu->year = $year;
-            $cfu->date = date("Y-m-d H:i");
-            $cfu->stage_id = $stage;
-
-            // выпускайте тяжелую накроманию!
-            $awards = $this->pixie->orm->get('awarduser')->with('user.faculty')->where('year',$year)->where('stage_id',$stage)->where('a1.id',$faculty)->find_all();
-
-            $prf = 0.0;
-            // считаем сумму баллов преподавателей выбранного факультета
-            foreach ($awards as $aw) {
-                $prf +=  $aw->sum;
-            }
-
-            // cохраним расчет
-            $money = $this->get_fsf($faculty,$stage,$year);
-            if ($money == null) {
-                $error = "Не сформирован расчет фонда для выбранного этапа и года!<br/>".
-                    '<a href="/fund/">Перейти к формированию расчета</a>';
-                $this->view->error = $error;
-                $this->view->subview = 'error';
-                return;
-            }
-            $cfu->money = $money;
-            $cfu->save();
-
-            $awards = $this->pixie->orm->get('awarduser')->with('user.faculty')->where('year',$year)->where('stage_id',$stage)->where('a1.id',$faculty)->find_all();
-            foreach ($awards as $aw) {
-                $prp = ($aw->sum / $prf) * $cfu->money;
-                $oper = $this->pixie->orm->get('operationuser')->where('calc_fund_user_idcalc_fund_user',$cfu->idcalc_fund_user)->where('awards_users_id',$aw->id)->find();
-                if (!$oper->loaded()) {
-                    $oper = $this->pixie->orm->get('operationuser');
-                }
-                $oper->calc_fund_user_idcalc_fund_user = $cfu->idcalc_fund_user;
-                $oper->money = (float) $prp;
-                $oper->awards_users_id = $aw->id;
-                $oper->save();
-            }
-
-            $this->view->awards = $awards;
-            $this->redirect('/funduser/list_fund/'.$year.'/'.$stage);
-        } else {
-            $stages = $this->pixie->orm->get('stage')->find_all();
-            $faculties = $this->pixie->orm->get('faculty')->find_all();
-            $this->view->stages = $stages;
-            $this->view->faculties = $faculties;
-            $this->view->subview = '/funduser/calc_fund';
-        }
-    }
-
-    private function get_fsf($faculty,$stage,$year) {
-//        $fac = $this->pixie->orm->get('user')->with('faculty')->where('id',$user)->find();
-        $res = $this->pixie->orm->get('operation')->with('award')->where('a0.faculties_id',$faculty)->where('a0.stage_id',$stage)->where('a0.year',$year)->find();
-        if ($res->loaded()) {
-            return $res->money;
-        } else {
-           return null;
-        }
-    }
-
     /**
      * отображает скисок факультетов и денги выделенные им
      */
@@ -102,14 +26,17 @@ class FundUser extends \App\Page {
         $sort = $this->request->get('sort');
 
         $year = $this->request->param('year');
+        if ($year == null) {
+            $year = date("Y");
+        }
         $stage_id = $this->request->param('stage');
         $awards = null;
         switch ($sort) {
             case 'fio':
-                $awards = $this->pixie->orm->get('operationuser')->with('awarduser','awarduser.user')->where('a0.year',$year)->where('a0.stage_id',$stage_id)->order_by('a1.fio',$dir)->find_all();
+                $awards = $this->pixie->orm->get('operationuser')->with('calcfunduser','user')->where('a0.year',$year)->order_by('a1.fio',$dir)->find_all();
                 break;
            default :
-               $awards = $this->pixie->orm->get('operationuser')->with('awarduser')->where('a0.year',$year)->where('a0.stage_id',$stage_id)->order_by('operation_user.money',$dir)->find_all();
+               $awards = $this->pixie->orm->get('operationuser')->with('calcfunduser')->where('a0.year',$year)->order_by('operation_user.money',$dir)->find_all();
         }
 
         $this->view->stage = $stage_id;
@@ -156,4 +83,67 @@ class FundUser extends \App\Page {
 //        $this->view->year = $year;
         $this->view->subview = '/funduser/list_calc';
     }
+
+
+
+//    public function action_calc_fund() {
+//        if(!$this->logged_in('admin'))
+//            return;
+//
+//        if ($this->request->method=="POST") {
+//            $stage = $this->request->post('stage');
+//            $year = $this->request->post('year');
+//            $cfu = $this->pixie->orm->get('calcfunduser')->where('year',$year)->where('stage_id',$stage)->find();
+//            if (!$cfu->loaded()) {
+//                $cfu = $this->pixie->orm->get('calcfunduser');
+//            }
+//            $faculty = $this->request->post('faculty');
+//            $cfu->year = $year;
+//            $cfu->date = date("Y-m-d H:i");
+//            $cfu->stage_id = $stage;
+//
+//            // выпускайте тяжелую накроманию!
+//            $awards = $this->pixie->orm->get('awarduser')->with('user.faculty')->where('year',$year)->where('stage_id',$stage)->where('a1.id',$faculty)->find_all();
+//
+//            $prf = 0.0;
+//            // считаем сумму баллов преподавателей выбранного факультета
+//            foreach ($awards as $aw) {
+//                $prf +=  $aw->sum;
+//            }
+//
+//            // cохраним расчет
+//            $money = $this->get_fsf($faculty,$stage,$year);
+//            if ($money == null) {
+//                $error = "Не сформирован расчет фонда для выбранного этапа и года!<br/>".
+//                    '<a href="/fund/">Перейти к формированию расчета</a>';
+//                $this->view->error = $error;
+//                $this->view->subview = 'error';
+//                return;
+//            }
+//            $cfu->money = $money;
+//            $cfu->save();
+//
+//            $awards = $this->pixie->orm->get('awarduser')->with('user.faculty')->where('year',$year)->where('stage_id',$stage)->where('a1.id',$faculty)->find_all();
+//            foreach ($awards as $aw) {
+//                $prp = ($aw->sum / $prf) * $cfu->money;
+//                $oper = $this->pixie->orm->get('operationuser')->where('calc_fund_user_idcalc_fund_user',$cfu->idcalc_fund_user)->where('awards_users_id',$aw->id)->find();
+//                if (!$oper->loaded()) {
+//                    $oper = $this->pixie->orm->get('operationuser');
+//                }
+//                $oper->calc_fund_user_idcalc_fund_user = $cfu->idcalc_fund_user;
+//                $oper->money = (float) $prp;
+//                $oper->awards_users_id = $aw->id;
+//                $oper->save();
+//            }
+//
+//            $this->view->awards = $awards;
+//            $this->redirect('/funduser/list_fund/'.$year.'/'.$stage);
+//        } else {
+//            $stages = $this->pixie->orm->get('stage')->find_all();
+//            $faculties = $this->pixie->orm->get('faculty')->find_all();
+//            $this->view->stages = $stages;
+//            $this->view->faculties = $faculties;
+//            $this->view->subview = '/funduser/calc_fund';
+//        }
+//    }
 }
