@@ -6,10 +6,10 @@
                 <div style="padding-bottom: 10px;">Этап:</div>
             </td>
             <td>
-                <select id="stage" name="stage">
+                <select id="faculty" name="faculty">
                     <?php
-                    foreach($stages as $s) {
-                        if ($s->id == $stage) {
+                    foreach($faculties as $s) {
+                        if ($s->id == $faculty) {
                             echo '<option value="'.$s->id.'" selected>'.$s->name.'</option>';
                         } else {
                             echo '<option value="'.$s->id.'">'.$s->name.'</option>';
@@ -48,10 +48,10 @@
             №
         </td>
         <td >
-            <a href="/funduser/list_fund/<?php echo $year;?>/<?php echo $stage?>/?sort=fio&dir=<?php echo getDir("fio");?>" class="sorter">ФИО<?php echo dirText("fio");?></a>
+            <a href="/funduser/list_fund/<?php echo $year;?>/<?php echo $faculty?>/?sort=fio&dir=<?php echo getDir("fio");?>" class="sorter">ФИО<?php echo dirText("fio");?></a>
         </td>
         <td >
-            <a href="/funduser/list_fund/<?php echo $year;?>/<?php echo $stage?>/?sort=money&dir=<?php echo getDir("money");?>" class="sorter">Год <?php echo $year; echo dirText("money");?></a>
+            <a href="/funduser/list_fund/<?php echo $year;?>/<?php echo $faculty?>/?sort=money&dir=<?php echo getDir("money");?>" class="sorter">Год <?php echo $year; echo dirText("money");?></a>
         </td>
     </tr>
     <?php
@@ -64,7 +64,7 @@
                 '.$i.'
             </td>
             <td>
-                '.$a->awarduser->user->fio.'
+                '.$a->user->fio.'
             </td>
             <td class="float_value">';
         echo number_format($a->money, 2, ",", " ");
@@ -84,7 +84,7 @@
                 params = window.location.href.substring(index);
             }
 
-            location.href="/funduser/list_fund/" + $("#year").val() + "/" + $("#stage").val() + "/" + params;
+            location.href="/funduser/list_fund/" + $("#year").val() + "/" + $("#faculty").val() + "/" + params;
         });
 
         $("#sort").val($.url().param("sort"));

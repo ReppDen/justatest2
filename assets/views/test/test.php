@@ -10,14 +10,15 @@
 //
 //}
 
-foreach ($calcs as $c) {
-    echo ''
-
-        ." ".$c->money
-//        ." ".$c->award->id
-        ." ".$c->calcfund->year
-        ."<br/>";
-}
+//foreach ($calcs as $c) {
+//    echo ''
+//
+//        ." ".$c->fio
+////        ." ".$c->award->id
+//        ." ".$c->awarduser->year
+////        ." ".$c->user->faculty->name
+//        ."<br/>";
+//}
 
 
 

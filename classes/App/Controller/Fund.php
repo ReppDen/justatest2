@@ -144,14 +144,54 @@ class Fund extends \App\Page {
 //                $oper->faculties_id = $a->faculty->id;
 //                $oper->save();
 //            }
+            // ,t
+
+            // бежим по фалкулттетам
+            $_fac = $this->pixie->orm->get('faculty')->find_all();
+            foreach ($_fac as $_f) {
+                // соберем 3 аварда в 1
+                $awards = $this->pixie->orm->get('awarduser')->with('user')->where('year',$year)->where('a0.faculties_id', $_f->id)->find_all();
+
+                $prf = 0.0;
+                // считаем сумму баллов преподавателей выбранного факультета
+                foreach ($awards as $aw) {
+                    $prf += $aw->sum*$aw->user->rate;
+                }
+
+                if ($prf == 0.0) {
+                    // все тлен
+                    // пользователей без баллов не обрабатываем
+
+                } else {
+                    $user_list = $this->pixie->orm->get('user')->with('faculty')->where('a0.id',$a->faculty->id)->find_all();
+                    $this->calc_fund_user($year, $au->user->id,$au, $prf);
+                }
+
+            }
 
 
             // убновляем баллы во всех пользователях данного факультета
-            $awardsuser = $this->pixie->orm->get('awarduser')->where('year',$year)->find_all();
-            foreach ($awardsuser as $au) {
-                $user_list = $this->pixie->orm->get('user')->with('faculty')->where('a0.id',$a->faculty->id)->find_all();
-                $this->calc_fund_user($year, $au->user->id);
-            }
+//            $awardsuser = $this->pixie->orm->get('awarduser')->where('year',$year)->find_all();
+//            foreach ($awardsuser as $au) {
+//
+//                // соберем 3 аварда в 1
+//                $awards = $this->pixie->orm->get('awarduser')->with('user')->where('year',$year)->where('a0.id', $au->user->id)->find_all();
+//
+//                $prf = 0.0;
+//                // считаем сумму баллов преподавателей выбранного факультета
+//                foreach ($awards as $aw) {
+//                    $prf += $aw->sum*$aw->user->rate;
+//                }
+//
+//                if ($prf == 0.0) {
+//                    // все тлен
+//                    // пользователей без баллов не обрабатываем
+//
+//                } else {
+//                    $user_list = $this->pixie->orm->get('user')->with('faculty')->where('a0.id',$a->faculty->id)->find_all();
+//                    $this->calc_fund_user($year, $au->user->id,$au, $prf);
+//                }
+//            }
 
 
 //            echo '/fund/list_fund/'.$year."?sum=".$sum;
@@ -167,22 +207,7 @@ class Fund extends \App\Page {
     /**
      * расчитывает баллы для указаного пользователя за указанный год
      */
-    public function calc_fund_user($year,$user_id) {
-
-        // соберем 3 аварда в 1
-        $awards = $this->pixie->orm->get('awarduser')->with('user')->where('year',$year)->where('a0.id', $user_id)->find_all();
-
-        $prf = 0.0;
-        // считаем сумму баллов преподавателей выбранного факультета
-        foreach ($awards as $aw) {
-            $prf += $aw->sum;
-        }
-
-        if ($prf == 0.0) {
-            // все тлен
-            // пользователей без баллов не обрабатываем
-            return ;
-        }
+    public function calc_fund_user($year,$user_id, $award_global, $prf) {
 
         $fac_id = $this->pixie->orm->get('user')->where("id",$user_id)->find()->faculty->id;
 
@@ -201,18 +226,15 @@ class Fund extends \App\Page {
         $cfu->money = $points;
         $cfu->save();
 
-        $awards = $this->pixie->orm->get('awarduser')->with('user')->where('year',$year)->where('a0.id',$user_id)->find_all();
-        foreach ($awards as $aw) {
-            $prp = ($aw->sum * $aw->user->rate / $prf) * $cfu->money;
-            $oper = $this->pixie->orm->get('operationuser')->where('calc_fund_user_idcalc_fund_user',$cfu->idcalc_fund_user)->where('users_id',$aw->user->id)->find();
-            if (!$oper->loaded()) {
-                $oper = $this->pixie->orm->get('operationuser');
-            }
-            $oper->calc_fund_user_idcalc_fund_user = $cfu->idcalc_fund_user;
-            $oper->money = (float) $prp;
-            $oper->users_id = $aw->user->id;
-            $oper->save();
+        $prp = ($award_global->sum * $award_global->user->rate / $prf) * $cfu->money;
+        $oper = $this->pixie->orm->get('operationuser')->where('calc_fund_user_idcalc_fund_user',$cfu->idcalc_fund_user)->where('users_id',$award_global->user->id)->find();
+        if (!$oper->loaded()) {
+            $oper = $this->pixie->orm->get('operationuser');
         }
+        $oper->calc_fund_user_idcalc_fund_user = $cfu->idcalc_fund_user;
+        $oper->money = (float) $prp;
+        $oper->users_id = $award_global->user->id;
+        $oper->save();
     }
 
     private function get_fsf($faculty,$year) {

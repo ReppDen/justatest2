@@ -76,8 +76,13 @@ class Login extends \App\Page {
             $user->fio = $fio;
             $user->faculty = $this->pixie->orm->get('faculty')->where('id',$fac)->find();
             // FIXME
-            $user->main_job = 1;
-            $user->rate = 1.0;
+            if ($this->request->post('main') == "on") {
+                $user->main_job = 1;
+            } else {
+                $user->main_job = 0;
+            }
+
+            $user->rate = $this->request->post('rate');
 
             $user->dismissed = 0;
             $user->save();

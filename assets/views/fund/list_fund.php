@@ -38,6 +38,9 @@
         <td >
             <a href="/fund/list_fund/<?php echo $year;?>/?sort=money&dir=<?php echo getDir("money");?>" class="sorter">Год <?php echo $year; echo dirText("money");?></a>
         </td>
+        <td>
+            Посмотреть
+        </td>
     </tr>
     <?php
     $i = 0;
@@ -57,6 +60,9 @@
         echo number_format($a->money, 2, ",", " ");
         echo
             '</td>
+            <td>
+                <a href="/funduser/list_fund/'.$year.'/'.$a->faculty->id.'" class="sorter">Посмотреть</a>
+            </td>
         </tr>';
     }
     ?>

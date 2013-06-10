@@ -12,12 +12,12 @@ class OperationUser extends \PHPixie\ORM\Model {
     public $table='operation_user';
 
     protected $belongs_to = array(
-        'awarduser'=>array(
-            'model'=>'awarduser',
-            'key'=>'awards_users_id'
+        'user'=>array(
+            'model'=>'user',
+            'key'=>'users_id'
         ),
         'calcfunduser'=>array(
-            'model'=>'calcfund',
+            'model'=>'calcfunduser',
             'key'=>'calc_fund_user_idcalc_fund_user'
         )
     );

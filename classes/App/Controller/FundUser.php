@@ -26,22 +26,25 @@ class FundUser extends \App\Page {
         $sort = $this->request->get('sort');
 
         $year = $this->request->param('year');
+        $fac = $this->request->param('stage');
+        if ($fac == null) {
+            $fac = 1;
+        }
         if ($year == null) {
             $year = date("Y");
         }
-        $stage_id = $this->request->param('stage');
         $awards = null;
         switch ($sort) {
             case 'fio':
-                $awards = $this->pixie->orm->get('operationuser')->with('calcfunduser','user')->where('a0.year',$year)->order_by('a1.fio',$dir)->find_all();
+                $awards = $this->pixie->orm->get('operationuser')->with('calcfunduser','user')->where('a0.year',$year)->where('a1.faculties_id',$fac)->order_by('a1.fio',$dir)->find_all();
                 break;
            default :
-               $awards = $this->pixie->orm->get('operationuser')->with('calcfunduser')->where('a0.year',$year)->order_by('operation_user.money',$dir)->find_all();
+               $awards = $this->pixie->orm->get('operationuser')->with('calcfunduser','user')->where('a0.year',$year)->where('a1.faculties_id',$fac)->order_by('operation_user.money',$dir)->find_all();
         }
 
-        $this->view->stage = $stage_id;
+        $this->view->faculty = $fac;
         $this->view->awards = $awards;
-        $this->view->stages = $this->pixie->orm->get('stage')->find_all();
+        $this->view->faculties = $this->pixie->orm->get('faculty')->find_all();
         $this->view->year = $year;
         $this->view->subview = '/funduser/list_fund';
     }
