@@ -1,9 +1,9 @@
 <fieldset>
-    <legend>Список всех расчетов за <?php echo $year; ?> год</legend>
+    <legend>Выплаты сотрудникам за <?php echo $year; ?> год</legend>
     <table>
         <tr>
             <td>
-                <div style="padding-bottom: 10px;">Этап:</div>
+                <div style="padding-bottom: 10px;">Факультет:</div>
             </td>
             <td>
                 <select id="faculty" name="faculty">

@@ -14,8 +14,8 @@ class Pixie extends \PHPixie\Pixie {
 		'orm' => '\PHPixie\ORM',
         'auth' => '\PHPixie\Auth'
 	);
-	
+
 	protected function after_bootstrap(){
-		//Whatever code you want to run after bootstrap is done.		
+        $this->debug->display_errors = true;
 	}
 }
