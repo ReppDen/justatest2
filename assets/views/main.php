@@ -29,6 +29,11 @@
             if ($.browser.opera && $.browser.version < 11) {
                 $("#old_browser").show();
             }
+            <?php
+                if (isset($_GET['message'])) {
+                   echo '$.jGrowl("'.$_GET['message'].'");';
+                }
+           ?>
         });
 
         function hand_made_validation() {

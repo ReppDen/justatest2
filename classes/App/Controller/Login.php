@@ -75,7 +75,6 @@ class Login extends \App\Page {
             $user->password = $hash;
             $user->fio = $fio;
             $user->faculty = $this->pixie->orm->get('faculty')->where('id',$fac)->find();
-            // FIXME
             if ($this->request->post('main') == "on") {
                 $user->main_job = 1;
             } else {

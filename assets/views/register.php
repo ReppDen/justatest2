@@ -16,7 +16,7 @@
         <br/>
         <input type="number" name="rate" value="1.0" required/>
         <br/>
-        <input type="checkbox" name="main" checked required>Оснвоное место работы</input>
+        <input type="checkbox" name="main" checked >Оснвоное место работы</input>
         <br/>
         <label>Факультет</label>
         <select name="faculty">

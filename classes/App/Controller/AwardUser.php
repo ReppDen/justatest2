@@ -148,7 +148,7 @@ class AwardUser extends \App\Page {
                     break;
             }
         } else {
-            $f_id = $this->pixie->orm->get('user')->where('id',$this->pixie->auth->user()->id)->find()->user->id;
+            $f_id = $this->pixie->orm->get('user')->where('id',$this->pixie->auth->user()->id)->find()->faculty->id;
 
             switch ($sort) {
                 case 'sum':

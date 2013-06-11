@@ -2,27 +2,32 @@
     <fieldset>
         <legend>Редактирование инфорации пользователя</legend>
         <label>Email пользователя</label>
-        <input type="email" name="username" value="<?php echo $u->email; ?>" required />
+        <input type="email" name="email" value="<?php echo $u->email; ?>" required />
         <label>ФИО пользователя</label>
         <input type="text" name="fio" value="<?php echo $u->fio; ?>" required/>
         <label>Пароль</label>
-        <input type="password" name="password" required/>
+        <input type="password" name="password"/>
         <br/>
         Ставка от 0 до 1
         <br/>
-        <input type="number" name="rate" value="1.0" required/>
+        <input type="number" name="rate" value="<?php echo $u->rate;?>" required/>
         <br/>
-        <input type="checkbox" name="main" checked required>Оснвоное место работы</input>
+        <input type="checkbox" name="main" <?php if ($u->main_job) { echo 'checked'; }?> >Оснвоное место работы</input>
         <br/>
         <label>Факультет</label>
         <select name="faculty">
             <?php
-            foreach($faculties as $f) {
-                echo '<option value="'.$f->id.'">'.$f->name.'</option>';
-            }
+                foreach($faculties as $f) {
+                    if ($f->id == $u->faculty->id) {
+                        echo '<option value="'.$f->id.'" selected>'.$f->name.'</option>';
+                    } else {
+                        echo '<option value="'.$f->id.'">'.$f->name.'</option>';
+                    }
+
+                }
             ?>
         </select>
-        <input type="hidden" name="id" value="<?php echo $u->id; ?>">
+        <input type="hidden" name="uid" value="<?php echo $u->id; ?>">
         <br/>
         <button type="submit" class="btn btn-success btn-std100">Сохранить</button>
         <br/>
