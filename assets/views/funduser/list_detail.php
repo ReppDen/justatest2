@@ -1,18 +1,18 @@
 <fieldset>
-    <legend>Выплаты сотрудникам за <?php echo $year; ?> год</legend>
+    <legend>Детализация выплаты за <?php echo $year; ?> год</legend>
     <table>
         <tr>
             <td>
-                <div style="padding-bottom: 10px;">Факультет:</div>
+                <div style="padding-bottom: 10px;">Пользователь:</div>
             </td>
             <td>
-                <select id="faculty" name="faculty">
+                <select id="user" name="user">
                     <?php
-                    foreach($faculties as $s) {
-                        if ($s->id == $faculty) {
-                            echo '<option value="'.$s->id.'" selected>'.$s->name.'</option>';
+                    foreach($users as $s) {
+                        if ($s->id == $user) {
+                            echo '<option value="'.$s->id.'" selected>'.$s->fio.'</option>';
                         } else {
-                            echo '<option value="'.$s->id.'">'.$s->name.'</option>';
+                            echo '<option value="'.$s->id.'">'.$s->fio.' '.$s->faculty->name.'</option>';
                         }
                     }
                     ?>
@@ -48,13 +48,10 @@
             №
         </td>
         <td >
-            <a href="/funduser/list_fund/<?php echo $year;?>/<?php echo $faculty?>/?sort=fio&dir=<?php echo getDir("fio");?>" class="sorter">ФИО<?php echo dirText("fio");?></a>
+            <a href="/funduser/list_detail/<?php echo $year;?>/<?php echo $user;?>/?sort=stage&dir=<?php echo getDir("stage");?>" class="sorter">Этап<?php echo dirText("stage");?></a>
         </td>
         <td >
-            <a href="/funduser/list_fund/<?php echo $year;?>/<?php echo $faculty?>/?sort=money&dir=<?php echo getDir("money");?>" class="sorter">Год <?php echo $year; echo dirText("money");?></a>
-        </td>
-        <td>
-            Просмотр
+            <a href="/funduser/list_detail/<?php echo $year;?>/<?php echo $user?>/?sort=money&dir=<?php echo getDir("money");?>" class="sorter">Год <?php echo $year; echo dirText("money");?></a>
         </td>
     </tr>
     <?php
@@ -62,20 +59,17 @@
     foreach ($awards as $a) {
         $i++;
         echo '
-        <tr id="tr_'.$a->idoperation_user.'">
+        <tr id="tr_'.$a->idoperation_stage_user.'">
             <td class="n">
                 '.$i.'
             </td>
             <td>
-                '.$a->user->fio.'
+                '.$a->stage->name.'
             </td>
             <td class="float_value">';
         echo number_format($a->money, 2, ",", " ");
         echo
             '</td>
-        <td>
-            <a href="/funduser/list_detail/'.$a->calcfunduser->year.'/'.$a->user->id.'">Просмотр</a>
-        </td>
         </tr>';
     }
     ?>
@@ -90,7 +84,7 @@
                 params = window.location.href.substring(index);
             }
 
-            location.href="/funduser/list_fund/" + $("#year").val() + "/" + $("#faculty").val() + "/" + params;
+            location.href="/funduser/list_detail/" + $("#year").val() + "/" + $("#user").val() + "/" + params;
         });
 
         $("#sort").val($.url().param("sort"));

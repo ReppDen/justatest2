@@ -2,19 +2,29 @@
     <fieldset>
         <legend>Редактирование инфорации пользователя</legend>
         <label>Email пользователя</label>
-        <input type="email" name="username" placeholder="Email" required />
+        <input type="email" name="username" value="<?php echo $u->email; ?>" required />
+        <label>ФИО пользователя</label>
+        <input type="text" name="fio" value="<?php echo $u->fio; ?>" required/>
         <label>Пароль</label>
-        <input type="password" name="password" required />
+        <input type="password" name="password" required/>
         <br/>
-<!--        <label></label>-->
-        <input type="checkbox" name="full_day" required checked> Основное место работы</input>
+        Ставка от 0 до 1
         <br/>
-        <label>Ставка (от 0 до 1)</label>
-        <input type="password" name="work_rate" required />
-        <div>
-            <a href="/user/save" class="btn btn-success btn-std">Cохранить</a>
-            <a href="/" class="btn" style="width: 82px;">Отмена</a>
-        </div>
+        <input type="number" name="rate" value="1.0" required/>
+        <br/>
+        <input type="checkbox" name="main" checked required>Оснвоное место работы</input>
+        <br/>
+        <label>Факультет</label>
+        <select name="faculty">
+            <?php
+            foreach($faculties as $f) {
+                echo '<option value="'.$f->id.'">'.$f->name.'</option>';
+            }
+            ?>
+        </select>
+        <input type="hidden" name="id" value="<?php echo $u->id; ?>">
+        <br/>
+        <button type="submit" class="btn btn-success btn-std100">Сохранить</button>
         <br/>
     </fieldset>
 </form>

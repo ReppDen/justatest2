@@ -57,7 +57,11 @@ class Fund extends \App\Page {
                 $pbu += $pbf;
             }
 
-            $s = $fsu/$pbu;
+            if ($pbu == 0) {
+                $s = 0;
+            } else {
+                $s = $fsu/$pbu;
+            }
             $sum  = 0.0;
             $fsf = 0.0;
             $facs = $this->pixie->orm->get('faculty')->find_all();
@@ -84,7 +88,7 @@ class Fund extends \App\Page {
                 $oper->save();
             }
 
-            $this->calc_user_money($year);
+            $this->calc_user_money2($year, true);
 
             $this->redirect('/fund/list_fund/'.$year);
         } else {
@@ -96,9 +100,9 @@ class Fund extends \App\Page {
 
 
     /**
-     * расчитывает деньги пользователям
+     * расчитывает деньги пользователям с учетом изменения в 1 этапе
      */
-    public function calc_user_money($operation_year) {
+    public function calc_user_money2($operation_year,$include_changes) {
         $operations = $this->pixie->orm->get('operation')->with('calcfund')->where('a0.year',$operation_year)->find_all();
         foreach ($operations as $operation) {
             // $operation = $this->pixie->orm->get('operation')->where('faculties_id',$fac_id)->with('calcfund')->where('a0.year',$year)->find(); // заменить на переменную цикла
@@ -119,7 +123,15 @@ class Fund extends \App\Page {
                 // достать все расчеты, в которых учавствует пользователь
                 $awards = $this->pixie->orm->get('awarduser')->where('users_id',$u->id)->find_all();
                 foreach ($awards as $a) {
-                    $pbf += $a->sum * $u->rate;
+                    if ($include_changes) {
+                        if ($a->stage_id == 1) {
+                            $pbf += $a->sum;
+                        } else {
+                            $pbf += $a->sum * $u->rate;
+                        }
+                    } else {
+                        $pbf += $a->sum * $u->rate;
+                    }
                 }
             }
 
@@ -130,21 +142,43 @@ class Fund extends \App\Page {
             // расчитать выплаты пользователям в зависимости от разбалловки
             $users = $this->pixie->orm->get('user')->where('faculties_id',$operation->faculties_id)->find_all();
             foreach ($users as $u) {
-                $user_sum = 0.0;
-                $awards = $this->pixie->orm->get('awarduser')->where('users_id',$u->id)->find_all();
-                foreach ($awards as $a) {
-                    $user_sum += $a->sum * $u->rate;
-                }
-
-                $user_money = ($user_sum/$pbf) * $cfu->money;
                 $operation_user = $this->pixie->orm->get('operationuser')->where('calc_fund_user_idcalc_fund_user',$cfu->idcalc_fund_user)->where('users_id',$u->id)->find();
                 if (!$operation_user->loaded()) {
                     $operation_user = $this->pixie->orm->get('operationuser');
                 }
-
-                $operation_user->money = $user_money;
                 $operation_user->calc_fund_user_idcalc_fund_user = $cfu->idcalc_fund_user;
                 $operation_user->users_id = $u->id;
+                $operation_user->save();
+
+                $user_sum = 0.0;
+                $awards = $this->pixie->orm->get('awarduser')->where('users_id',$u->id)->find_all();
+                foreach ($awards as $a) {
+                    // запишем данные по этапам
+                    $op_stage_user = $this->pixie->orm->get('OperationStageUser')->where('operation_user_idoperation_user',$operation_user->idoperation_user)->where('stage_id',$a->stage_id)->find();
+                    if (!$op_stage_user->loaded()) {
+                        $op_stage_user = $this->pixie->orm->get('OperationStageUser');
+                    }
+
+                    $op_stage_user->operation_user_idoperation_user = $operation_user->idoperation_user;
+                    $op_stage_user->stage_id = $a->stage_id;
+
+                    if ($include_changes) {
+                        if ($a->stage_id == 1) {
+                            $op_stage_user->money = (float) $a->sum / $pbf * $cfu->money;
+                        } else {
+                            $op_stage_user->money = (float) $a->sum * $u->rate / $pbf * $cfu->money;
+                        }
+                    } else {
+                        $op_stage_user->money = (float) $a->sum * $u->rate / $pbf * $cfu->money;
+                    }
+                    $op_stage_user->save();
+                    $user_sum += $op_stage_user->money;
+
+                }
+
+//                $user_money = (float) ($user_sum/$pbf) * $cfu->money;
+                $operation_user->money = $user_sum;
+
 
                 $operation_user->save();
             }
