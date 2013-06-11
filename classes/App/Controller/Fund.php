@@ -118,7 +118,7 @@ class Fund extends \App\Page {
 
             // расчет есть, считаем приведенный балл факультета через сумму всех ПБ пользователей
             $pbf = 0.0;
-            $users = $this->pixie->orm->get('user')->where('faculties_id',$operation->faculties_id)->find_all();
+            $users = $this->pixie->orm->get('user')->where('faculties_id',$operation->faculties_id)->where('main_job',1)->find_all();
             foreach ($users as $u) {
                 // достать все расчеты, в которых учавствует пользователь
                 $awards = $this->pixie->orm->get('awarduser')->where('users_id',$u->id)->find_all();
@@ -140,7 +140,7 @@ class Fund extends \App\Page {
                 continue;
             }
             // расчитать выплаты пользователям в зависимости от разбалловки
-            $users = $this->pixie->orm->get('user')->where('faculties_id',$operation->faculties_id)->find_all();
+            $users = $this->pixie->orm->get('user')->where('faculties_id',$operation->faculties_id)->where('main_job',1)->find_all();
             foreach ($users as $u) {
                 $operation_user = $this->pixie->orm->get('operationuser')->where('calc_fund_user_idcalc_fund_user',$cfu->idcalc_fund_user)->where('users_id',$u->id)->find();
                 if (!$operation_user->loaded()) {

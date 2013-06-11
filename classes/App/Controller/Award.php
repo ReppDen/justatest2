@@ -58,13 +58,13 @@ class Award extends \App\Page {
             $fac = $this->request->post('faculty');
             // сносим старую запись
             // создать запись
-
-            $a = $this->pixie->orm->get('award')->where('faculties_id',$fac)->where('year', $this->request->post('year'))->find();
+            $stage_id = $this->request->post('stage_id');
+            $a = $this->pixie->orm->get('award')->where('faculties_id',$fac)->where('year', $this->request->post('year'))->where('stage_id',$stage_id)->find();
             if (!$a->loaded()) {
                 $a = $this->pixie->orm->get('award');
             }
 
-            $stage_id = $this->request->post('stage_id');
+
 
             // TODO validation
             // рассчитать баллы

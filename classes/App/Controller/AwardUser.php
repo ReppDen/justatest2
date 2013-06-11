@@ -39,13 +39,14 @@ class AwardUser extends \App\Page {
             return;
 
         if($this->request->method == 'POST'){
+            $stage_id = $this->request->post('stage_id');
             // сносим старую запись
-            $a = $this->pixie->orm->get('awarduser')->where('users_id',$this->request->post('user'))->where('year', $this->request->post('year'))->find();
+            $a = $this->pixie->orm->get('awarduser')->where('users_id',$this->request->post('user'))->where('year', $this->request->post('year'))->where('stage_id',$stage_id)->find();
             if (!$a->loaded()) {
                $a = $this->pixie->orm->get('awarduser');
             }
 
-            $stage_id = $this->request->post('stage_id');
+           ;
 
             // TODO validation
             // рассчитать баллы

@@ -10,5 +10,8 @@
     <a href="/awarduser/list_award">Список расчетов по преподавателям</a><br/>
     <a href="/fund/list_calc">Список всех сформированных расчетов по университету</a><br/>
     <a href="/funduser/list_fund">Список выплат сотрудникам</a><br/>
+    <hr/>
+    <h5>Редактирование</h5>
+    <a href="/funduser/list_fund">Исправить факультеты</a><br/>
 
 </div>
