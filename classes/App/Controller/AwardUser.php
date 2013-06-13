@@ -7,8 +7,14 @@ class AwardUser extends \App\Page {
         if(!$this->logged_in())
             return;
 
+        $current = $this->pixie->auth->user();
         $stages = $this->pixie->orm->get('stage')->find_all();
-        $users = $this->pixie->orm->get('user')->where('main_job',1)->find_all();
+        $users = null;
+        if ($this->has_role('super')) {
+            $users = $this->pixie->orm->get('user')->where('main_job',1)->find_all();
+        } else {
+            $users = $this->pixie->orm->get('user')->where('main_job',1)->where('faculties_id',$current->faculty->id)->find_all();
+        }
         $this->view->stages = $stages;
         $this->view->users =$users;
         $this->view->subview = '/awards_users/add_award';
@@ -129,7 +135,7 @@ class AwardUser extends \App\Page {
         if ($year == null) {
             $year = date("Y");
         }
-        $isAdmin = $this->has_role('admin');
+        $isAdmin = $this->has_role('super');
         $this->view->can_delete = $isAdmin;
         $this->view->year = $year;
 
@@ -153,16 +159,16 @@ class AwardUser extends \App\Page {
 
             switch ($sort) {
                 case 'sum':
-                    $this->view->awards = $this->pixie->orm->get('awarduser')->where('year', $year)->where("users_id", $f_id)->order_by("sum",$direction)->find_all();
+                    $this->view->awards = $this->pixie->orm->get('awarduser')->where('year', $year)->with('user')->where("a0.faculties_id", $f_id)->order_by("awards_users.sum",$direction)->find_all();
                     break;
                 case 'user':
-                    $this->view->awards = $this->pixie->orm->get('awarduser')->with('user')->where('year', $year)->where("users_id", $f_id)->order_by("fio",$direction)->find_all();
+                    $this->view->awards = $this->pixie->orm->get('awarduser')->with('user')->where('year', $year)->where("a0.faculties_id", $f_id)->order_by("fio",$direction)->find_all();
                     break;
                 case 'type':
-                    $this->view->awards = $this->pixie->orm->get('awarduser')->with('stage')->where('year', $year)->where("users_id", $f_id)->order_by("name",$direction)->find_all();
+                    $this->view->awards = $this->pixie->orm->get('awarduser')->with('stage','user')->where("a1.faculties_id", $f_id)->where('year', $year)->order_by("a0.name",$direction)->find_all();
                     break;
                 default:
-                    $this->view->awards = $this->pixie->orm->get('awarduser')->where('year', $year)->where("users_id", $f_id)->order_by("date",$direction)->find_all();
+                    $this->view->awards = $this->pixie->orm->get('awarduser')->where('year', $year)->with('user')->where("a0.faculties_id", $f_id)->order_by("awards_users.date",$direction)->find_all();
                     break;
             }
         }

@@ -142,7 +142,7 @@ class Award extends \App\Page {
         if ($year == null) {
             $year = date("Y");
         }
-        $isAdmin = $this->has_role('admin');
+        $isAdmin = $this->has_role('super');
         $this->view->can_delete = $isAdmin;
         $this->view->year = $year;
 

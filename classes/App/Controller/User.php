@@ -21,7 +21,7 @@ class User extends \App\Page {
             }
 
             $user->rate = $this->request->post('rate');
-            $user->faculties_id = $this->request->post('faculty');
+//            $user->faculties_id = $this->request->post('faculty');
             if ($this->request->post('main') == "on") {
                 $user->main_job = 1;
             } else {
@@ -39,7 +39,7 @@ class User extends \App\Page {
             return;
         }
         $this->view->u = $inc;
-        $this->view->faculties = $this->pixie->orm->get('faculty')->find_all();
+//        $this->view->faculties = $this->pixie->orm->get('faculty')->find_all();
         $this->view->subview = '/user/user';
 
     }

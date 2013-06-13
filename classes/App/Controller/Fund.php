@@ -4,7 +4,7 @@ namespace App\Controller;
 class Fund extends \App\Page {
 
     public function action_index(){
-        if(!$this->logged_in('admin'))
+        if(!$this->logged_in('super'))
             return;
 
         $this->view->message = $this->pixie->auth->user()->email;
@@ -12,7 +12,7 @@ class Fund extends \App\Page {
     }
 
     public function action_calc_fund() {
-        if(!$this->logged_in('admin'))
+        if(!$this->logged_in('super'))
             return;
 
         if ($this->request->method=="POST") {

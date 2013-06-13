@@ -4,7 +4,7 @@ namespace App\Controller;
 class FundUser extends \App\Page {
 
     public function action_index(){
-        if(!$this->logged_in('admin'))
+        if(!$this->logged_in('super'))
             return;
         $this->view->message = $this->pixie->auth->user()->email;
         $this->redirect('/admin/');
@@ -14,7 +14,7 @@ class FundUser extends \App\Page {
      * отображает скисок факультетов и денги выделенные им
      */
     public function action_list_fund() {
-        if(!$this->logged_in())
+        if(!$this->logged_in('super'))
             return;
 
         $dir = 'asc';
@@ -53,7 +53,7 @@ class FundUser extends \App\Page {
      * отображает скисок этапов и деньги которые получит пользователь за этап
      */
     public function action_list_detail() {
-        if(!$this->logged_in())
+        if(!$this->logged_in('super'))
             return;
 
         $dir = 'asc';
