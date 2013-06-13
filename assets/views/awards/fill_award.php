@@ -7,8 +7,11 @@ function first_stage() {
     <br/><input type="checkbox" name="o7_1">1 и более</input>
 
     <label>Индекс научной эффективности подразделения</label>
-    число аспирантов/докторантов, защитившихся в отчетный период
+    число аспирантов, защитившихся в отчетный период
     <br/><input type="number" name="o7_2" value="0" min="0" max="10000" required/>
+    <br/><br/>
+     число докторантов, защитившихся в отчетный период
+    <br/><input type="number" name="o7_2a" value="0" min="0" max="10000" required/>
     <br/><br/>
     руководство грантами РФФИ, РГНФ, федеральных  целевых Программ, Программы стратегического развития вуза
     <br/><input type="number" name="o7_3" value="0" min="0" max="10000" required/>
@@ -19,13 +22,29 @@ function first_stage() {
     выступления сотрудников с докладами на международных и всероссийских конференциях
     <br/><input type="number" name="o7_5" value="0" min="0" max="10000" required/>
     <br/><br/>
-    количество монографий с  ISBN, или разделов в коллективных монографиях,  учебников с грифом МОН РФ, Рособразования, УМО
-    <br/><input type="number" name="o7_6" value="0" min="0" max="10000" required/>
+    количество монографий с  ISBN, или разделов в коллективных монографиях
+    <table>
+        <tr>
+            <td>изданий в РФ</td>
+            <td style="padding-left: 10px;">изданий за рубежом</td>
+        </tr>
+        <tr>
+            <td>
+                <input type="number" name="o7_6" value="0" min="0" max="10000" required/>
+            </td>
+            <td style="padding-left: 10px;">
+                <input type="number" name="o7_6a" value="0" min="0" max="10000" required/>
+            </td>
+        </tr>
+    </table>
+    <br/><br/>
+    учебников с грифом МОН РФ, Рособразования, УМО
+    <br/><input type="number" name="o7_6b" value="0" min="0" max="10000" required/>
     <br/><br/>
     количество статей в рецензируемых (ВАК) изданиях
     <br/><input type="number" name="o7_7" value="0" min="0" max="10000" required/>
     <br/><br/>
-    в зарубежных индексируемых изданиях
+    количество статей в зарубежных индексируемых изданиях
     <br/><input type="number" name="o7_8" value="0" min="0" max="10000" required/>
     <br/><br/>
     количество статей в других изданиях

@@ -5,10 +5,12 @@ class Test extends \App\Page {
 
     public function action_index(){
 
-        Session::flash('success',"You have added a fairy");
 //        $inActual = Session::get('inActual');
-        $this->pixie ->inActual = Session::flash('success');
-        $this->view->subview = '/test/test';
+//        $this->pixie ->inActual = Session::flash('success');
+        $password = $this->request->get('p');
+        $hash = $this->pixie->auth->provider('password')->hash_password($password);
+        $this->view->inActual = $hash;
+        $this->view->subview = 'test/test';
     }
 
     public function qwe() {

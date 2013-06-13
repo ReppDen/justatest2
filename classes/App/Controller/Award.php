@@ -64,9 +64,6 @@ class Award extends \App\Page {
                 $a = $this->pixie->orm->get('award');
             }
 
-
-
-            // TODO validation
             // рассчитать баллы
             $points = (float) 0.0;
             switch ($stage_id) {
@@ -76,12 +73,15 @@ class Award extends \App\Page {
                         $points += 1.2;
                     }
                     $points += (float) $this->request->post('o7_2') * 1.0;
+                    $points += (float) $this->request->post('o7_2a') * 2.0;
                     $points += (float) $this->request->post('o7_3') * 1.0;
                     $points += (float) $this->request->post('o7_4') * 1.0;
                     $points += (float) $this->request->post('o7_5') * 0.1;
                     $points += (float) $this->request->post('o7_6') * 0.5;
+                    $points += (float) $this->request->post('o7_6a') * 1.0;
+                    $points += (float) $this->request->post('o7_6b') * 1.0;
                     $points += (float) $this->request->post('o7_7') * 0.3;
-                    $points += (float) $this->request->post('o7_8') * 0.5;
+                    $points += (float) $this->request->post('o7_8') * 0.7;
                     $points += (float) $this->request->post('o7_9') * 0.1;
                     break;
                 case 2:

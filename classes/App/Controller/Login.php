@@ -57,12 +57,12 @@ class Login extends \App\Page {
 
             // ========= checks ============
             $db_email = $this->pixie->orm->get('user')->where('email',$login)->find();
-            if ($db_email->loaded()) {
-                $error = "Пользователь с таким email уже существует";
-                $this->view->subview = 'register';
-                $this->view->error = $error;
-                return;
-            }
+//            if ($db_email->loaded()) {
+//                $error = "Пользователь с таким email уже существует";
+//                $this->view->subview = 'register';
+//                $this->view->error = $error;
+//                return;
+//            }
             // ========= /checks ============
 
             //Attempt to login the user using his
