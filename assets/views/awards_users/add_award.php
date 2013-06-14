@@ -7,8 +7,14 @@
             <label>Преподаватель</label>
             <select id="user" name="user">
                 <?php
-                foreach($users as $f) {
-                    echo '<option value="'.$f->id.'">'.$f->fio.' '.$f->faculty->name.'</option>';
+                if ($super) {
+                    foreach($users as $f) {
+                        echo '<option value="'.$f->id.'">'.$f->fio.' '.$f->faculty->name.'</option>';
+                    }
+                } else {
+                    foreach($users as $f) {
+                        echo '<option value="'.$f->id.'">'.$f->fio.'</option>';
+                    }
                 }
                 ?>
             </select>
@@ -59,7 +65,7 @@
             var vals = s.split("&");
             var stage = 0;
             for (var i=0; i < vals.length; i++) {
-                if (vals[i].startsWith("stage")) {
+                if (vals[i].indexOf("stage") == 0) {
                     stage = vals[i].substr(vals[i].lastIndexOf("=")+1);
                 }
             }

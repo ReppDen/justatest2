@@ -10,11 +10,15 @@ class AwardUser extends \App\Page {
         $current = $this->pixie->auth->user();
         $stages = $this->pixie->orm->get('stage')->find_all();
         $users = null;
-        if ($this->has_role('super')) {
+        $super = $this->has_role('super');
+        if ($super) {
             $users = $this->pixie->orm->get('user')->where('main_job',1)->find_all();
+            $this->view->super = true;
         } else {
             $users = $this->pixie->orm->get('user')->where('main_job',1)->where('faculties_id',$current->faculty->id)->find_all();
+            $this->view->super = false;
         }
+
         $this->view->stages = $stages;
         $this->view->users =$users;
         $this->view->subview = '/awards_users/add_award';

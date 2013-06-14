@@ -5,13 +5,19 @@
         <div class="col_container">
                     <div class="column">
                         <label>Факультет</label>
-                        <select id="faculty" name="faculty">
-                            <?php
-                            foreach($faculties as $f) {
-                                echo '<option value="'.$f->id.'">'.$f->name.'</option>';
+                        <?php
+                            if ($super) {
+                                echo '<select id="faculty" name="faculty">';
+                                foreach($faculties as $f) {
+                                    echo '<option value="'.$f->id.'">'.$f->name.'</option>';
+                                }
+                                echo '</select>';
+                            } else {
+                                echo $faculties->name;
+                                echo '<input type="hidden" id="faculty" name="faculty" value="'.$faculties->id.'"/>';
                             }
+
                             ?>
-                        </select>
                         <label>Этап</label>
                         <?php
                         $i = 0;
@@ -52,7 +58,6 @@
     </fieldset>
     <button type="button" class="btn" id="next_btn">Далее</button>
     <button type="submit" class="hidden" id="submit_btn">submit</button>
-
 </form>
 <script>
     $(document).ready(function() {

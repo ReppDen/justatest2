@@ -8,7 +8,14 @@ class Award extends \App\Page {
             return;
 
         $stages = $this->pixie->orm->get('stage')->find_all();
-        $faculties = $this->pixie->orm->get('faculty')->find_all();
+        $super = $this->has_role('super');
+        if ($super) {
+            $faculties = $this->pixie->orm->get('faculty')->find_all();
+        } else {
+            $faculties = $this->pixie->auth->user()->faculty;
+        }
+
+        $this->view->super = $super;
         $this->view->stages = $stages;
         $this->view->faculties =$faculties;
         $this->view->nf =$this->pixie->orm->get('faculty')->find()->nf;
