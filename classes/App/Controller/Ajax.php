@@ -122,7 +122,7 @@ class Ajax extends \PHPixie\Controller {
             return false;
         }
 
-        if($role && !$this->pixie->auth->has_role($role)){
+        if(!$this->pixie->auth->has_role('super') && $role && !$this->pixie->auth->has_role($role)){
             return false;
         }
 

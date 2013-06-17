@@ -111,10 +111,10 @@ class Fund extends \App\Page {
             if (!$cfu->loaded()) {
                 $cfu = $this->pixie->orm->get('calcfunduser');
             }
-            $cfu->year = $operation->calcfund->year;
-            $cfu->date = date("Y-m-d H:i");
-            $cfu->money = $operation->money;
-            $cfu->save();
+//            $cfu->year = $operation->calcfund->year;
+//            $cfu->date = date("Y-m-d H:i");
+//            $cfu->money = $operation->money;
+//            $cfu->save();
 
             // расчет есть, считаем приведенный балл факультета через сумму всех ПБ пользователей
             $pbf = 0.0;
