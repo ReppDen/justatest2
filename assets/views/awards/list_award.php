@@ -105,6 +105,9 @@ function formatDate($date) {
         <td>
             <a href="/award/list_award/<?php echo $year;?>/?sort=faculty&dir=<?php echo getDir("faculty");?>" class="sorter">Факультет<?php echo dirText("faculty");?></a>
         </td>
+        <td>
+            Детали
+        </td>
         <?php
         if ($can_delete) {
             echo '<td>
@@ -137,6 +140,10 @@ function formatDate($date) {
 
 
         ';
+        echo '
+            <td>
+                <a href="/award/watch/'.$a->id.'">Детали</a>
+            </td>';
         if ($can_delete) {
             echo '
                 <td>

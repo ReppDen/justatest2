@@ -5,11 +5,38 @@ class User extends \App\Page {
 
     public function action_index(){
 
-        if(!$this->logged_in())
+        if($this->request->method == 'POST'){
+            $u_id = $this->request->post('uid');
+            $pas = $this->request->post('password');
+
+            $user = $this->pixie->orm->get('user')->where('id',$u_id)->find();
+            $user->fio = $this->request->post('fio');
+            $user->email = $this->request->post('email');
+            if ($pas != null) {
+                $hash = $this->pixie->auth->provider('password')->hash_password($pas);
+                $user->password = $hash;
+            }
+
+            $user->rate = $this->request->post('rate');
+//            $user->faculties_id = $this->request->post('faculty');
+            if ($this->request->post('main') == "on") {
+                $user->main_job = 1;
+            } else {
+                $user->main_job = 0;
+            }
+
+            $user->save();
+            $this->redirect('/?message=Cохранение прошло успешно!');
             return;
-
-        $this->view->user = $this->pixie->auth->user();
-
+        }
+        $real = $this->pixie->auth->user();
+        $inc = $this->pixie->orm->get('user')->where('id',$this->request->get("id"))->find();
+        if ($real != $inc) {
+            $this->redirect('/');
+            return;
+        }
+        $this->view->u = $inc;
+//        $this->view->faculties = $this->pixie->orm->get('faculty')->find_all();
         $this->view->subview = '/user/user';
 
     }

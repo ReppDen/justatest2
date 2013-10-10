@@ -31,9 +31,14 @@ class Test extends \App\Page {
 //            ->join(array('stage','s'),array('s.id','awards.stage_id'))
 //            ->join(array('calc_fund','c'),array('s.id','c.stage_id'))
 //            ->where('awards.year','2013')
-//            ->execute()->as_array();
-        $calcs = $this->pixie->orm->get('user')->where('faculties_id','1')->count_all();
+//            ->execute()->as_array(); ->where('year',2013)->where('stage_id',1)->order_by('money','asc') ->where('year',2013)->where('stage_id',1)
+        $calcs = array();
+//        $cols =  $this->pixie->orm->get('award')->where('year',2013)->with('operation')->where('stage_id',1)->columns();
+        $fac = $this->pixie->orm->get('user')->with('faculty')->where('id',14)->find();
+        echo $fac->faculty->name . " qewqwewq";
+        $calcs =   $this->pixie->orm->get('operation')->with('award')->where('a0.faculties_id',$fac->faculty->id)->where('a0.stage_id',1)->where('a0.year',2013)->find_all();
         $this->view->calcs = $calcs;
+//        $this->view->cols = $cols;
         $this->view->subview = '/test/test';
     }
 

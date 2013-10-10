@@ -7,6 +7,6 @@
         echo '<a href="/admin">Консоль администратора</a><br/>';
     }
     ?>
-    <a href="/user">[!]Изменить данные пользователя</a><br/>
+    <a href="/user?id=<?php echo $user->id;?>">Изменить данные пользователя</a><br/>
     <a href="/login/logout">Выход из системы</a>
 </div>

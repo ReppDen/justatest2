@@ -5,13 +5,19 @@
         <div class="col_container">
                     <div class="column">
                         <label>Факультет</label>
-                        <select id="faculty" name="faculty">
-                            <?php
-                            foreach($faculties as $f) {
-                                echo '<option value="'.$f->id.'">'.$f->name.'</option>';
+                        <?php
+                            if ($super) {
+                                echo '<select id="faculty" name="faculty">';
+                                foreach($faculties as $f) {
+                                    echo '<option value="'.$f->id.'">'.$f->name.'</option>';
+                                }
+                                echo '</select>';
+                            } else {
+                                echo $faculties->name;
+                                echo '<input type="hidden" id="faculty" name="faculty" value="'.$faculties->id.'"/>';
                             }
+
                             ?>
-                        </select>
                         <label>Этап</label>
                         <?php
                         $i = 0;
@@ -41,19 +47,17 @@
                     <div class="column" style="width:690px;">
                         <label>Количество студентов факультета (приведенный контингент) или студентов,
                             обслуживаемых кафедрой</label>
-                        <input type="number" name="nf"  required/>
+                        <input type="number" id="nf" name="nf" min="0" max="100000" value="<?php echo get_val($nf);?>" required/>
                         <br/>
 
                         <label>Количество штатных преподавателей на факультете (кафедре)</label>
-                        <input type="number" name="nprf" required/>
+                        <input type="number" id="nprf" name="nprf" min="0" max="100000" value="<?php echo get_val($nprf);?>" required/>
                         <br/>
                     </div>
         </div>
     </fieldset>
-    <input type="hidden" id="overwrite" name="overwrite" value="0" required/>
     <button type="button" class="btn" id="next_btn">Далее</button>
     <button type="submit" class="hidden" id="submit_btn">submit</button>
-
 </form>
 <script>
     $(document).ready(function() {
@@ -64,14 +68,18 @@
                 $('#form').find('#submit_btn').click();
                 return;
             }
+            if (hand_made_validation() != 0) {
+                return;
+            }
 
             // ищем этап и в путь
             var s = $('#form').serialize();
             var vals = s.split("&");
             var stage = 0;
             for (var i=0; i < vals.length; i++) {
-                if (vals[i].startsWith("stage")) {
-                    stage = vals[i].substr(vals[i].lastIndexOf("=")+1);
+                var s = vals[i];
+                if (s.indexOf("stage") == 0) {
+                    stage = s.substr(s.lastIndexOf("=")+1);
                 }
             }
             $.ajax({
@@ -100,5 +108,43 @@
                 }
             });
         });
+        $("#faculty").trigger('change');
+        $("#faculty").change(function() {
+            $.ajax({
+                type: "GET",
+                url: "/ajax/get_fac_info",
+                data: {
+                    id: $('#faculty').val()
+                },
+                success: function (res) {
+                    var obj = jQuery.parseJSON(res);
+                    if (obj != null) {
+                        console.log(obj);
+                        console.log(obj.nf);
+                        console.log(obj.nprf);
+                        $("#nf").val(Number(obj.nf));
+                        $("#nprf").val(Number(obj.nprf));
+                    }
+                },
+                error: function(res) {
+                    $.jGrowl("Произошла ошибка во время запроса к серверу");
+                }
+            });
+        });
+
+
+
+
     });
 </script>
+
+
+<?php
+function get_val($a) {
+    if ($a != null) {
+        echo $a;
+    } else {
+        echo 0;
+    }
+}
+?>

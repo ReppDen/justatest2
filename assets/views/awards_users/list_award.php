@@ -29,7 +29,7 @@
 </script>
 
 <fieldset>
-    <legend>Список всех расчетов за <?php echo $year; ?> год</legend>
+    <legend>Список расчетов баллов преподавателей за <?php echo $year; ?> год</legend>
 
     <table>
         <tr>
@@ -103,7 +103,10 @@ function formatDate($date) {
             <a href="/awarduser/list_award/<?php echo $year;?>/?sort=sum&dir=<?php echo getDir("sum");?>" class="sorter">Баллы<?php echo dirText("sum");?></a>
         </td>
         <td>
-            <a href="/awarduser/list_award/<?php echo $year;?>/?sort=faculty&dir=<?php echo getDir("faculty");?>" class="sorter">Факультет<?php echo dirText("faculty");?></a>
+            <a href="/awarduser/list_award/<?php echo $year;?>/?sort=user&dir=<?php echo getDir("user");?>" class="sorter">Преподаватель<?php echo dirText("user");?></a>
+        </td>
+        <td>
+            Детали
         </td>
         <?php
         if ($can_delete) {
@@ -132,11 +135,13 @@ function formatDate($date) {
                '.$a->sum.'
             </td>
             <td>
-               '.$a->faculty->name.'
+               '.$a->user->fio.'
             </td>
-
-
         ';
+        echo '
+            <td>
+                <a href="/awarduser/watch/'.$a->id.'">Детали</a>
+            </td>';
         if ($can_delete) {
             echo '
                 <td>

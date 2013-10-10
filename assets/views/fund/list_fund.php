@@ -1,5 +1,5 @@
 <fieldset>
-    <legend>Список всех расчетов за <?php echo $year; ?> год</legend>
+    <legend>Список выплат по факультетам за <?php echo $year; ?> год</legend>
     <table>
         <tr>
             <td>
@@ -53,24 +53,30 @@
         <td >
             <a href="/fund/list_fund/<?php echo $year;?>/<?php echo $stage?>/?sort=money&dir=<?php echo getDir("money");?>" class="sorter">Год <?php echo $year; echo dirText("money");?></a>
         </td>
+        <td>
+            Посмотреть
+        </td>
     </tr>
     <?php
     $i = 0;
     foreach ($awards as $a) {
         $i++;
         echo '
-        <tr id="tr_'.$a->id.'">
+        <tr id="tr_'.$a->idoperation.'">
             <td class="n">
                 '.$i.'
             </td>
             <td>
-                '.$a->faculty->name.'
+                '.$a->award->faculty->name.'
             </td>
             <td class="float_value">';
         echo number_format($a->money, 2, ",", " ");
         echo
             '</td>
-        </tr>';
+            <td>
+                <a href="/funduser/list_fund/'.$year.'/'.$a->award->stage->id.'/'.$a->award->faculty->id.'" class="sorter">Посмотреть</a>
+            </td>
+        </tr>';;
     }
     ?>
 </table>

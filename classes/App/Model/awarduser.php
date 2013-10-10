@@ -12,13 +12,20 @@ class AwardUser extends \PHPixie\ORM\Model {
     public $table='awards_users';
 
     protected $belongs_to = array(
-        'faculty'=>array(
-            'model'=>'faculty',
-            'key'=>'faculties_id'
+        'user'=>array(
+            'model'=>'user',
+            'key'=>'users_id'
         ),
         'stage'=>array(
             'model'=>'stage',
             'key'=>'stage_id'
+        )
+    );
+
+    protected $has_many=array(
+        'operationuser'=>array(
+            'model'=>'operationuser',
+            'key'=>'idoperation_user'
         )
     );
 }

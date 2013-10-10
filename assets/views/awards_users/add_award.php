@@ -5,10 +5,16 @@
     <div class="col_container">
         <div class="column">
             <label>Преподаватель</label>
-            <select id="faculty" name="faculty">
+            <select id="user" name="user">
                 <?php
-                foreach($users as $f) {
-                    echo '<option value="'.$f->id.'">'.$f->fio.' '.$f->faculty->name.'</option>';
+                if ($super) {
+                    foreach($users as $f) {
+                        echo '<option value="'.$f->id.'">'.$f->fio.' '.$f->faculty->name.'</option>';
+                    }
+                } else {
+                    foreach($users as $f) {
+                        echo '<option value="'.$f->id.'">'.$f->fio.'</option>';
+                    }
                 }
                 ?>
             </select>
@@ -38,14 +44,8 @@
 
             <br/>
         </div>
-        <div class="column" style="width:690px;">
-            <label>Количество штатных преподавателей на факультете (кафедре)</label>
-            <input type="number" name="pr_count" required/>
-            <br/>
-        </div>
     </div>
     </fieldset>
-    <input type="hidden" id="overwrite" name="overwrite" value="0" required/>
     <button type="button" class="btn" id="next_btn">Далее</button>
     <button type="submit" class="hidden" id="submit_btn">submit</button>
 
@@ -65,7 +65,7 @@
             var vals = s.split("&");
             var stage = 0;
             for (var i=0; i < vals.length; i++) {
-                if (vals[i].startsWith("stage")) {
+                if (vals[i].indexOf("stage") == 0) {
                     stage = vals[i].substr(vals[i].lastIndexOf("=")+1);
                 }
             }
@@ -73,7 +73,7 @@
                 type: "GET",
                 url: "/ajax/check_awarduser",
                 data: {
-                    id: $('#faculty').val(),
+                    id: $('#user').val(),
                     stage: stage,
                     year:$('#year').val()
                 },
@@ -83,7 +83,6 @@
                         var year = $("#year").val();
                         var stage = $("#stage").val();
                         if (confirm("Расчет для выбранного года и этапа уже существет. Перезаписать имеющийся?")) {
-                            $("#overwrite").val(1);
                             $("#form").submit();
                         }
                     } else {

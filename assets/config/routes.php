@@ -6,8 +6,13 @@ return array(
 					)
 				),
     'fund' => array('(/<controller>/<action>/<year>/<stage>)', array(
+            'controller' => 'Fund',
+            'action' => 'index'
+        )
+    ),
+    'funduser' => array('(/<controller>/<action>/<year>/<stage>/<faculty>)', array(
         'controller' => 'Fund',
         'action' => 'index'
+        )
     )
-)
 );
