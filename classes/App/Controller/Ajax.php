@@ -1,10 +1,12 @@
 <?php
 namespace App\Controller;
 
-class Ajax extends \PHPixie\Controller {
+class Ajax extends \PHPixie\Controller
+{
 
-    public function action_index(){
-        if(!$this->logged_in('admin'))
+    public function action_index()
+    {
+        if (!$this->logged_in('admin'))
             return;
     }
 
@@ -12,16 +14,17 @@ class Ajax extends \PHPixie\Controller {
     /**
      * Проверяет, есть ли у указанного факультета расчеты
      */
-    public function action_check_award() {
-        if(!$this->logged_in('admin'))
+    public function action_check_award()
+    {
+        if (!$this->logged_in('admin'))
             return;
 
-        if ($this->request->method == 'GET'){
+        if ($this->request->method == 'GET') {
             $id = $this->request->get('id');
             $year = $this->request->get('year');
             $stage_id = $this->request->get('stage');
             if ($id != null && $year != null) {
-                $a = $this->pixie->orm->get('award')->where('faculties_id',$id)->where('year', $year)->where('stage_id', $stage_id)->find();
+                $a = $this->pixie->orm->get('award')->where('faculties_id', $id)->where('year', $year)->where('stage_id', $stage_id)->find();
                 echo $a->loaded();
             }
         }
@@ -31,16 +34,17 @@ class Ajax extends \PHPixie\Controller {
     /**
      * Проверяет, есть ли у указанного пользователя расчеты
      */
-    public function action_check_awarduser() {
-        if(!$this->logged_in('admin'))
+    public function action_check_awarduser()
+    {
+        if (!$this->logged_in('admin'))
             return;
 
-        if ($this->request->method == 'GET'){
+        if ($this->request->method == 'GET') {
             $id = $this->request->get('id');
             $year = $this->request->get('year');
             $stage_id = $this->request->get('stage');
             if ($id != null && $year != null) {
-                $a = $this->pixie->orm->get('awarduser')->where('users_id',$id)->where('year', $year)->where('stage_id', $stage_id)->find();
+                $a = $this->pixie->orm->get('awarduser')->where('users_id', $id)->where('year', $year)->where('stage_id', $stage_id)->find();
                 echo $a->loaded();
             }
         }
@@ -49,8 +53,9 @@ class Ajax extends \PHPixie\Controller {
     /**
      * удаляет указанный рассчет
      */
-    public function action_delete_award() {
-        if(!$this->logged_in('admin'))
+    public function action_delete_award()
+    {
+        if (!$this->logged_in('admin'))
             return;
 
 //        Session::set('inActual',true);
@@ -59,11 +64,11 @@ class Ajax extends \PHPixie\Controller {
         if (!$id) {
             return;
         }
-        $a = $this->pixie->orm->get('award')->where('id',$id)->find();
+        $a = $this->pixie->orm->get('award')->where('id', $id)->find();
 
         if ($a->loaded()) {
-            $d= $a->year;
-            $ds= $a->stage_id;
+            $d = $a->year;
+            $ds = $a->stage_id;
             $a->delete();
             $_SESSION['dirty_year'] = $d;
             $_SESSION['dirty_stage'] = $ds;
@@ -73,19 +78,20 @@ class Ajax extends \PHPixie\Controller {
     /**
      * удаляет указанный рассчет для пользователя
      */
-    public function action_delete_awarduser() {
-        if(!$this->logged_in('admin'))
+    public function action_delete_awarduser()
+    {
+        if (!$this->logged_in('admin'))
             return;
 
         $id = $this->request->param("id");
         if (!$id) {
             return;
         }
-        $a = $this->pixie->orm->get('awarduser')->where('id',$id)->find();
+        $a = $this->pixie->orm->get('awarduser')->where('id', $id)->find();
 
         if ($a->loaded()) {
-            $d= $a->year;
-            $ds= $a->stage_id;
+            $d = $a->year;
+            $ds = $a->stage_id;
             $a->delete();
             $_SESSION['dirty_year'] = $d;
             $_SESSION['dirty_stage'] = $ds;
@@ -96,46 +102,49 @@ class Ajax extends \PHPixie\Controller {
     /**
      * проверяет коичество расчетов на выбранный факультет, Если их нет то печалька
      */
-    public function action_check_funduser_calc_count() {
-        if(!$this->logged_in('admin'))
+    public function action_check_funduser_calc_count()
+    {
+        if (!$this->logged_in('admin'))
             return;
-        if ($this->request->method == 'GET'){
+        if ($this->request->method == 'GET') {
             $fac = $this->request->get('id');
             $year = $this->request->get('year');
             $stage_id = $this->request->get('stage');
-            $qwe = $this->pixie->orm->get('awarduser')->with('user.faculty')->where('year',$year)->where('stage_id',$stage_id)->where('a1.id',$fac)->find_all()->as_array();
+            $qwe = $this->pixie->orm->get('awarduser')->with('user.faculty')->where('year', $year)->where('stage_id', $stage_id)->where('a1.id', $fac)->find_all()->as_array();
 
             echo count($qwe);
         }
     }
 
 
-    public function action_get_fac_info() {
-        if(!$this->logged_in('admin'))
+    public function action_get_fac_info()
+    {
+        if (!$this->logged_in('admin'))
             return;
 
         $id = $this->request->get("id");
         $nf = 0;
         $nprf = 0;
         if ($id != null) {
-            $fac = $this->pixie->orm->get('faculty')->where('id',$id)->find();
+            $fac = $this->pixie->orm->get('faculty')->where('id', $id)->find();
             $nf = $fac->nf;
             $nprf = $fac->nprf;
         }
         echo json_encode(array(
-            'nprf'=>$nprf,
-            'nf'=>$nf
+            'nprf' => $nprf,
+            'nf' => $nf
         ));
 
 
     }
 
-    protected function logged_in($role = null){
-        if($this->pixie->auth->user() == null){
+    protected function logged_in($role = null)
+    {
+        if ($this->pixie->auth->user() == null) {
             return false;
         }
 
-        if(!$this->pixie->auth->has_role('super') && $role && !$this->pixie->auth->has_role($role)){
+        if (!$this->pixie->auth->has_role('super') && $role && !$this->pixie->auth->has_role($role)) {
             return false;
         }
 
@@ -143,14 +152,15 @@ class Ajax extends \PHPixie\Controller {
     }
 
 
-    public function action_get_prep() {
-        if($this->pixie->auth->user() == null){
+    public function action_get_prep()
+    {
+        if ($this->pixie->auth->user() == null) {
             return false;
         }
 
-        if ($this->request->method == 'GET'){
+        if ($this->request->method == 'GET') {
             $id = $this->request->get('id');
-            $count = $this->pixie->orm->get('user')->where('faculties_id',$id)->count_all();
+            $count = $this->pixie->orm->get('user')->where('faculties_id', $id)->count_all();
             echo $count;
         }
 

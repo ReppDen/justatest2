@@ -3,7 +3,7 @@
 return array(
 	'default' => array(
 		'user'=>'root',
-		'password' => 'admin',
+		'password' => '',
 		'driver' => 'PDO',
 		
 		//'Connection' is required if you use the PDO driver

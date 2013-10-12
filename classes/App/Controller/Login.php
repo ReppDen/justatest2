@@ -1,11 +1,13 @@
 <?php
 namespace App\Controller;
 
-class Login extends \App\Page {
+class Login extends \App\Page
+{
 
-    public function action_index(){
+    public function action_index()
+    {
 
-        if(!$this->logged_in())
+        if (!$this->logged_in())
             return;
 
         $this->view->user = $this->pixie->auth->user();
@@ -15,9 +17,10 @@ class Login extends \App\Page {
 
     }
 
-    public function action_login() {
+    public function action_login()
+    {
 
-        if($this->request->method == 'POST'){
+        if ($this->request->method == 'POST') {
             $login = $this->request->post('username');
             $password = $this->request->post('password');
 
@@ -44,20 +47,22 @@ class Login extends \App\Page {
         $this->view->subview = 'login';
     }
 
-    public function action_logout() {
+    public function action_logout()
+    {
         $this->pixie->auth->logout();
         session_destroy();
         $this->redirect('/');
     }
 
-    public function action_register() {
-        if($this->request->method == 'POST'){
+    public function action_register()
+    {
+        if ($this->request->method == 'POST') {
             $login = $this->request->post('username');
             $password = $this->request->post('password');
             $fio = $this->request->post('fio');
 
             // ========= checks ============
-            $db_email = $this->pixie->orm->get('user')->where('email',$login)->find();
+            $db_email = $this->pixie->orm->get('user')->where('email', $login)->find();
             if ($db_email->loaded()) {
                 $error = "Пользователь с таким email уже существует";
                 $this->view->subview = 'register';
@@ -75,7 +80,7 @@ class Login extends \App\Page {
             $user->email = $login;
             $user->password = $hash;
             $user->fio = $fio;
-            $user->faculty = $this->pixie->orm->get('faculty')->where('id',$fac)->find();
+            $user->faculty = $this->pixie->orm->get('faculty')->where('id', $fac)->find();
             // FIXME
             $user->main_job = 1;
             $user->rate = 1.0;

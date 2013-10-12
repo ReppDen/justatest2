@@ -1,15 +1,17 @@
 <?php
 namespace App\Controller;
 
-class User extends \App\Page {
+class User extends \App\Page
+{
 
-    public function action_index(){
+    public function action_index()
+    {
 
-        if($this->request->method == 'POST'){
+        if ($this->request->method == 'POST') {
             $u_id = $this->request->post('uid');
             $pas = $this->request->post('password');
 
-            $user = $this->pixie->orm->get('user')->where('id',$u_id)->find();
+            $user = $this->pixie->orm->get('user')->where('id', $u_id)->find();
             $user->fio = $this->request->post('fio');
             $user->email = $this->request->post('email');
             if ($pas != null) {
@@ -30,20 +32,21 @@ class User extends \App\Page {
             return;
         }
         $real = $this->pixie->auth->user();
-        $inc = $this->pixie->orm->get('user')->where('id',$this->request->get("id"))->find();
+        $inc = $this->pixie->orm->get('user')->where('id', $this->request->get("id"))->find();
         if ($real != $inc) {
             $this->redirect('/');
             return;
         }
         $this->view->u = $inc;
 //        $this->view->faculties = $this->pixie->orm->get('faculty')->find_all();
-        $this->view->subview = '/user/user';
+        $this->view->subview = 'user/user';
 
     }
 
-    public function action_login() {
+    public function action_login()
+    {
 
-        if($this->request->method == 'POST'){
+        if ($this->request->method == 'POST') {
             $login = $this->request->post('username');
             $password = $this->request->post('password');
 
@@ -70,19 +73,21 @@ class User extends \App\Page {
         $this->view->subview = 'login';
     }
 
-    public function action_logout() {
+    public function action_logout()
+    {
         $this->pixie->auth->logout();
         $this->redirect('/');
     }
 
-    public function action_register() {
-        if($this->request->method == 'POST'){
+    public function action_register()
+    {
+        if ($this->request->method == 'POST') {
             $login = $this->request->post('username');
             $password = $this->request->post('password');
             $fio = $this->request->post('fio');
 
             // ========= checks ============
-            $db_email = $this->pixie->orm->get('user')->where('email',$login)->find();
+            $db_email = $this->pixie->orm->get('user')->where('email', $login)->find();
             if ($db_email->loaded()) {
                 $error = "Пользователь с таким email уже существует";
                 $this->view->subview = 'register';
@@ -100,7 +105,7 @@ class User extends \App\Page {
             $user->email = $login;
             $user->password = $hash;
             $user->fio = $fio;
-            $user->faculty = $this->pixie->orm->get('faculty')->where('id',$fac)->find();
+            $user->faculty = $this->pixie->orm->get('faculty')->where('id', $fac)->find();
             $user->save();
             $this->redirect('/');
         }

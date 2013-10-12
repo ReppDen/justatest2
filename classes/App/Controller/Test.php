@@ -1,9 +1,11 @@
 <?php
 namespace App\Controller;
 
-class Test extends \App\Page {
+class Test extends \App\Page
+{
 
-    public function action_index(){
+    public function action_index()
+    {
 //        $f = $this->pixie->orm->get('faculty')->where('id','1')->find();
 //
 //        $m = "";
@@ -19,7 +21,7 @@ class Test extends \App\Page {
 //        $t =  $this->pixie->orm->get('user')->where('id',$this->pixie->auth->user()->id)->find();
 //
 //        $this->view->t = $this->pixie->orm->get('award')->where('year', '2013')->where("faculties_id", 1)->find_all();
-//        $this->view->subview = '/test/test';
+//        $this->view->subview = 'test/test';
 //        $calcs = $this->pixie->orm->get('calcfund')->with('award.stage')->where('year',2013)->where('stage_id',1)->find_all();
 //        $calcs =  $this->pixie->db->query('select')->table('calc_fund')
 //            ->join(array('stage','s'),array('s.id','calc_fund.idcalc_fund'))
@@ -34,12 +36,12 @@ class Test extends \App\Page {
 //            ->execute()->as_array(); ->where('year',2013)->where('stage_id',1)->order_by('money','asc') ->where('year',2013)->where('stage_id',1)
         $calcs = array();
 //        $cols =  $this->pixie->orm->get('award')->where('year',2013)->with('operation')->where('stage_id',1)->columns();
-        $fac = $this->pixie->orm->get('user')->with('faculty')->where('id',14)->find();
+        $fac = $this->pixie->orm->get('user')->with('faculty')->where('id', 14)->find();
         echo $fac->faculty->name . " qewqwewq";
-        $calcs =   $this->pixie->orm->get('operation')->with('award')->where('a0.faculties_id',$fac->faculty->id)->where('a0.stage_id',1)->where('a0.year',2013)->find_all();
+        $calcs = $this->pixie->orm->get('operation')->with('award')->where('a0.faculties_id', $fac->faculty->id)->where('a0.stage_id', 1)->where('a0.year', 2013)->find_all();
         $this->view->calcs = $calcs;
 //        $this->view->cols = $cols;
-        $this->view->subview = '/test/test';
+        $this->view->subview = 'test/test';
     }
 
 }

@@ -20,13 +20,13 @@
             });
 
             $("#old_browser").hide();
-            if ($.browser.mozilla && $.browser.version < 4) {
+            if ($.browser != null && $.browser.mozilla && $.browser.version < 4) {
                 $("#old_browser").show();
             } else
-            if ($.browser.msie && $.browser.version < 10) {
+            if ($.browser != null && $.browser.msie && $.browser.version < 10) {
                 $("#old_browser").show();
             } else
-            if ($.browser.opera && $.browser.version < 11) {
+            if ($.browser != null &&  $.browser.opera && $.browser.version < 11) {
                 $("#old_browser").show();
             }
             <?php
