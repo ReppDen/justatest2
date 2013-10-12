@@ -7,7 +7,7 @@ class FundUser extends \App\Page {
         if(!$this->logged_in('super'))
             return;
         $this->view->message = $this->pixie->auth->user()->email;
-        $this->view->subview = '/admin/admin';
+        $this->view->subview = 'admin/admin';
     }
 
     public function action_logout() {
@@ -81,7 +81,7 @@ class FundUser extends \App\Page {
             $faculties = $this->pixie->orm->get('faculty')->find_all();
             $this->view->stages = $stages;
             $this->view->faculties = $faculties;
-            $this->view->subview = '/funduser/calc_fund';
+            $this->view->subview = 'funduser/calc_fund';
         }
     }
 
@@ -136,7 +136,7 @@ class FundUser extends \App\Page {
         $this->view->awards = $awards;
         $this->view->stages = $this->pixie->orm->get('stage')->find_all();
         $this->view->year = $year;
-        $this->view->subview = '/funduser/list_fund';
+        $this->view->subview = 'funduser/list_fund';
     }
 
     /**
@@ -174,7 +174,7 @@ class FundUser extends \App\Page {
         $this->view->calcs = $calcs; // в таблицу
 //        $this->view->stages = $this->pixie->orm->get('stage')->find_all(); // в комбик
 //        $this->view->year = $year;
-        $this->view->subview = '/funduser/list_calc';
+        $this->view->subview = 'funduser/list_calc';
     }
 
     /**
@@ -219,6 +219,6 @@ class FundUser extends \App\Page {
         $this->view->awards = $awards;
         $this->view->stages = $this->pixie->orm->get('stage')->find_all();
         $this->view->year = $year;
-        $this->view->subview = '/funduser/list_ball';
+        $this->view->subview = 'funduser/list_ball';
     }
 }

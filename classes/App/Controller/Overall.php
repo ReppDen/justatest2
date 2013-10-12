@@ -50,7 +50,7 @@ class Overall extends \App\Page {
         $this->view->awards = $awards;
         $this->view->stages = $this->pixie->orm->get('stage')->find_all();
         $this->view->year = $year;
-        $this->view->subview = '/funduser/list_fund';
+        $this->view->subview = 'funduser/list_fund';
     }
 
     /**
@@ -88,6 +88,6 @@ class Overall extends \App\Page {
         $this->view->calcs = $calcs; // в таблицу
 //        $this->view->stages = $this->pixie->orm->get('stage')->find_all(); // в комбик
 //        $this->view->year = $year;
-        $this->view->subview = '/funduser/list_calc';
+        $this->view->subview = 'funduser/list_calc';
     }
 }
