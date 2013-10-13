@@ -19,9 +19,12 @@
     <a href="/awarduser/list_award">Список расчетов по преподавателям</a><br/>
     <?php
     if ($super) {
-        echo ' <a href="/fund/list_calc">Список всех сформированных расчетов по университету</a><br/>
+        echo '<a href="/fund/list_calc">Список всех сформированных расчетов по университету</a><br/>
                 <a href="/funduser/list_fund">Список выплат сотрудникам по факультетам</a><br/>
                 <a href="/funduser/list_ball">Список баллов сотрудников по факультетам</a><br/>';
+
+        echo '<br/><a href="/uvp/list_calc">Список расчетов баллов УВП</a><br/>
+                <a href="/uvp/list_payments">Список расчетов выплат УВП</a><br/>';
 
     }
     ?>

@@ -102,9 +102,9 @@
 //                if ($inActual) {
 //                    $menu .= "<span style='width: 150px;'>Вы внесли изменения в данные, <br/>необходим перерасчет для акутализации данных</span>";
 //                }
-                if (isset($_SESSION['dirty_year']) && isset($_SESSION['dirty_stage'])) {
-                    $menu .= '<div style="display:inline; color: #FF2F2D; font-weight:bold;">Изменены данные за '.$_SESSION['dirty_stage'].' этап '.$_SESSION['dirty_year'].' года!</div>';
-                }
+//                if (isset($_SESSION['dirty_year']) && isset($_SESSION['dirty_stage'])) {
+//                    $menu .= '<div style="display:inline; color: #FF2F2D; font-weight:bold;">Изменены данные за '.$_SESSION['dirty_stage'].' этап '.$_SESSION['dirty_year'].' года!</div>';
+//                }
                 $menu .= '<a href="/login/logout" class="btn btn-spacing" style="float: right;">Выход</a>
                 </div>';
                 echo $menu;

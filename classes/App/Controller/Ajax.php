@@ -165,4 +165,25 @@ class Ajax extends \PHPixie\Controller
         }
 
     }
+
+    /**
+     * удаляет указанный рассчет
+     */
+    public function action_delete_uvp()
+    {
+        if (!$this->logged_in('super'))
+            return;
+
+//        Session::set('inActual',true);
+
+        $id = $this->request->param("id");
+        if (!$id) {
+            return;
+        }
+        $a = $this->pixie->orm->get('uvpcalc')->where('iduvp_calc', $id)->find();
+
+        if ($a->loaded()) {
+            $a->delete();
+        }
+    }
 }
