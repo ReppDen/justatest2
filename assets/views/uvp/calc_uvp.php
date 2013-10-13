@@ -1,4 +1,7 @@
-<h3>Расчет фонда стимулурующих выплат для университета</h3>
+<?php
+try {
+?>
+<h3>Расчет выплат УВП ПГГПУ</h3>
 <form method="POST">
     <fieldset>
         <label>Фонд стимулирущих выплат университета в рублях</label>
@@ -34,3 +37,9 @@
         <button type="submit" class="btn">Рассчитать</button>
     </fieldset>
 </form>
+
+<?php
+} catch  (Exception $ex) {
+
+}
+?>

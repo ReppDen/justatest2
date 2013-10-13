@@ -32,7 +32,7 @@
                         <select id="year" name="year" class="year">
                             <?php
                             $year = date("Y");
-                            for ($i = 1970; $i< $year + 20; $i++) {
+                            for ($i = 2012; $i< $year + 2; $i++) {
                                 if ($i == $year) {
                                     echo '<option value="'.$i.'" selected>'.$i.'</option>';
                                 } else {
