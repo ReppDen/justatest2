@@ -76,7 +76,7 @@ div.column {
     left: 45%;
 }
 
-input#fsu {
+input#fsu, input#fond {
     width: 190px;
 }
 
