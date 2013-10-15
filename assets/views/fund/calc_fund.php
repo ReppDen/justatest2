@@ -1,6 +1,9 @@
 <h3>Расчет фонда стимулурующих выплат для университета</h3>
 <form method="POST">
     <fieldset>
+        <div class="alert alert-error">
+            Не забудьте проверить, что все расчеты баллов для <a href="/award/list_award">факультетов</a> и <a href="/awarduser/list_award">сотрудников</a> заполнены!
+        </div>
         <label>Фонд стимулирущих выплат университета в рублях</label>
         <input id="fsu" name="fsu" type="number" required=""/>
         <label>Этап</label>

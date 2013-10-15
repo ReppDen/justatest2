@@ -149,97 +149,6 @@ class UVP extends \App\Page
                 }
             }
             $text .= 'Сумма баллов ' . $points . '<br/>';
-            /*switch ($stage_id) {
-                case 1:
-                    $points += (float)$this->request->post('o7_2') * 1.0;
-                    $text .= $this->request->post('o7_2_name') . ' +' . ($this->request->post('o7_2') * 1.0) . ' балла(ов)<br/>';
-
-                    $points += (float)$this->request->post('o7_3') * 1.0;
-                    $text .= $this->request->post('o7_3_name') . ' +' . ($this->request->post('o7_3') * 1.0) . ' балла(ов)<br/>';
-
-                    $points += (float)$this->request->post('o7_4') * 1.0;
-                    $text .= $this->request->post('o7_4_name') . ' +' . ($this->request->post('o7_4') * 1.0) . ' балла(ов)<br/>';
-
-                    $points += (float)$this->request->post('o7_5') * 0.1;
-                    $text .= $this->request->post('o7_5_name') . ' +' . ($this->request->post('o7_5') * 0.1) . ' балла(ов)<br/>';
-
-                    $points += (float)$this->request->post('o7_6') * 0.5;
-                    $text .= $this->request->post('o7_6_name') . ' +' . ($this->request->post('o7_6') * 0.5) . ' балла(ов)<br/>';
-
-                    $points += (float)$this->request->post('o7_7') * 0.3;
-                    $text .= $this->request->post('o7_7_name') . ' +' . ($this->request->post('o7_7') * 0.3) . ' балла(ов)<br/>';
-
-                    $points += (float)$this->request->post('o7_8') * 0.5;
-                    $text .= $this->request->post('o7_8_name') . ' +' . ($this->request->post('o7_8') * 0.5) . ' балла(ов)<br/>';
-
-                    $points += (float)$this->request->post('o7_9') * 0.1;
-                    $text .= $this->request->post('o7_9_name') . ' +' . ($this->request->post('o7_9') * 0.1) . ' балла(ов)<br/>';
-                    $text .= 'Сумма ' . $points;
-                    break;
-                case 2:
-                    $text .= $this->request->post('o2_1_name');
-                    if ($this->request->post('o2_1') == "on") {
-                        $points += 0.6;
-                        $text .= ' +0.6 балла(ов)<br/>';
-                    } else {
-                        $text .= ' +0.0 балла(ов)<br/>';
-                    }
-
-                    $points += (float)$this->request->post('o2_2') * 0.6;
-                    $text .= $this->request->post('o2_2_name') . ' +' . ($this->request->post('o2_2') * 0.6) . ' балла(ов)<br/>';
-
-                    $points += (float)$this->request->post('o2_3');
-                    $text .= $this->request->post('o2_3_name') . ' +' . ($this->request->post('o2_3')) . ' балла(ов)<br/>';
-
-                    $points += (float)$this->request->post('o2_4');
-                    $text .= $this->request->post('o2_4_name') . ' +' . ($this->request->post('o2_4')) . ' балла(ов)<br/>';
-
-                    $text .= $this->request->post('o2_5_name');
-                    if ($this->request->post('o2_5') == "on") {
-                        $points += 1.5;
-                        $text .= ' +1.5 балла(ов)<br/>';
-                    } else {
-                        $text .= ' +0.0 балла(ов)<br/>';
-                    }
-                    $points += (float)$this->request->post('o3_1');
-                    $text .= $this->request->post('o3_1_name') . ' +' . ($this->request->post('o3_1')) . ' балла(ов)<br/>';
-
-                    $points += (float)$this->request->post('o3_2');
-                    $text .= $this->request->post('o3_2_name') . ' +' . ($this->request->post('o3_2')) . ' балла(ов)<br/>';
-
-                    $points += (float)$this->request->post('o3_3');
-                    $text .= $this->request->post('o3_3_name') . ' +' . ($this->request->post('o3_3')) . ' балла(ов)<br/>';
-
-                    $points += (float)$this->request->post('o3_4');
-                    $text .= $this->request->post('o3_4_name') . ' +' . ($this->request->post('o3_4')) . ' балла(ов)<br/>';
-
-                    $points += (float)$this->request->post('o3_5');
-                    $text .= $this->request->post('o3_5_name') . ' +' . ($this->request->post('o3_5')) . ' балла(ов)<br/>';
-                    $text .= 'Сумма ' . $points;
-                    break;
-                case 3:
-                    $text .= $this->request->post('o1_1_name');
-                    if ($this->request->post('o1_1') == "on") {
-                        $points += 0.6;
-                        $text .= ' +0.6 балла(ов)<br/>';
-                    } else {
-                        $text .= ' +0.0 балла(ов)<br/>';
-                    }
-                    $points += (float)$this->request->post('o4_1');
-                    $text .= $this->request->post('o4_1_name') . ' +' . ($this->request->post('o4_1')) . ' балла(ов)<br/>';
-
-                    $points += (float)$this->request->post('o6_1');
-                    $text .= $this->request->post('o6_1_name') . ' +' . ($this->request->post('o6_1')) . ' балла(ов)<br/>';
-
-                    $points += (float)$this->request->post('o6_2');
-                    $text .= $this->request->post('o6_2_name') . ' +' . ($this->request->post('o6_2')) . ' балла(ов)<br/>';
-
-                    $points += (float)$this->request->post('o6_2');
-                    $text .= $this->request->post('o6_2_name') . ' +' . ($this->request->post('o6_2')) . ' балла(ов)<br/>';
-                    $text .= 'Сумма ' . $points;
-                    break;
-            }*/
-
 
             // слоижть в запись данные с формы
             $calc->date = date("Y-m-d H:i");
@@ -324,6 +233,76 @@ class UVP extends \App\Page
 
         $this->view->uvp = $uvp;
         $this->view->subview = 'uvp/watch';
+    }
+
+    public function action_calc_payment() {
+        if (!$this->logged_in('super'))
+            return;
+
+        if ($this->request->method == 'POST') {
+            $sum = $this->request->post('sum');
+            $stage = $this->request->post('stage');
+            $year = $this->request->post('year');
+
+            $this->uvp_calc_payments($sum,$stage,$year);
+        }
+        $this->view->stages = $this->pixie->orm->get('uvpstage')->find_all();
+        $this->view->subview = 'uvp/calc_payment';
+    }
+
+    public function action_list_payment()
+    {
+        if (!$this->logged_in('super'))
+            return;
+
+        // включим обработку соритровки, если есть параметр
+        $sort = $this->request->get('sort');
+
+        $direction = 'asc';
+        $d = $this->request->get('dir');
+        if ($d != null && $d == 'desc') {
+            $direction = 'desc';
+        }
+        $year = $this->request->param("id");
+        if ($year == null) {
+            $year = date("Y");
+        }
+        $isAdmin = $this->has_role('super');
+        $this->view->can_delete = $isAdmin;
+        $this->view->year = $year;
+
+        if ($isAdmin) {
+            switch ($sort) {
+                case 'sum':
+                    $this->view->uvp = $this->pixie->orm->get('uvpcalc')->where('year', $year)->order_by('sum', $direction)->find_all();
+                    break;
+                case 'type':
+                    $this->view->uvp = $this->pixie->orm->get('uvpcalc')->with('uvp_stage')->where('year', $year)->order_by("name", $direction)->find_all();
+                    break;
+                default:
+                    $this->view->uvp = $this->pixie->orm->get('uvpcalc')->where('year', $year)->order_by('date', $direction)->find_all();
+                    break;
+            }
+        } else {
+            switch ($sort) {
+                case 'sum':
+                    $this->view->uvp = $this->pixie->orm->get('uvpcalc')->where('year', $year)->order_by("sum", $direction)->find_all();
+                    break;
+                case 'type':
+                    $this->view->uvp = $this->pixie->orm->get('uvpcalc')->with('uvpstage')->where('year', $year)->order_by("name", $direction)->find_all();
+                    break;
+                default:
+                    $this->view->uvp = $this->pixie->orm->get('uvpcalc')->where('year', $year)->order_by("date", $direction)->find_all();
+                    break;
+            }
+        }
+
+        $this->view->subview = 'uvp/list_payment';
+    }
+
+    private function uvp_calc_payments($sum, $stage, $year)
+    {
+        // TODO
     }
 
 }
