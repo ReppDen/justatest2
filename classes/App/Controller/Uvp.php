@@ -250,6 +250,9 @@ class UVP extends \App\Page
         $this->view->subview = 'uvp/calc_payment';
     }
 
+    /**
+     * просмотр платежей
+     */
     public function action_list_payment()
     {
         if (!$this->logged_in('super'))
@@ -300,9 +303,57 @@ class UVP extends \App\Page
         $this->view->subview = 'uvp/list_payment';
     }
 
+    /**
+     * расчет платежей по УВП
+     * @param $sum сумма
+     * @param $stage увп этап
+     * @param $year год
+     */
     private function uvp_calc_payments($sum, $stage, $year)
     {
-        // TODO
+        $op = $this->pixie->orm->get('uvpoperation')->where('year', $year)->where('uvp_stage_id', $stage)->find();
+        if (!$op->loaded()) {
+            $op = $this->pixie->orm->get('uvpoperation');
+        }
+        $op->year = $year;
+        $op->money = $sum;
+        $op->uvp_stage_id = $stage;
+        $op->date = date("Y-m-d H:i");
+        $op->save();
+
+        if (!$this->pixie->orm->get('uvpstage')->where('iduvp_stage', $stage)->find()->loaded()) {
+            // какая то херня вместо этапа
+            return;
+        }
+        // делим деньги
+
+        $points_sum = 0;
+        $calcs = $this->pixie->orm->get('uvpcalc')->where('year', $year)->where('uvp_stage_id',$stage)->find_all();
+        foreach ($calcs as $c) {
+            $points_sum += $c->sum;
+        }
+
+        $calcs = $this->pixie->orm->get('uvpcalc')->where('year', $year)->where('uvp_stage_id',$stage)->find_all();
+        foreach ($calcs as $c) {
+            $pay = $this->pixie->orm->get('uvppayment')->where('uvp_operation_id', $op->iduvp_operation)->where('users_id', $c->users_id)->find();
+            if (!$pay->loaded()) {
+                $pay = $this->pixie->orm->get('uvppayment');
+            }
+
+            $pay->payment = (float) $sum * $points_sum/ $c->sum;
+            $pay->uvp_operation_id = $op->iduvp_operation;
+            $pay->users_id = $c->users_id;
+            $pay->save();
+        }
+        // хватит делить деньги
+
+
+
+        $this->subview = 'uvp/list_payment';
+
+
+
+
     }
 
 }
