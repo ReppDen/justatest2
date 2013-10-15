@@ -76,20 +76,27 @@ class Login extends \App\Page
             $hash = $this->pixie->auth->provider('password')->hash_password($password);
 
             $fac = $this->request->post("faculty");
+            $idassist_type = $this->request->post("assist_type");
             $user = $this->pixie->orm->get('user');
             $user->email = $login;
             $user->password = $hash;
             $user->fio = $fio;
             $user->faculty = $this->pixie->orm->get('faculty')->where('id', $fac)->find();
-            // FIXME
             $user->main_job = 1;
             $user->rate = 1.0;
+            if ($idassist_type == 0) {
+                $user->assist_type_id = null;
+            } else {
+                $user->assist_type_id = $idassist_type;
+            }
+
 
             $user->dismissed = 0;
             $user->save();
             $this->redirect('/');
         }
         $this->view->faculties = $this->pixie->orm->get('faculty')->find_all();
+        $this->view->assisttypes = $this->pixie->orm->get('assisttype')->find_all();
         $this->view->error = null;
         //Include 'login.php' subview
         $this->view->subview = 'register';
