@@ -20,6 +20,15 @@
             }
             ?>
         </select>
+        <label>УВП</label>
+        <select name="assist_type">
+            <option value="0">Не выбрано</option>
+            <?php
+            foreach($assisttypes as $a) {
+                echo '<option value="'.$a->idassist_type.'">'.$a->name.'</option>';
+            }
+            ?>
+        </select>
         <br/>
         <button type="submit" class="btn btn-success btn-std100">Регистрация</button>
         <br/>
