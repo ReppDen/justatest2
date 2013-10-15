@@ -14,6 +14,16 @@ class UVP extends \App\Page
         $this->view->subview = 'uvp/calc_pts';
     }
 
+    function startsWith($haystack, $needle)
+    {
+        return $needle === "" || strpos($haystack, $needle) === 0;
+    }
+
+    function endsWith($haystack, $needle)
+    {
+        return $needle === "" || substr($haystack, -strlen($needle)) === $needle;
+    }
+
     public function action_fill_stage()
     {
         if (!$this->logged_in('super'))
@@ -23,7 +33,7 @@ class UVP extends \App\Page
             $user_id = $this->request->post('user');
             $year = $this->request->post('year');
             $uvp_stage = $this->request->post('stage');
-            $ass_type = $this->pixie->orm->get('user')->where('id',$user_id)->find();
+            $ass_type = $this->pixie->orm->get('user')->where('id', $user_id)->find();
 
             // roles
             $methodist = null;
@@ -36,41 +46,50 @@ class UVP extends \App\Page
             $sec = null;
             $tech = null;
             switch ($ass_type->assist_type_id) {
-                case 1: {
+                case 1:
+                {
                     $lab = true;
                     break;
                 }
-                case 2: {
+                case 2:
+                {
                     $st_lab = true;
                     break;
                 }
-                case 3: {
+                case 3:
+                {
                     $methodist = true;
                     break;
                 }
-                case 4: {
+                case 4:
+                {
                     $specUVP = true;
                     break;
                 }
-                case 5: {
+                case 5:
+                {
                     $eng = true;
                     break;
                 }
-                case 6: {
+                case 6:
+                {
                     $doc = true;
                     break;
                 }
-                case 7: {
+                case 7:
+                {
                     $sec = true;
                     break;
                 }
 
-                case 8: {
+                case 8:
+                {
                     $tech = true;
                     break;
                 }
 
-                case 9: {
+                case 9:
+                {
                     $masterPO = true;
                     break;
                 }
@@ -91,7 +110,7 @@ class UVP extends \App\Page
             $this->view->year = $year;
             $this->view->user_id = $user_id;
             $this->view->ass_type = $ass_type->assist_type_id;
-            $this->view->stage =  $this->pixie->orm->get('uvpstage')->where('iduvp_stage',$uvp_stage)->find();
+            $this->view->stage = $this->pixie->orm->get('uvpstage')->where('iduvp_stage', $uvp_stage)->find();
             $this->view->subview = 'uvp/fill_uvp';
 
         } else {
@@ -118,6 +137,18 @@ class UVP extends \App\Page
             // рассчитать баллы
             $text = "";
             $points = (float)0.0;
+            $post_arr = $this->request->post();
+            foreach ($post_arr as $key => $val) {
+                if ($this->endsWith($key, '_name')) {
+                    $text .= $val;
+                    $new_key = substr($key,0,strlen($key)-5).'_points';
+                    $text .= ' '.$post_arr[$new_key].' баллов<br/>';
+                }
+                if ($this->endsWith($key, '_points')) {
+                    $points += $val;
+                }
+            }
+            $text .= 'Сумма баллов ' . $points . '<br/>';
             /*switch ($stage_id) {
                 case 1:
                     $points += (float)$this->request->post('o7_2') * 1.0;
@@ -228,7 +259,8 @@ class UVP extends \App\Page
         }
     }
 
-    public function action_list_calc() {
+    public function action_list_calc()
+    {
         if (!$this->logged_in('super'))
             return;
 
@@ -293,4 +325,5 @@ class UVP extends \App\Page
         $this->view->uvp = $uvp;
         $this->view->subview = 'uvp/watch';
     }
+
 }

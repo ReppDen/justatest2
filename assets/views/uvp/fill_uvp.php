@@ -3,7 +3,7 @@ function show_process($code, $text) {
             echo $text.'
         <input type="hidden" name="'.$code.'_name" value="'.$text.'"/>
         <br/>
-        <select name="'.$code.'" required style="width:260px;">
+        <select name="'.$code.'_points" required style="width:260px;">
             <option value="0.0">Работа не выполнялась</option>
             <option value="0.5">Выполнена неудовлетворительно</option>
             <option value="1.0">Выполнена удовлетворительно</option>
@@ -14,7 +14,7 @@ function show_process($code, $text) {
         }
 ?>
 
-<form method="POST" id="form" action="/uvp/save_stage">
+<form method="POST" id="form" name="anketa" action="/uvp/save_stage">
     <fieldset>
         <input type="hidden" name="stage_id" value="<?php echo $stage->iduvp_stage; ?>"/>
         <input type="hidden" name="year" value="<?php echo $year; ?>"/>
