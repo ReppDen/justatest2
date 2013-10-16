@@ -5,7 +5,7 @@
             Не забудьте проверить, что все расчеты баллов для <a href="/uvp/list_calc">УВП</a> заполнены!
         </div>
         <label>Фонд стимулирущих выплат университета в рублях</label>
-        <input id="fond" name="sum" type="number" required=""/>
+        <input id="fond" name="sum" type="number" min="1" required=""/>
         <label>Этап</label>
         <?php
         foreach ($stages as $s) {

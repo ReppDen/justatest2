@@ -142,7 +142,7 @@ class UVP extends \App\Page
                 if ($this->endsWith($key, '_name')) {
                     $text .= $val;
                     $new_key = substr($key,0,strlen($key)-5).'_points';
-                    $text .= ' '.$post_arr[$new_key].' баллов<br/>';
+                    $text .= '<br/><b>'.$post_arr[$new_key].' баллов</b><br/>';
                 }
                 if ($this->endsWith($key, '_points')) {
                     $points += $val;
@@ -197,6 +197,9 @@ class UVP extends \App\Page
                 case 'type':
                     $this->view->uvp = $this->pixie->orm->get('uvpcalc')->with('uvp_stage')->where('year', $year)->order_by("name", $direction)->find_all();
                     break;
+                case 'fio':
+                    $this->view->uvp = $this->pixie->orm->get('uvpcalc')->with('uvp_stage')->where('year', $year)->with('user')->order_by("fio", $direction)->find_all();
+                    break;
                 default:
                     $this->view->uvp = $this->pixie->orm->get('uvpcalc')->where('year', $year)->order_by('date', $direction)->find_all();
                     break;
@@ -245,64 +248,104 @@ class UVP extends \App\Page
             $year = $this->request->post('year');
 
             $this->uvp_calc_payments($sum,$stage,$year);
+            return;
         }
         $this->view->stages = $this->pixie->orm->get('uvpstage')->find_all();
         $this->view->subview = 'uvp/calc_payment';
     }
 
+    /**
+     * просмотр платежей
+     */
     public function action_list_payment()
     {
-        if (!$this->logged_in('super'))
+        if (!$this->logged_in())
             return;
 
-        // включим обработку соритровки, если есть параметр
-        $sort = $this->request->get('sort');
-
-        $direction = 'asc';
+        $dir = 'asc';
         $d = $this->request->get('dir');
         if ($d != null && $d == 'desc') {
-            $direction = 'desc';
+            $dir = 'desc';
         }
-        $year = $this->request->param("id");
+
+        $sort = $this->request->get('sort');
+
+        $year = $this->request->param('year');
+
         if ($year == null) {
             $year = date("Y");
         }
-        $isAdmin = $this->has_role('super');
-        $this->view->can_delete = $isAdmin;
-        $this->view->year = $year;
-
-        if ($isAdmin) {
-            switch ($sort) {
-                case 'sum':
-                    $this->view->uvp = $this->pixie->orm->get('uvpcalc')->where('year', $year)->order_by('sum', $direction)->find_all();
-                    break;
-                case 'type':
-                    $this->view->uvp = $this->pixie->orm->get('uvpcalc')->with('uvp_stage')->where('year', $year)->order_by("name", $direction)->find_all();
-                    break;
-                default:
-                    $this->view->uvp = $this->pixie->orm->get('uvpcalc')->where('year', $year)->order_by('date', $direction)->find_all();
-                    break;
-            }
-        } else {
-            switch ($sort) {
-                case 'sum':
-                    $this->view->uvp = $this->pixie->orm->get('uvpcalc')->where('year', $year)->order_by("sum", $direction)->find_all();
-                    break;
-                case 'type':
-                    $this->view->uvp = $this->pixie->orm->get('uvpcalc')->with('uvpstage')->where('year', $year)->order_by("name", $direction)->find_all();
-                    break;
-                default:
-                    $this->view->uvp = $this->pixie->orm->get('uvpcalc')->where('year', $year)->order_by("date", $direction)->find_all();
-                    break;
-            }
+        $stage_id = $this->request->param('stage');
+        if ($stage_id == null) {
+            $stage_id = 1;
+        }
+        $pays = null;
+        switch ($sort) {
+            case 'fio':
+                $pays = $this->pixie->orm->get('uvpoperation')->where('uvp_stage_id', $stage_id)->where('year', $year)->uvppayment->with('user')->order_by('fio', $dir)->find_all();
+                break;
+            default :
+                $pays = $this->pixie->orm->get('uvpoperation')->where('uvp_stage_id', $stage_id)->where('year', $year)->uvppayment->order_by('payment', $dir)->find_all();
         }
 
+        $this->view->stage = $stage_id;
+        $this->view->pays = $pays;
+        $this->view->year = $year;
+        $this->view->stages = $this->pixie->orm->get('uvpstage')->find_all();
         $this->view->subview = 'uvp/list_payment';
     }
 
+    /**
+     * расчет платежей по УВП
+     * @param $sum сумма
+     * @param $stage увп этап
+     * @param $year год
+     */
     private function uvp_calc_payments($sum, $stage, $year)
     {
-        // TODO
+        $op = $this->pixie->orm->get('uvpoperation')->where('year', $year)->where('uvp_stage_id', $stage)->find();
+        if (!$op->loaded()) {
+            $op = $this->pixie->orm->get('uvpoperation');
+        }
+        $op->year = $year;
+        $op->money = $sum;
+        $op->uvp_stage_id = $stage;
+        $op->date = date("Y-m-d H:i");
+        $op->save();
+
+        if (!$this->pixie->orm->get('uvpstage')->where('iduvp_stage', $stage)->find()->loaded()) {
+            // какая то херня вместо этапа
+            return;
+        }
+        // делим деньги
+
+        $points_sum = 0;
+        $calcs = $this->pixie->orm->get('uvpcalc')->where('year', $year)->where('uvp_stage_id',$stage)->find_all();
+        foreach ($calcs as $c) {
+            $points_sum += $c->sum;
+        }
+
+        $calcs = $this->pixie->orm->get('uvpcalc')->where('year', $year)->where('uvp_stage_id',$stage)->find_all();
+        foreach ($calcs as $c) {
+            $pay = $this->pixie->orm->get('uvppayment')->where('uvp_operation_id', $op->iduvp_operation)->where('users_id', $c->users_id)->find();
+            if (!$pay->loaded()) {
+                $pay = $this->pixie->orm->get('uvppayment');
+            }
+
+            $pay->payment = (float) $c->sum / $points_sum * $sum;
+            $pay->uvp_operation_id = $op->iduvp_operation;
+            $pay->users_id = $c->users_id;
+            $pay->save();
+        }
+        // хватит делить деньги
+
+
+//        $this->view->year = date("Y");
+//        $this->view->stages = $this->pixie->orm->get('uvpstage')->find_all();
+//        $this->view->stage = $stage;
+        $this->redirect("/uvp/list_payment/" . $this->request->post('year'));
+
+
     }
 
 }
