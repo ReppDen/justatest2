@@ -13,7 +13,7 @@ class UvpPayment extends \PHPixie\ORM\Model
     public $table = 'uvp_payment';
 
     protected $belongs_to = array(
-        'uvp_operation' => array(
+        'uvpoperation' => array(
             'model' => 'uvpoperation',
             'key' => 'uvp_operation_id'
         ),

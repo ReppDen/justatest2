@@ -97,6 +97,9 @@ function formatDate($date) {
             <a href="/uvp/list_calc/<?php echo $year;?>/?sort=type&dir=<?php echo getDir("type");?>" class="sorter">Тип расчета<?php echo dirText("type");?></a>
         </td>
         <td>
+            <a href="/uvp/list_calc/<?php echo $year;?>/?sort=fio&dir=<?php echo getDir("fio");?>" class="sorter">ФИО<?php echo dirText("fio");?></a>
+        </td>
+        <td>
             <a href="/uvp/list_calc/<?php echo $year;?>/?sort=date&dir=<?php echo getDir("date");?>" class="sorter">Дата<?php echo dirText("date");?></a>
         </td>
         <td>
@@ -124,6 +127,9 @@ function formatDate($date) {
             </td>
             <td>
                 '.$a->uvp_stage->name.'
+            </td>
+            <td>
+                '.$a->user->fio.'
             </td>
             <td>
                 '.formatDate($a->date).'
