@@ -68,6 +68,9 @@ class AwardUser extends \App\Page
                     $points += (float)$this->request->post('o7_2') * 1.0;
                     $text .= $this->request->post('o7_2_name') . ' +' . ($this->request->post('o7_2') * 1.0) . ' балла(ов)<br/>';
 
+                    $points += (float)$this->request->post('o7_1') * 2.0;
+                    $text .= $this->request->post('o7_1_name') . ' +' . ($this->request->post('o7_1') * 2.0) . ' балла(ов)<br/>';
+
                     $points += (float)$this->request->post('o7_3') * 1.0;
                     $text .= $this->request->post('o7_3_name') . ' +' . ($this->request->post('o7_3') * 1.0) . ' балла(ов)<br/>';
 
@@ -102,19 +105,21 @@ class AwardUser extends \App\Page
                     $points += (float)$this->request->post('o2_2') * 0.6;
                     $text .= $this->request->post('o2_2_name') . ' +' . ($this->request->post('o2_2') * 0.6) . ' балла(ов)<br/>';
 
+                    $points += (float)$this->request->post('o2_2a');
+                    $text .= $this->request->post('o2_2a_name') . ' +' . ($this->request->post('o2_2a')) . ' балла(ов)<br/>';
+
                     $points += (float)$this->request->post('o2_3');
                     $text .= $this->request->post('o2_3_name') . ' +' . ($this->request->post('o2_3')) . ' балла(ов)<br/>';
 
                     $points += (float)$this->request->post('o2_4');
                     $text .= $this->request->post('o2_4_name') . ' +' . ($this->request->post('o2_4')) . ' балла(ов)<br/>';
 
-                    $text .= $this->request->post('o2_5_name');
-                    if ($this->request->post('o2_5') == "on") {
-                        $points += 1.5;
-                        $text .= ' +1.5 балла(ов)<br/>';
-                    } else {
-                        $text .= ' +0.0 балла(ов)<br/>';
-                    }
+                    $points += (float)$this->request->post('o2_4a') * 0.3;
+                    $text .= $this->request->post('o2_4a_name') . ' +' . ($this->request->post('o2_4a') * 0.3) . ' балла(ов)<br/>';
+
+                    $points += (float)$this->request->post('o2_5');
+                    $text .= $this->request->post('o2_5_name') . ' +' . ($this->request->post('o2_5') * 1.5) . ' балла(ов)<br/>';
+
                     $points += (float)$this->request->post('o3_1');
                     $text .= $this->request->post('o3_1_name') . ' +' . ($this->request->post('o3_1')) . ' балла(ов)<br/>';
 
@@ -129,18 +134,35 @@ class AwardUser extends \App\Page
 
                     $points += (float)$this->request->post('o3_5');
                     $text .= $this->request->post('o3_5_name') . ' +' . ($this->request->post('o3_5')) . ' балла(ов)<br/>';
+
+                    $points += (float)$this->request->post('o3_6');
+                    $text .= $this->request->post('o3_6_name') . ' +' . ($this->request->post('o3_6')) . ' балла(ов)<br/>';
+
                     $text .= 'Сумма ' . $points;
                     break;
                 case 3:
-                    $text .= $this->request->post('o1_1_name');
-                    if ($this->request->post('o1_1') == "on") {
+                    $points += (float)$this->request->post('o1_1');
+                    $text .= $this->request->post('o1_1_name') . ' +' . ($this->request->post('o1_1')) . ' балла(ов)<br/>';
+
+                    $points += (float)$this->request->post('o4_1');
+                    $text .= $this->request->post('o4_1_name') . ' +' . ($this->request->post('o4_1')) . ' балла(ов)<br/>';
+
+                    $points += (float)$this->request->post('b1_1a');
+                    $text .= $this->request->post('b1_1a_name') . ' +' . ($this->request->post('b1_1a')) . ' балла(ов)<br/>';
+
+                    $points += (float)$this->request->post('b1_1');
+                    $text .= $this->request->post('b1_1_name') . ' +' . ($this->request->post('b1_1')) . ' балла(ов)<br/>';
+
+                    $points += (float)$this->request->post('b1_2');
+                    $text .= $this->request->post('b1_2_name') . ' +' . ($this->request->post('b1_2')) . ' балла(ов)<br/>';
+
+                    $text .= $this->request->post('b1_3_name');
+                    if ($this->request->post('b1_3') == "on") {
                         $points += 0.6;
                         $text .= ' +0.6 балла(ов)<br/>';
                     } else {
                         $text .= ' +0.0 балла(ов)<br/>';
                     }
-                    $points += (float)$this->request->post('o4_1');
-                    $text .= $this->request->post('o4_1_name') . ' +' . ($this->request->post('o4_1')) . ' балла(ов)<br/>';
 
                     $points += (float)$this->request->post('o6_1');
                     $text .= $this->request->post('o6_1_name') . ' +' . ($this->request->post('o6_1')) . ' балла(ов)<br/>';
@@ -148,8 +170,11 @@ class AwardUser extends \App\Page
                     $points += (float)$this->request->post('o6_2');
                     $text .= $this->request->post('o6_2_name') . ' +' . ($this->request->post('o6_2')) . ' балла(ов)<br/>';
 
-                    $points += (float)$this->request->post('o6_2');
-                    $text .= $this->request->post('o6_2_name') . ' +' . ($this->request->post('o6_2')) . ' балла(ов)<br/>';
+                    $points += (float)$this->request->post('o6_3');
+                    $text .= $this->request->post('o6_3_name') . ' +' . ($this->request->post('o6_3')) . ' балла(ов)<br/>';
+
+                    $points += (float)$this->request->post('o6_4');
+                    $text .= $this->request->post('o6_4_name') . ' +' . ($this->request->post('o6_4')) . ' балла(ов)<br/>';
                     $text .= 'Сумма ' . $points;
                     break;
             }
