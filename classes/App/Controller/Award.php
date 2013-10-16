@@ -175,10 +175,26 @@ class Award extends \App\Page
                     }
                     $points += (float)$this->request->post('o6_1');
                     $text .= $this->request->post('o6_1_name') . ' +' . ($this->request->post('o6_1')) . ' балла(ов)<br/>';
+                    $text .= $this->request->post('o6_2_name');
+                    $check = $this->request->post('o6_2');
+                    if ($check == "on") {
+                        $points += 1.0;
+                        $text .= ' + 1.0 балла(ов)<br/>';
+                    } else {
+                        $text .= ' + 0.0 балла(ов)<br/>';
+                    }
 
                     $points += (float)$this->request->post('b1_1');
                     $text .= $this->request->post('b1_1_name') . ' +' . ($this->request->post('b1_1')) . ' балла(ов)<br/>';;
                     $points += (float)$this->request->post('b1_2');
+                    $text .= $this->request->post('b1_1a_name');
+                    $check = $this->request->post('b1_1a');
+                    if ($check == "on") {
+                        $points += 0.5;
+                        $text .= ' + 0.5 балла(ов)<br/>';
+                    } else {
+                        $text .= ' + 0.0 балла(ов)<br/>';
+                    }
                     $text .= $this->request->post('b1_2_name') . ' +' . ($this->request->post('b1_2')) . ' балла(ов)<br/>';
                     $text .= 'Сумма ' . $points;
                     break;
