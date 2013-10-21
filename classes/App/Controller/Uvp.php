@@ -138,6 +138,7 @@ class UVP extends \App\Page
             $text = "";
             $points = (float)0.0;
             $post_arr = $this->request->post();
+            $count = 0;
             foreach ($post_arr as $key => $val) {
                 if ($this->endsWith($key, '_name')) {
                     $text .= $val;
@@ -146,14 +147,22 @@ class UVP extends \App\Page
                 }
                 if ($this->endsWith($key, '_points')) {
                     $points += $val;
+                    if ($val != 0.0) {
+                        $count++;
+                    }
+
                 }
             }
+            $BpRk = (float) $points/$count; // привиденный балл К-того сотрудника
+
             $text .= 'Сумма баллов ' . $points . '<br/>';
+            $text .= 'Количество показателей '.$count. '<br/>';
+            $text .= 'Привиденный балл '. $BpRk . '<br/>';
 
             // слоижть в запись данные с формы
             $calc->date = date("Y-m-d H:i");
             $calc->year = $this->request->post('year');
-            $calc->sum = $points;
+            $calc->sum = $BpRk;
             $user_id = $this->request->post('user');
             $calc->users_id = $user_id;
             $calc->uvp_stage_id = $stage_id;
@@ -296,6 +305,50 @@ class UVP extends \App\Page
     }
 
     /**
+     * просмотр расчетов УВП
+     */
+    public function action_list_uvp()
+    {
+        if (!$this->logged_in())
+            return;
+
+        $dir = 'asc';
+        $d = $this->request->get('dir');
+        if ($d != null && $d == 'desc') {
+            $dir = 'desc';
+        }
+
+        $sort = $this->request->get('sort');
+
+        $year = $this->request->param('year');
+
+        if ($year == null) {
+            $year = date("Y");
+        }
+        $stage_id = $this->request->param('stage');
+        if ($stage_id == null) {
+            $stage_id = 1;
+        }
+        $pays = null;
+        switch ($sort) {
+            case 'stage':
+                $pays = $this->pixie->orm->get('uvpoperation')->where('year', $year)->order_by('uvp_stage_id', $dir)->find_all();
+                break;
+            case 'year':
+                $pays = $this->pixie->orm->get('uvpoperation')->where('year', $year)->order_by('year', $dir)->find_all();
+                break;
+            default :
+                $pays = $this->pixie->orm->get('uvpoperation')->where('year', $year)->order_by('money', $dir)->find_all();
+        }
+
+        $this->view->stage = $stage_id;
+        $this->view->pays = $pays;
+        $this->view->year = $year;
+        $this->view->stages = $this->pixie->orm->get('uvpstage')->find_all();
+        $this->view->subview = 'uvp/list_uvp';
+    }
+
+    /**
      * расчет платежей по УВП
      * @param $sum сумма
      * @param $stage увп этап
@@ -325,6 +378,8 @@ class UVP extends \App\Page
             $points_sum += $c->sum;
         }
 
+        $Sk = (float) $sum / $points_sum; // стоимость 1 балла
+
         $calcs = $this->pixie->orm->get('uvpcalc')->where('year', $year)->where('uvp_stage_id',$stage)->find_all();
         foreach ($calcs as $c) {
             $pay = $this->pixie->orm->get('uvppayment')->where('uvp_operation_id', $op->iduvp_operation)->where('users_id', $c->users_id)->find();
@@ -332,7 +387,7 @@ class UVP extends \App\Page
                 $pay = $this->pixie->orm->get('uvppayment');
             }
 
-            $pay->payment = (float) $c->sum / $points_sum * $sum;
+            $pay->payment = (float) $c->sum * $Sk; // стоимость балла * количество баллов
             $pay->uvp_operation_id = $op->iduvp_operation;
             $pay->users_id = $c->users_id;
             $pay->save();
@@ -343,7 +398,7 @@ class UVP extends \App\Page
 //        $this->view->year = date("Y");
 //        $this->view->stages = $this->pixie->orm->get('uvpstage')->find_all();
 //        $this->view->stage = $stage;
-        $this->redirect("/uvp/list_payment/" . $this->request->post('year'));
+        $this->redirect("/uvp/list_payment/" . $this->request->post('year')."/".$stage);
 
 
     }

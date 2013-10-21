@@ -25,7 +25,8 @@
                 <a href="/funduser/list_ball">Список баллов сотрудников по факультетам</a><br/>';
 
         echo '<br/><a href="/uvp/list_calc">Список расчетов баллов УВП</a><br/>
-                <a href="/uvp/list_payment">Список расчетов выплат УВП</a><br/>';
+                <a href="/uvp/list_payment">Список расчетов выплат УВП</a><br/>
+                <a href="/uvp/list_uvp">Список расчетов УВП</a><br/>';
 
     }
     ?>

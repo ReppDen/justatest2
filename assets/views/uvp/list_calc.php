@@ -29,7 +29,7 @@
 </script>
 
 <fieldset>
-    <legend>Список всех расчетов за <?php echo $year; ?> год</legend>
+    <legend>Список расчетов баллов  УВП за <?php echo $year; ?> год</legend>
 
     <table>
         <tr>
@@ -103,7 +103,7 @@ function formatDate($date) {
             <a href="/uvp/list_calc/<?php echo $year;?>/?sort=date&dir=<?php echo getDir("date");?>" class="sorter">Дата<?php echo dirText("date");?></a>
         </td>
         <td>
-           <a href="/uvp/list_calc/<?php echo $year;?>/?sort=sum&dir=<?php echo getDir("sum");?>" class="sorter">Баллы<?php echo dirText("sum");?></a>
+           <a href="/uvp/list_calc/<?php echo $year;?>/?sort=sum&dir=<?php echo getDir("sum");?>" class="sorter">Пр. балл<?php echo dirText("sum");?></a>
         </td>
         <td>
             Детали
