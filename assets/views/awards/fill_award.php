@@ -88,9 +88,9 @@ function second_stage() {
     <input type="hidden" name="o3_1_name" value="Результаты ИГА"/>
     <br/>
     <select name="o3_1" required>
-        <option value="1.4">100%</option>
+        <option value="1.5">100%</option>
         <option value="1.0">95%-99%</option>
-        <option value="0.6">85%-94%</option>
+        <option value="0.5">85%-94%</option>
         <option value="0.0">Менее 85%</option>
     </select>
     <br/><br/>
@@ -205,6 +205,12 @@ function third_stage() {
         </select>
         <br/><br/>
 
+        <input type="hidden" name="o6_2_name" value="Реализация проектов в рамках внеучебной профессионализирующей деятельности, отмеченнаягрантами различного уровня"/>
+        <input type="checkbox" name="o6_2">Реализация проектов в рамках внеучебной
+        профессионализирующей деятельности,
+        отмеченнаягрантами различного уровня</input>
+        <br/><br/>
+
         <label>Управление персоналом</label>
         Укомплектованность штатов
         сотрудниками, для которых
@@ -219,13 +225,20 @@ function third_stage() {
         </select>
         <br/><br/>
 
+        <input type="hidden" name="b1_1a_name" value="Привлечение к реализации образовательного
+        процесса ведущих специалистов по отрасли"/>
+        <input type="checkbox" name="b1_1a">Привлечение к реализации образовательного
+        процесса ведущих специалистов по отрасли</input>
+        <br/><br/>
+
+
         Остепененность ППС  (в долях ставок)
         <input type="hidden" name="b1_1_name" value="Остепененность ППС  (в долях ставок)"/>
         <br/>
         <select name="b1_1" required style="width:350px;">
-            <option value="1.0">60% (общая)в том числе  12% (докторов наук)</option>
-            <option value="0.5">59%-50% (общая)  в том числе  10%-11% (докторов наук)</option>
-            <option value="0.0">Менее 50% (общая)  в том  числе менее 10% (докторов наук)</option>
+            <option value="1.0">50% (общая)в том числе  10% (докторов наук)</option>
+            <option value="0.5">49%-45% (общая)  в том числе  8% (докторов наук)</option>
+            <option value="0.0">Менее 45% (общая)  в том  числе менее 8% (докторов наук)</option>
         </select>
         <br/>
     </fieldset>';
