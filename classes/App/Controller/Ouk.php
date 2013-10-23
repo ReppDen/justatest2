@@ -5,18 +5,16 @@ class ouk extends \App\Page
 {
     public function action_index()
     {
-        if (!$this->logged_in())
+        $this->redirect('/ouk/calc_ouk');
+    }
+
+    public function action_calc_perouk() {
+        if (!$this->logged_in('su'))
             return;
 
         $stages = $this->pixie->orm->get('stage')->find_all();
-        $super = $this->has_role('super');
-        if ($super) {
-            $faculties = $this->pixie->orm->get('faculty')->find_all();
-        } else {
-            $faculties = $this->pixie->auth->user()->faculty;
-        }
+        $faculties = $this->pixie->orm->get('faculty')->find_all();
 
-        $this->view->super = $super;
         $this->view->stages = $stages;
         $this->view->faculties = $faculties;
         $this->view->nf = $this->pixie->orm->get('faculty')->find()->nf;
