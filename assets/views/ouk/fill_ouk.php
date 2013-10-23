@@ -29,10 +29,26 @@ function first_stage()
     <br/><input type="number" name="o7_5" value="0" min="0" max="10000" required/>
     <br/><br/>
     количество монографий с  ISBN, или разделов в коллективных монографиях,  учебников с грифом МОН РФ, Рособразования, УМО
-    <input type="hidden" name="o7_6_name" value="количество монографий с  ISBN, или разделов в коллективных монографиях,  учебников с грифом МОН РФ, Рособразования, УМО в России"/>
-    <br/>Изданий в РФ<input type="number" name="o7_6" value="0" min="0" max="10000" required/>
-    <input type="hidden" name="o7_6a_name" value="количество монографий с  ISBN, или разделов в коллективных монографиях,  учебников с грифом МОН РФ, Рособразования, УМО за рубежом"/>
-    <br/>Изданий за рубежом<input type="number" name="o7_6a" value="0" min="0" max="10000" required/>
+    <table>
+        <tr>
+            <td>
+                изданий в РФ
+                <input type="hidden" name="o7_6_name" value="количество монографий с  ISBN, или разделов в коллективных монографиях,  учебников с грифом МОН РФ, Рособразования, УМО в России"/>
+            </td>
+            <td style="padding-left: 10px;">
+                изданий за рубежом
+                <input type="hidden" name="o7_6a_name" value="количество монографий с  ISBN, или разделов в коллективных монографиях,  учебников с грифом МОН РФ, Рособразования, УМО за рубежом"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input type="number" name="o7_6" value="0" min="0" max="10000" required/>
+            </td>
+            <td style="padding-left: 10px;">
+                <input type="number" name="o7_6a" value="0" min="0" max="10000" required/>
+            </td>
+        </tr>
+    </table>
     <br/><br/>
 
     количество учебников с грифом МОН РФ, Рособразования,УМО
@@ -85,6 +101,7 @@ function second_stage()
     <br/><br/>
 </fieldset>';
 }
+
 function third_stage()
 {
     echo '<fieldset>
@@ -137,5 +154,50 @@ function third_stage()
     </fieldset>';
 }
 
+?>
 
+<form method="POST" id="form" action="/ouk/save_stage">
+    <fieldset>
+        <input type="hidden" name="stage_id" value="<?php echo $stage->id; ?>"/>
+        <input type="hidden" name="year" value="<?php echo $year; ?>"/>
+        <input type="hidden" name="faculty" value="<?php echo $faculty; ?>"/>
 
+        <legend>Добавить расчет баллов стимулирующих выплат</legend>
+        <span class="subtitle">за период "<?php echo $stage->name ?>" в <?php echo $year ?>г.</span>
+        <?php
+        switch ($stage->id) {
+            case 1:
+                first_stage();
+                break;
+            case 2:
+                second_stage();
+                break;
+            case 3:
+                third_stage();
+                break;
+            default:
+                $error = "Не верно переданы параметры этапа";
+        }
+        ?>
+        <br/>
+        <button id="add_btn" type="button" class="btn  btn-success">Добавить</button>
+        <button type="submit" class="hidden" id="submit_btn">submit</button>
+    </fieldset>
+</form>
+
+<script>
+    $(document).ready(function () {
+        $("#add_btn").click(function () {
+            // если форма не валидна - выходим
+            var form = $('#form')[0];
+            if (!form.checkValidity()) {
+                $('#form').find('#submit_btn').click();
+                return;
+            }
+            if (hand_made_validation() != 0) {
+                return;
+            }
+            $("#form").submit();
+        });
+    });
+</script>
