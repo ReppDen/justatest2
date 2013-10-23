@@ -1,22 +1,9 @@
 <fieldset>
-    <legend>Список выплат по УВП за <?php echo $year; ?> год</legend>
+    <legend>Список расчетов УВП <?php echo $year; ?> год</legend>
     <table>
         <tr>
             <td>
                 <div style="padding-bottom: 10px;">Этап:</div>
-            </td>
-            <td>
-                <select id="stage" name="stage">
-                    <?php
-                    foreach($stages as $s) {
-                        if ($s->iduvp_stage == $stage) {
-                            echo '<option value="'.$s->iduvp_stage.'" selected>'.$s->name.'</option>';
-                        } else {
-                            echo '<option value="'.$s->iduvp_stage.'">'.$s->name.'</option>';
-                        }
-                    }
-                    ?>
-                </select>
             </td>
             <td>
                 <div style="padding-bottom: 10px;">Год:</div>
@@ -48,10 +35,16 @@
             №
         </td>
         <td >
-            <a href="/uvp/list_payment/<?php echo $year;?>/<?php echo $stage?>/?sort=fio&dir=<?php echo getDir("fio");?>" class="sorter">ФИО<?php echo dirText("fio");?></a>
+            <a href="/uvp/list_uvp/<?php echo $year;?>/<?php echo $stage?>/?sort=stage&dir=<?php echo getDir("stage");?>" class="sorter">Этап<?php echo dirText("stage");?></a>
         </td>
         <td >
-            <a href="/uvp/list_payment/<?php echo $year;?>/<?php echo $stage?>/?sort=money&dir=<?php echo getDir("money");?>" class="sorter">Год <?php echo $year; echo dirText("money");?></a>
+            <a href="/uvp/list_uvp/<?php echo $year;?>/<?php echo $stage?>/?sort=money&dir=<?php echo getDir("money");?>" class="sorter">Сумма<?php echo $year; echo dirText("money");?></a>
+        </td>
+        <td >
+            <a href="/uvp/list_uvp/<?php echo $year;?>/<?php echo $stage?>/?sort=year&dir=<?php echo getDir("year");?>" class="sorter">Год<?php echo dirText("year");?></a>
+        </td>
+        <td>
+            Просмотр
         </td>
 
     </tr>
@@ -60,17 +53,18 @@
     foreach ($pays as $a) {
         $i++;
         echo '
-        <tr id="tr_'.$a->iduvp_payment.'">
+        <tr id="tr_'.$a->iduvp_operation.'">
             <td class="n">
                 '.$i.'
             </td>
             <td>
-                '.$a->user->fio.'
+                '.$a->uvp_stage->name.'
             </td>
-            <td class="float_value">';
-        echo number_format($a->payment, 2, ",", " ");
-        echo
-            '</td>
+            <td class="float_value">'.number_format($a->money, 2, ",", " ").'</td>
+            <td>'.$a->year.'</td>
+            <td>
+                <a href="/uvp/list_payment/'.$a->year.'/'.$a->uvp_stage->iduvp_stage.'">Просмотр</a>
+            </td>
         </tr>';
     }
     ?>
@@ -85,7 +79,7 @@
                 params = window.location.href.substring(index);
             }
 
-            location.href="/uvp/list_payment/" + $("#year").val() + "/" + $("#stage").val() + "/" + params;
+            location.href="/uvp/list_uvp/" + $("#year").val() + "/" + $("#stage").val() + "/" + params;
         });
 
         $("#sort").val($.url().param("sort"));

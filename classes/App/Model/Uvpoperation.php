@@ -15,7 +15,7 @@ class UvpOperation extends \PHPixie\ORM\Model
     protected $belongs_to = array(
         'uvp_stage' => array(
             'model' => 'uvpstage',
-            'key' => 'uvp_stage_iduvpoperation'
+            'key' => 'uvp_stage_id'
         )
     );
 
