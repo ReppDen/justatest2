@@ -62,7 +62,7 @@ class Ouk extends \App\Page
     public function action_save_stage()
     {
 
-        if (!$this->logged_in())
+        if (!$this->logged_in('super'))
             return;
 
         if ($this->request->method == 'POST') {
@@ -73,7 +73,7 @@ class Ouk extends \App\Page
             $stage_id = $this->request->post('stage_id');
             $a = $this->pixie->orm->get('oukcalc')->where('ouk_faculty_idouk_faculty', $fac)->where('year', $this->request->post('year'))->where('stage_id', $stage_id)->find();
             if (!$a->loaded()) {
-                $a = $this->pixie->orm->get('award');
+                $a = $this->pixie->orm->get('oukcalc');
             }
 
             // рассчитать баллы
@@ -176,7 +176,7 @@ class Ouk extends \App\Page
             $a->sum = $points;
             $a->note = $text;
             // $this->pixie->orm->get('user')->where('id',$this->pixie->auth->user()->id)->find()->faculty->id;
-            $a->faculties_id = $this->request->post('faculty');
+            $a->ouk_faculty_idouk_faculty = $this->request->post('faculty');
             $a->stage_id = $stage_id;
 
             // сохранить
@@ -189,9 +189,9 @@ class Ouk extends \App\Page
         }
     }
 
-    public function action_list_award()
+    public function action_list_ouk()
     {
-        if (!$this->logged_in())
+        if (!$this->logged_in('super'))
             return;
 
         // включим обработку соритровки, если есть параметр
@@ -210,41 +210,24 @@ class Ouk extends \App\Page
         $this->view->can_delete = $isAdmin;
         $this->view->year = $year;
 
-        if ($isAdmin) {
+        if (true) {
             switch ($sort) {
                 case 'sum':
-                    $this->view->awards = $this->pixie->orm->get('award')->where('year', $year)->order_by('sum', $direction)->find_all();
+                    $this->view->ouk = $this->pixie->orm->get('oukcalc')->where('year', $year)->order_by('sum', $direction)->find_all();
                     break;
                 case 'faculty':
-                    $this->view->awards = $this->pixie->orm->get('award')->with('faculty')->where('year', $year)->order_by("name", $direction)->find_all();
+                    $this->view->ouk = $this->pixie->orm->get('oukcalc')->with('oukfaculty')->where('year', $year)->order_by("name", $direction)->find_all();
                     break;
                 case 'type':
-                    $this->view->awards = $this->pixie->orm->get('award')->with('stage')->where('year', $year)->order_by("name", $direction)->find_all();
+                    $this->view->ouk = $this->pixie->orm->get('oukcalc')->with('stage')->where('year', $year)->order_by("name", $direction)->find_all();
                     break;
                 default:
-                    $this->view->awards = $this->pixie->orm->get('award')->where('year', $year)->order_by('date', $direction)->find_all();
-                    break;
-            }
-        } else {
-            $f_id = $this->pixie->orm->get('user')->where('id', $this->pixie->auth->user()->id)->find()->faculty->id;
-
-            switch ($sort) {
-                case 'sum':
-                    $this->view->awards = $this->pixie->orm->get('award')->where('year', $year)->where("faculties_id", $f_id)->order_by("sum", $direction)->find_all();
-                    break;
-                case 'faculty':
-                    $this->view->awards = $this->pixie->orm->get('award')->with('faculty')->where('year', $year)->where("faculties_id", $f_id)->order_by("name", $direction)->find_all();
-                    break;
-                case 'type':
-                    $this->view->awards = $this->pixie->orm->get('award')->with('stage')->where('year', $year)->where("faculties_id", $f_id)->order_by("name", $direction)->find_all();
-                    break;
-                default:
-                    $this->view->awards = $this->pixie->orm->get('award')->where('year', $year)->where("faculties_id", $f_id)->order_by("date", $direction)->find_all();
+                    $this->view->ouk = $this->pixie->orm->get('oukcalc')->where('year', $year)->order_by('date', $direction)->find_all();
                     break;
             }
         }
 
-        $this->view->subview = 'awards/list_award';
+        $this->view->subview = 'ouk/list_ouk';
     }
 
     /**
@@ -252,16 +235,16 @@ class Ouk extends \App\Page
      */
     public function action_watch()
     {
-        if (!$this->logged_in())
+        if (!$this->logged_in('super'))
             return;
 
         // включим обработку соритровки, если есть параметр
         $id = $this->request->param('id');
 
-        $award = $this->pixie->orm->get('award')->where('id', $id)->find();
+        $ouk = $this->pixie->orm->get('oukcalc')->where('idouk_calc', $id)->find();
 
-        $this->view->award = $award;
-        $this->view->subview = 'awards/watch';
+        $this->view->ouk = $ouk;
+        $this->view->subview = 'ouk/watch';
     }
 
 }

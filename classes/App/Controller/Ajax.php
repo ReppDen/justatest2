@@ -95,6 +95,29 @@ class Ajax extends \PHPixie\Controller
     }
 
     /**
+     * удаляет указанный рассчет ОУК
+     */
+    public function action_delete_ouk()
+    {
+        if (!$this->logged_in('super'))
+            return;
+
+        $id = $this->request->param("id");
+        if (!$id) {
+            return;
+        }
+        $a = $this->pixie->orm->get('ouk')->where('id', $id)->find();
+
+        if ($a->loaded()) {
+            $d = $a->year;
+            $ds = $a->stage_id;
+            $a->delete();
+            $_SESSION['dirty_year'] = $d;
+            $_SESSION['dirty_stage'] = $ds;
+        }
+    }
+
+    /**
      * удаляет указанный рассчет для пользователя
      */
     public function action_delete_awarduser()

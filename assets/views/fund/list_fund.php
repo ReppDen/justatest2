@@ -24,7 +24,7 @@
             <td>
                 <select id="year" class="year">
                     <?php
-                    for ($i = 2012; $i<$year + 2; $i++) {
+                    for ($i = 2012; $i<date("Y") + 2; $i++) {
                         if ($i == $year) {
                             echo '<option value="'.$i.'" selected>'.$i.'</option>';
                         } else {

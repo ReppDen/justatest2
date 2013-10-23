@@ -15,6 +15,10 @@ class Oukcalc extends \PHPixie\ORM\Model {
         'oukfaculty'=>array(
             'model'=>'oukfaculty',
             'key'=>'ouk_faculty_idouk_faculty'
-        )
+        ),
+        'stage'=>array(
+            'model'=>'stage',
+            'key'=>'stage_id'
+        ),
     );
 }
