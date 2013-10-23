@@ -1,42 +1,47 @@
 <?php
 namespace App\Controller;
 
-class ouk extends \App\Page
+class Ouk extends \App\Page
 {
     public function action_index()
     {
         $this->redirect('/ouk/calc_ouk');
     }
 
-    public function action_calc_perouk() {
-        if (!$this->logged_in('su'))
+    public function action_calc_ouk() {
+        if (!$this->logged_in('super'))
             return;
 
         $stages = $this->pixie->orm->get('stage')->find_all();
-        $faculties = $this->pixie->orm->get('faculty')->find_all();
+        $faculties = $this->pixie->orm->get('oukfaculty')->find_all();
+
+        $all_pps = 0;
+        $facult = $this->pixie->orm->get('faculty')->find_all();
+        foreach ($facult as $f) {
+            $all_pps += $f->nprf;
+        }
 
         $this->view->stages = $stages;
         $this->view->faculties = $faculties;
-        $this->view->nf = $this->pixie->orm->get('faculty')->find()->nf;
-        $this->view->nprf = $this->pixie->orm->get('faculty')->find()->nprf;
+        $this->view->all = $all_pps;
+        $this->view->nprf = $this->pixie->orm->get('oukfaculty')->find()->pr_count;
 
         $this->view->subview = 'ouk/calc_ouk';
     }
-    public function action_fill_stage()
+
+    public function action_fill_ouk()
     {
-        if (!$this->logged_in())
+        if (!$this->logged_in('super'))
             return;
 
         if ($this->request->method == 'POST') {
             // запишем данные о факе
-            $nf = $this->request->post('nf');
             $nprf = $this->request->post('nprf');
             $fac = $this->request->post('faculty');
 
-            $f = $this->pixie->orm->get('faculty')->where('id', $fac)->find();
+            $f = $this->pixie->orm->get('oukfaculty')->where('idouk_faculty', $fac)->find();
             if ($f->loaded()) {
-                $f->nf = $nf;
-                $f->nprf = $nprf;
+                $f->pr_count = $nprf;
                 $f->save();
             }
 
@@ -45,11 +50,11 @@ class ouk extends \App\Page
             $this->view->stage = $stage;
             $this->view->year = $year;
             $this->view->faculty = $this->request->post('faculty');
-            $this->view->subview = 'awards/fill_award';
+            $this->view->subview = 'ouk/fill_ouk';
 
         } else {
             // нарушитель! алярма!
-            $this->redirect('/award/');
+            $this->redirect('/ouk/');
         }
 
     }
@@ -66,7 +71,7 @@ class ouk extends \App\Page
             // сносим старую запись
             // создать запись
             $stage_id = $this->request->post('stage_id');
-            $a = $this->pixie->orm->get('award')->where('faculties_id', $fac)->where('year', $this->request->post('year'))->where('stage_id', $stage_id)->find();
+            $a = $this->pixie->orm->get('oukcalc')->where('ouk_faculty_idouk_faculty', $fac)->where('year', $this->request->post('year'))->where('stage_id', $stage_id)->find();
             if (!$a->loaded()) {
                 $a = $this->pixie->orm->get('award');
             }
@@ -177,10 +182,10 @@ class ouk extends \App\Page
             // сохранить
             $a->save();
 
-            $this->redirect("/award/list_award/" . $this->request->post('year'));
+            $this->redirect("/ouk/list_ouk/" . $this->request->post('year'));
         } else {
             // нарушитель! алярма!
-            $this->redirect('/award/');
+            $this->redirect('/ouk/');
         }
     }
 

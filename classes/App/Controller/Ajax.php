@@ -30,6 +30,25 @@ class Ajax extends \PHPixie\Controller
         }
     }
 
+    /**
+     * Проверяет, есть ли у указанной ОУК расчеты
+     */
+    public function action_check_ouk()
+    {
+        if (!$this->logged_in('super'))
+            return;
+
+        if ($this->request->method == 'GET') {
+            $id = $this->request->get('id');
+            $year = $this->request->get('year');
+            $stage_id = $this->request->get('stage');
+            if ($id != null && $year != null) {
+                $a = $this->pixie->orm->get('oukcalc')->where('ouk_faculty_idouk_faculty', $id)->where('year', $year)->where('stage_id', $stage_id)->find();
+                echo $a->loaded();
+            }
+        }
+    }
+
 
     /**
      * Проверяет, есть ли у указанного пользователя расчеты
@@ -117,6 +136,9 @@ class Ajax extends \PHPixie\Controller
     }
 
 
+    /**
+     * Достает данные о факультете
+     */
     public function action_get_fac_info()
     {
         if (!$this->logged_in('admin'))
@@ -133,6 +155,27 @@ class Ajax extends \PHPixie\Controller
         echo json_encode(array(
             'nprf' => $nprf,
             'nf' => $nf
+        ));
+
+
+    }
+
+    /**
+     * Достает данные о ОУК
+     */
+    public function action_get_fac_info_ouk()
+    {
+        if (!$this->logged_in('super'))
+            return;
+
+        $id = $this->request->get("id");
+        $nprf = 0;
+        if ($id != null) {
+            $fac = $this->pixie->orm->get('oukfaculty')->where('idouk_faculty', $id)->find();
+            $nprf = $fac->pr_count;
+        }
+        echo json_encode(array(
+            'nprf' => $nprf,
         ));
 
 
