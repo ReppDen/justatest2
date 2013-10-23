@@ -31,6 +31,8 @@
         echo '<br/><a href="/uvp/list_calc">Список расчетов баллов УВП</a><br/>
                 <a href="/uvp/list_payment">Список расчетов выплат УВП</a><br/>
                 <a href="/uvp/list_uvp">Список расчетов УВП</a><br/>';
+        echo '<br/><a href="/ouk/list_ouk/">Список расчетов баллов общеуниверситетских кафедр</a><br/>
+                <br/>';
 
     }
     ?>

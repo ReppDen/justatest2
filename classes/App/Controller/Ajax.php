@@ -70,6 +70,25 @@ class Ajax extends \PHPixie\Controller
     }
 
     /**
+     * Проверяет, есть ли у указанного пользователя расчеты по ОУК
+     */
+    public function action_check_oukuser()
+    {
+        if (!$this->logged_in('suuper'))
+            return;
+
+        if ($this->request->method == 'GET') {
+            $id = $this->request->get('id');
+            $year = $this->request->get('year');
+            $stage_id = $this->request->get('stage');
+            if ($id != null && $year != null) {
+                $a = $this->pixie->orm->get('oukcalcuser')->where('users_id', $id)->where('year', $year)->where('stage_id', $stage_id)->find();
+                echo $a->loaded();
+            }
+        }
+    }
+
+    /**
      * удаляет указанный рассчет
      */
     public function action_delete_award()

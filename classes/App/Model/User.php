@@ -15,6 +15,17 @@ class User extends \PHPixie\ORM\Model {
         'faculty'=>array(
             'model'=>'faculty',
             'key'=>'faculties_id'
+        ),
+        'oukfaculty' => array (
+            'model' => 'oukfaculty',
+            'key' => 'ouk_faculty_idouk_faculty'
         )
     );
+
+//    protected $has_many = array (
+//        'oukcalcuser' => array (
+//            'model' => 'oukcalcuser',
+//            'key' => 'idouk_calc_user'
+//        )
+//    );
 }

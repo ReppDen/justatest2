@@ -12,8 +12,8 @@ class Oukfaculty extends \PHPixie\ORM\Model {
     public $table='ouk_faculty';
 
     protected $has_many=array(
-        'oukcalc'=>array(
-            'model'=>'oukcalc',
+        'users'=>array(
+            'model'=>'user',
             'key'=>'ouk_faculty_idouk_faculty'
         )
     );
