@@ -78,6 +78,7 @@ class Oukcalc extends \App\Page
             $ouk_op->year = $year;
             $ouk_op->stage_id = $stage;
             $ouk_op->money = $money;
+            $ouk_op->date = date("Y-m-d H:i");
             $ouk_op->save();
 
 
@@ -181,12 +182,12 @@ class Oukcalc extends \App\Page
         $oper = null;
         switch ($sort) {
             case 'facult':
-                $oper = $this->pixie->orm->get('oukcalc')->
-                    where('stage_id', $stage_id)->
-                    where('year', $year)->
-                    with('oukfaculty')->
-                    oukcalcpay->
-                    order_by('a0.money', $dir)->
+                $oper = $this->pixie->orm->get('oukcalcpay')->
+                    with('oukcalc.oukfaculty')->
+                    where('a0.stage_id', $stage_id)->
+                    where('a0.year', $year)->
+
+                    order_by('a1.name', $dir)->
                     find_all();
                 break;
             default :
@@ -204,6 +205,112 @@ class Oukcalc extends \App\Page
         $this->view->stages = $this->pixie->orm->get('stage')->find_all();
         $this->view->subview = 'ouk_calc/list_payment';
 
+    }
+
+    public function action_list_operation() {
+        if (!$this->logged_in('super'))
+            return;
+
+        $dir = 'asc';
+        $d = $this->request->get('dir');
+        if ($d != null && $d == 'desc') {
+            $dir = 'desc';
+        }
+
+        $sort = $this->request->get('sort');
+
+        $year = $this->request->param('year');
+        $stage_id = $this->request->param('stage');
+        $oper = null;
+        switch ($sort) {
+            case 'stage':
+                $oper = $this->pixie->orm->get('oukoperation')->
+                    with('stage')->
+                    order_by('a0.name',$dir)->
+                    find_all();
+                break;
+            case 'date':
+                $oper = $this->pixie->orm->get('oukoperation')->
+                    order_by('date',$dir)->
+                    find_all();
+                break;
+            case 'sum':
+                $oper = $this->pixie->orm->get('oukoperation')->
+                    order_by('money',$dir)->
+                    find_all();
+                break;
+            case 'year':
+                $oper = $this->pixie->orm->get('oukoperation')->
+                    order_by('year',$dir)->
+                    find_all();
+                break;
+            default :
+                $oper = $this->pixie->orm->get('oukoperation')->
+                    order_by('year',$dir)->
+                    find_all();
+        }
+
+        $this->view->stage = $stage_id;
+        $this->view->oper = $oper; // в таблицу
+        $this->view->year = $year;
+        $this->view->subview = 'ouk_calc/list_operation';
+
+    }
+
+    public function action_list_payment_user() {
+        if (!$this->logged_in('super'))
+            return;
+
+        $dir = 'asc';
+        $d = $this->request->get('dir');
+        if ($d != null && $d == 'desc') {
+            $dir = 'desc';
+        }
+
+        $sort = $this->request->get('sort');
+
+        $year = $this->request->param('year');
+        $faculty_id = $this->request->param('faculty');
+
+        if ($faculty_id == null) {
+            $faculty_id = 1;
+        }
+
+        if ($year == null) {
+            $year = date("Y");
+        }
+        $stage_id = $this->request->param('stage');
+        if ($stage_id == null) {
+            $stage_id = 1;
+        }
+        $oper = null;
+        switch ($sort) {
+            case 'facult':
+                $oper = $this->pixie->orm->get('oukcalcuser')->
+                    where('stage_id', $stage_id)->
+                    where('year', $year)->
+                    with('oukfaculty')->
+                    oukcalcpay->
+                    order_by('a0.money', $dir)->
+                    find_all();
+                break;
+            default :
+                $oper = $this->pixie->orm->get('oukcalcuser')->
+                    where('stage_id', $stage_id)->
+                    where('year', $year)->
+                    oukcalcuserpay->
+                    order_by('a0.money', $dir)->
+                    find_all();
+        }
+
+
+        $this->view->stage = $stage_id;
+        $this->view->stages = $this->pixie->orm->get('stage')->find_all();
+        $this->view->faculties = $this->pixie->orm->get('oukfaculty')->find_all();
+        $this->view->faculty_id = $faculty_id;
+        $this->view->calcs = $oper; // в таблицу
+        $this->view->year = $year;
+        $this->view->subview = 'ouk_calc/list_payment_user';
     }
 
     /**

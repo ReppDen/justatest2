@@ -21,4 +21,11 @@ class Oukcalcuser extends \PHPixie\ORM\Model {
             'key'=>'users_id'
         )
     );
+
+    protected $has_many = array(
+        'oukcalcuserpay'=>array(
+            'model'=>'oukcalcuserpay',
+            'key'=>'ouk_calc_user_idouk_calc_user'
+        )
+    );
 }

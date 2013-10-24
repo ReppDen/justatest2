@@ -34,7 +34,7 @@
                 <a href="/uvp/list_uvp">Список расчетов УВП</a><br/>';
         echo '<br/><a href="/ouk/list_ouk/">Список расчетов баллов ОУК</a><br/>
                 <a href="/oukuser/list_ouk">Список расчетов баллов сотрудников ОУК</a><br/>
-                <a href="/oukcalc/list_payment">Список расчетов выплат ОУК</a><br/>';
+                <a href="/oukcalc/list_operation">Список расчетов выплат ОУК</a><br/>';
 
     }
     ?>

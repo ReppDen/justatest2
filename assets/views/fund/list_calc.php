@@ -7,7 +7,7 @@
             №
         </td>
         <td >
-            <a href="/fund/list_calc/?sort=faculty&dir=<?php echo getDir("faculty");?>" class="sorter">Факультет<?php echo dirText("faculty");?></a>
+            <a href="/fund/list_calc/?sort=stage&dir=<?php echo getDir("stage");?>" class="sorter">Этап<?php echo dirText("stage");?></a>
         </td>
         <td >
             <a href="/fund/list_calc/?sort=date&dir=<?php echo getDir("date");?>" class="sorter">Дата <?php echo dirText("date");?></a>

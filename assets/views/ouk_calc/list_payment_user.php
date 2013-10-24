@@ -3,6 +3,22 @@
     <table>
         <tr>
             <td>
+                <div style="padding-bottom: 10px;">Факультет:</div>
+            </td>
+            <td>
+                <select id="faculty" name="faculty">
+                    <?php
+                    foreach($faculties as $s) {
+                        if ($s->idouk_faculty == $faculty_id) {
+                            echo '<option value="'.$s->idouk_faculty.'" selected>'.$s->name.'</option>';
+                        } else {
+                            echo '<option value="'.$s->idouk_faculty.'">'.$s->name.'</option>';
+                        }
+                    }
+                    ?>
+                </select>
+            </td>
+            <td>
                 <div style="padding-bottom: 10px;">Этап:</div>
             </td>
             <td>
@@ -48,34 +64,29 @@
             №
         </td>
         <td >
-            <a href="/oukcalc/list_payment/<?php echo $year;?>/<?php echo $stage?>/?sort=facult&dir=<?php echo getDir("facult");?>" class="sorter">Кафедра<?php echo dirText("facult");?></a>
+            <a href="/oukcalc/list_payment/<?php echo $year;?>/<?php echo $stage?>/<?php echo $faculty_id;?>/?sort=fio&dir=<?php echo getDir("fio");?>" class="sorter">ФИО<?php echo dirText("fio");?></a>
         </td>
         <td >
-            <a href="/oukcalc/list_payment/<?php echo $year;?>/<?php echo $stage?>/?sort=money&dir=<?php echo getDir("money");?>" class="sorter">Сумма <?php echo dirText("money");?></a>
+            <a href="/oukcalc/list_payment/<?php echo $year;?>/<?php echo $stage?>/<?php echo $faculty_id;?>/?sort=money&dir=<?php echo getDir("money");?>" class="sorter">Сумма <?php echo dirText("money");?></a>
         </td>
-        <td>
-            Просмотр
-        </td>
+
     </tr>
     <?php
     $i = 0;
-    foreach ($oper as $a) {
+    foreach ($calcs as $a) {
         $i++;
         echo '
-        <tr id="tr_'.$a->idouk_calc_pay.'">
+        <tr id="tr_'.$a->idouk_calc_user_pay.'">
             <td class="n">
                 '.$i.'
             </td>
             <td>
-                '.$a->oukcalc->oukfaculty->name.'
+                '.$a->oukcalcuser->user->fio.'
             </td>
             <td class="float_value">';
         echo number_format($a->money, 2, ",", " ");
         echo
             '</td>
-            <td>
-                <a href="/oukcalc/list_payment_user/'.$a->oukcalc->year.'/'.$a->oukcalc->stage->id.'">Просмотр</a>
-            </td>
         </tr>';
     }
     ?>
