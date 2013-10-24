@@ -286,21 +286,21 @@ class Oukcalc extends \App\Page
         $oper = null;
         switch ($sort) {
             case 'facult':
-                $oper = $this->pixie->orm->get('oukcalcuser')->
-                    where('stage_id', $stage_id)->
-                    where('year', $year)->
-                    with('oukfaculty')->
-                    oukcalcpay->
-                    order_by('a0.money', $dir)->
+                $oper = $this->pixie->orm->get('oukcalcuserpay')->
+                    with('oukcalcuser.user.oukfaculty')->
+                    where('a1.ouk_faculty_idouk_faculty', $faculty_id)->
+                    where('a0.stage_id', $stage_id)->
+                    where('a0.year', $year)->
+                    order_by('a2.name', $dir)->
                     find_all();
                 break;
             default :
-                $oper = $this->pixie->orm->get('oukcalcuser')->
-                    where('stage_id', $stage_id)->
-                    where('year', $year)->
-//                    where('')
-                    oukcalcuserpay->
-                    order_by('a0.money', $dir)->
+                $oper = $this->pixie->orm->get('oukcalcuserpay')->
+                    with('oukcalcuser.user')->
+                    where('a1.ouk_faculty_idouk_faculty', $faculty_id)->
+                    where('a0.stage_id', $stage_id)->
+                    where('a0.year', $year)->
+                    order_by('ouk_calc_user_pay.money', $dir)->
                     find_all();
         }
 

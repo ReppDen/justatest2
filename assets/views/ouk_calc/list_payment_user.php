@@ -64,10 +64,10 @@
             №
         </td>
         <td >
-            <a href="/oukcalc/list_payment/<?php echo $year;?>/<?php echo $stage?>/<?php echo $faculty_id;?>/?sort=fio&dir=<?php echo getDir("fio");?>" class="sorter">ФИО<?php echo dirText("fio");?></a>
+            <a href="/oukcalc/list_payment_user/<?php echo $year;?>/<?php echo $stage?>/<?php echo $faculty_id;?>/?sort=fio&dir=<?php echo getDir("fio");?>" class="sorter">ФИО<?php echo dirText("fio");?></a>
         </td>
         <td >
-            <a href="/oukcalc/list_payment/<?php echo $year;?>/<?php echo $stage?>/<?php echo $faculty_id;?>/?sort=money&dir=<?php echo getDir("money");?>" class="sorter">Сумма <?php echo dirText("money");?></a>
+            <a href="/oukcalc/list_payment_user/<?php echo $year;?>/<?php echo $stage?>/<?php echo $faculty_id;?>/?sort=money&dir=<?php echo getDir("money");?>" class="sorter">Сумма <?php echo dirText("money");?></a>
         </td>
 
     </tr>
@@ -101,7 +101,7 @@
                 params = window.location.href.substring(index);
             }
 
-            location.href="/oukcalc/list_payment/" + $("#year").val() + "/" + $("#stage").val() + "/" + params;
+            location.href="/oukcalc/list_payment_user/" + $("#year").val() + "/" + $("#stage").val() + "/" + params;
         });
 
         $("#sort").val($.url().param("sort"));
