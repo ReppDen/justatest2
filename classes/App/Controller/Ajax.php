@@ -125,14 +125,10 @@ class Ajax extends \PHPixie\Controller
         if (!$id) {
             return;
         }
-        $a = $this->pixie->orm->get('ouk')->where('id', $id)->find();
+        $a = $this->pixie->orm->get('oukcalc')->where('idouk_calc', $id)->find();
 
         if ($a->loaded()) {
-            $d = $a->year;
-            $ds = $a->stage_id;
             $a->delete();
-            $_SESSION['dirty_year'] = $d;
-            $_SESSION['dirty_stage'] = $ds;
         }
     }
 

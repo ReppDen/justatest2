@@ -74,7 +74,7 @@
         echo
             '</td>
             <td>
-                <a href="/oukcalc/list_payment_user/'.$a->oukcalc->year.'/'.$a->oukcalc->stage->id.'">Просмотр</a>
+                <a href="/oukcalc/list_payment_user/'.$a->oukcalc->year.'/'.$a->oukcalc->stage->id.'/'.$a->oukcalc->oukfaculty->idouk_faculty.'"/>Просмотр</a>
             </td>
         </tr>';
     }

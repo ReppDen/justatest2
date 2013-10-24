@@ -5,7 +5,7 @@
             Не забудьте проверить, что все расчеты баллов для <a href="/ouk/list_ouk">ОУК</a> и <a href="/oukuser/list_ouk">сотрудников ОУК</a> заполнены!
         </div>
         <label>Фонд стимулирущих выплат университета в рублях</label>
-        <input id="fond" name="money" type="number" min="1" required=""/>
+        <input id="fond" name="money" type="number" min="1" value="<?php echo $fond;?>" required=""/>
         <label>Этап</label>
         <?php
         foreach ($stages as $s) {

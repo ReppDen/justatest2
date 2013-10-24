@@ -14,17 +14,19 @@
     });
 
     function delete_ouk(id) {
-        $.ajax({
-            type: "GET",
-            url: "/ajax/delete_oukuser/" + id,
-            success: function (res) {
-                $.jGrowl("Запись успешно удалена!");
-                $("#tr_" + id).remove();
-            },
-            error: function(res) {
-                $.jGrowl("Произошла ошибка во время запроса к серверу");
-            }
-        });
+        if (confirm("Внимание! После удаления необходимо произвести перерасчет премий ОУК. Удаляем запись?")) {
+            $.ajax({
+                type: "GET",
+                url: "/ajax/delete_oukuser/" + id,
+                success: function (res) {
+                    $.jGrowl("Запись успешно удалена!");
+                    $("#tr_" + id).remove();
+                },
+                error: function(res) {
+                    $.jGrowl("Произошла ошибка во время запроса к серверу");
+                }
+            });
+        }
     }
 </script>
 

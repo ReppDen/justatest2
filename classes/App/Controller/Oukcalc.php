@@ -22,7 +22,9 @@ class Oukcalc extends \App\Page
             return;
         }
 
+        $fond = 0;
         $this->view->all = $this->getAllPps();
+        $this->view->fond = $fond;
         $this->view->stages = $this->pixie->orm->get('stage')->find_all();
         $this->view->faculty = $this->pixie->orm->get('oukfaculty')->find_all();
         $this->view->subview = 'ouk_calc/calc_payment';
@@ -115,6 +117,7 @@ class Oukcalc extends \App\Page
                     with('user')->
                     where('a0.ouk_faculty_idouk_faculty', $ouk_pay->oukcalc->ouk_faculty_idouk_faculty)->
                     find_all(); // все расчеты пользователей, которые относятся к кафедре, этапу и году по которым идет распределение денег
+                $user_fond = array();
                 foreach ($user_calc as $us) {
                     // посчитать стимулирующую выплату = Сумма(фак) * ПРейт[k] / ПРейт(фак)[k]
                     if ($user_pb_sum == 0.0) {
@@ -123,8 +126,6 @@ class Oukcalc extends \App\Page
                         $user_fond[$us->idouk_calc_user] = (float) $ouk_pay->money * $user_pb[$us->idouk_calc_user] / $user_pb_sum;
                     }
                 }
-                $user_fond = array();
-
                 $test2 = array_sum($user_fond);
                 if ($test2 != 0 && abs($test2 - $ouk_pay->money) > $epsilon) {
                     echo 'error in calcs users';
@@ -136,7 +137,6 @@ class Oukcalc extends \App\Page
                     with('user')->
                     where('a0.ouk_faculty_idouk_faculty', $ouk_pay->oukcalc->ouk_faculty_idouk_faculty)->
                     find_all(); // все расчеты пользователей, которые относятся к кафедре, этапу и году по которым идет распределение денег
-                $user_fond = array();
                 foreach ($user_calc as $us) {
                     $ouk_user_pay = $this->pixie->orm->get('oukcalcuserpay')->where('ouk_calc_pay_idouk_calc_pay', $ouk_pay->idouk_calc_pay)->where('ouk_calc_user_idouk_calc_user', $us->idouk_calc_user)->find();
                     if (!$ouk_user_pay->loaded()) {
@@ -298,6 +298,7 @@ class Oukcalc extends \App\Page
                 $oper = $this->pixie->orm->get('oukcalcuser')->
                     where('stage_id', $stage_id)->
                     where('year', $year)->
+//                    where('')
                     oukcalcuserpay->
                     order_by('a0.money', $dir)->
                     find_all();
