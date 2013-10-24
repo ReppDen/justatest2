@@ -7,16 +7,16 @@
                 params = window.location.href.substring(index);
             }
 
-            location.href="/awarduser/list_award/" + $("#year").val() + "/" + params;
+            location.href="/oukuser/list_ouk/" + $("#year").val() + "/" + params;
         });
 
         $("#sort").val($.url().param("sort"));
     });
 
-    function delete_award(id) {
+    function delete_ouk(id) {
         $.ajax({
             type: "GET",
-            url: "/ajax/delete_awarduser/" + id,
+            url: "/ajax/delete_oukuser/" + id,
             success: function (res) {
                 $.jGrowl("Запись успешно удалена!");
                 $("#tr_" + id).remove();
@@ -94,16 +94,16 @@ function formatDate($date) {
             №
         </td>
         <td>
-            <a href="/awarduser/list_award/<?php echo $year;?>/?sort=type&dir=<?php echo getDir("type");?>" class="sorter">Тип расчета<?php echo dirText("type");?></a>
+            <a href="/oukuser/list_ouk/<?php echo $year;?>/?sort=type&dir=<?php echo getDir("type");?>" class="sorter">Тип расчета<?php echo dirText("type");?></a>
         </td>
         <td>
-            <a href="/awarduser/list_award/<?php echo $year;?>/?sort=date&dir=<?php echo getDir("date");?>" class="sorter">Дата<?php echo dirText("date");?></a>
+            <a href="/oukuser/list_ouk/<?php echo $year;?>/?sort=date&dir=<?php echo getDir("date");?>" class="sorter">Дата<?php echo dirText("date");?></a>
         </td>
         <td>
-            <a href="/awarduser/list_award/<?php echo $year;?>/?sort=sum&dir=<?php echo getDir("sum");?>" class="sorter">Баллы<?php echo dirText("sum");?></a>
+            <a href="/oukuser/list_ouk/<?php echo $year;?>/?sort=sum&dir=<?php echo getDir("sum");?>" class="sorter">Баллы<?php echo dirText("sum");?></a>
         </td>
         <td>
-            <a href="/awarduser/list_award/<?php echo $year;?>/?sort=user&dir=<?php echo getDir("user");?>" class="sorter">Преподаватель<?php echo dirText("user");?></a>
+            <a href="/oukuser/list_ouk/<?php echo $year;?>/?sort=user&dir=<?php echo getDir("user");?>" class="sorter">Преподаватель<?php echo dirText("user");?></a>
         </td>
         <td>
             Детали
@@ -118,10 +118,10 @@ function formatDate($date) {
     </tr>
     <?php
     $i = 0;
-    foreach ($awards as $a) {
+    foreach ($ouk as $a) {
         $i++;
         echo '
-        <tr id="tr_'.$a->id.'">
+        <tr id="tr_'.$a->idouk_calc_user.'">
             <td>
                 '.$i.'
             </td>
@@ -140,12 +140,12 @@ function formatDate($date) {
         ';
         echo '
             <td>
-                <a href="/awarduser/watch/'.$a->id.'">Детали</a>
+                <a href="/oukuser/watch/'.$a->idouk_calc_user.'">Детали</a>
             </td>';
         if ($can_delete) {
             echo '
                 <td>
-                    <a href="#" onclick="delete_award('.$a->id.')">Удалить</a>
+                    <a href="#" onclick="delete_ouk('.$a->idouk_calc_user.')">Удалить</a>
                 </td>
             ';
         }

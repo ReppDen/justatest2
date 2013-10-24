@@ -4,21 +4,21 @@
                     <div class="column">
                         <label>Преподаватель</label>
                         <?php
-                            echo $award->user->fio;
+                            echo $ouk->user->fio;
                         ?>
                         <label>Этап</label>
                         <?php
-                            echo $award->stage->name;
+                            echo $ouk->stage->name;
                         ?>
                         <br/>
                         <label>Год</label>
                         <?php
-                            echo $award->year;
+                            echo $ouk->year;
                         ?>
                         <br/>
                         <label>Расчет</label>
                         <?php
-                            echo $award->note;
+                            echo $ouk->note;
                         ?>
                     </div>
         </div>

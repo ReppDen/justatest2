@@ -32,7 +32,7 @@ class Oukuser extends \App\Page
             $this->view->stage = $stage;
             $this->view->year = $year;
             $this->view->user = $this->request->post('user');
-            $this->view->subview = 'ouk_users/fill_award';
+            $this->view->subview = 'ouk_user/fill_ouk';
 
         } else {
             // нарушитель! алярма!
@@ -193,7 +193,7 @@ class Oukuser extends \App\Page
         }
     }
 
-    public function action_list_award()
+    public function action_list_ouk()
     {
         if (!$this->logged_in())
             return;

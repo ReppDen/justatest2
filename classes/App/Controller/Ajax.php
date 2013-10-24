@@ -161,6 +161,27 @@ class Ajax extends \PHPixie\Controller
     }
 
     /**
+     * удаляет указанный рассчет для сотрудника ОУК
+     */
+    public function action_delete_oukuser()
+    {
+        if (!$this->logged_in('super'))
+            return;
+
+        $id = $this->request->param("id");
+        if (!$id) {
+            return;
+        }
+        $a = $this->pixie->orm->get('oukcalcuser')->where('idouk_calc_user', $id)->find();
+
+        if ($a->loaded()) {
+            $a->delete();
+        }
+
+    }
+
+
+    /**
      * проверяет коичество расчетов на выбранный факультет, Если их нет то печалька
      */
     public function action_check_funduser_calc_count()
