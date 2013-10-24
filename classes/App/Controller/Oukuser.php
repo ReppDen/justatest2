@@ -60,32 +60,42 @@ class Oukuser extends \App\Page
             $points = (float)0.0;
             switch ($stage_id) {
                 case 1:
-                    $points += (float)$this->request->post('o7_2') * 1.0;
-                    $text .= $this->request->post('o7_2_name') . ' +' . ($this->request->post('o7_2') * 1.0) . ' балла(ов)<br/>';
+                    $points += (float)$this->request->post('o6_1') * 1.0;
+                    $text .= $this->request->post('o6_1_name') . ' +'
+                        . ($this->request->post('o6_1') * 1.0) . ' балла(ов)<br/>';
 
-                    $points += (float)$this->request->post('o7_1') * 2.0;
-                    $text .= $this->request->post('o7_1_name') . ' +' . ($this->request->post('o7_1') * 2.0) . ' балла(ов)<br/>';
+                    $points += (float)$this->request->post('o6_2') * 2.0;
+                    $text .= $this->request->post('o6_2_name') . ' +'
+                        . ($this->request->post('o6_2') * 2.0) . ' балла(ов)<br/>';
 
-                    $points += (float)$this->request->post('o7_3') * 1.0;
-                    $text .= $this->request->post('o7_3_name') . ' +' . ($this->request->post('o7_3') * 1.0) . ' балла(ов)<br/>';
+                    $points += (float)$this->request->post('o6_3') * 1.0;
+                    $text .= $this->request->post('o6_3_name') . ' +'
+                        . ($this->request->post('o6_3') * 1.0) . ' балла(ов)<br/>';
 
-                    $points += (float)$this->request->post('o7_4') * 1.0;
-                    $text .= $this->request->post('o7_4_name') . ' +' . ($this->request->post('o7_4') * 1.0) . ' балла(ов)<br/>';
+                    $points += (float)$this->request->post('o6_4') * 1.0;
+                    $text .= $this->request->post('o6_4_name') . ' +'
+                        . ($this->request->post('o6_4') * 1.0) . ' балла(ов)<br/>';
 
-                    $points += (float)$this->request->post('o7_5') * 0.1;
-                    $text .= $this->request->post('o7_5_name') . ' +' . ($this->request->post('o7_5') * 0.1) . ' балла(ов)<br/>';
+                    $points += (float)$this->request->post('o6_5') * 0.1;
+                    $text .= $this->request->post('o6_5_name') . ' +'
+                        . ($this->request->post('o6_5') * 0.1) . ' балла(ов)<br/>';
 
-                    $points += (float)$this->request->post('o7_6') * 0.5;
-                    $text .= $this->request->post('o7_6_name') . ' +' . ($this->request->post('o7_6') * 0.5) . ' балла(ов)<br/>';
+                    $points += (float)$this->request->post('o6_6') * 0.5;
+                    $text .= $this->request->post('o6_6_name') . ' +'
+                        . ($this->request->post('o6_6') * 0.5) . ' балла(ов)<br/>';
 
-                    $points += (float)$this->request->post('o7_7') * 0.3;
-                    $text .= $this->request->post('o7_7_name') . ' +' . ($this->request->post('o7_7') * 0.3) . ' балла(ов)<br/>';
+                    $points += (float)$this->request->post('o6_7') * 0.3;
+                    $text .= $this->request->post('o6_7_name') . ' +'
+                        . ($this->request->post('o6_7') * 0.3) . ' балла(ов)<br/>';
 
-                    $points += (float)$this->request->post('o7_8') * 0.5;
-                    $text .= $this->request->post('o7_8_name') . ' +' . ($this->request->post('o7_8') * 0.5) . ' балла(ов)<br/>';
+                    $points += (float)$this->request->post('o6_8') * 0.5;
+                    $text .= $this->request->post('o6_8_name') . ' +'
+                        . ($this->request->post('o6_8') * 0.5) . ' балла(ов)<br/>';
 
-                    $points += (float)$this->request->post('o7_9') * 0.1;
-                    $text .= $this->request->post('o7_9_name') . ' +' . ($this->request->post('o7_9') * 0.1) . ' балла(ов)<br/>';
+                    $points += (float)$this->request->post('o6_9') * 0.1;
+                    $text .= $this->request->post('o6_9_name') . ' +'
+                        . ($this->request->post('o6_9') * 0.1) . ' балла(ов)<br/>';
+
                     $text .= 'Сумма ' . $points;
                     break;
                 case 2:
@@ -106,20 +116,23 @@ class Oukuser extends \App\Page
                     $points += (float)$this->request->post('o2_3');
                     $text .= $this->request->post('o2_3_name') . ' +' . ($this->request->post('o2_3')) . ' балла(ов)<br/>';
 
-                    $points += (float)$this->request->post('o2_4');
-                    $text .= $this->request->post('o2_4_name') . ' +' . ($this->request->post('o2_4')) . ' балла(ов)<br/>';
+                    $points += (float)$this->request->post('o2_4') * 1.0;
+                    $text .= $this->request->post('o2_4_name') . ' +' . ($this->request->post('o2_4') * 1.0) . ' балла(ов)<br/>';
 
                     $points += (float)$this->request->post('o2_4a') * 0.3;
                     $text .= $this->request->post('o2_4a_name') . ' +' . ($this->request->post('o2_4a') * 0.3) . ' балла(ов)<br/>';
 
-                    $points += (float)$this->request->post('o2_5');
+                    $points += (float)$this->request->post('o2_5a') * 0.3;
+                    $text .= $this->request->post('o2_5a_name') . ' +' . ($this->request->post('o2_5a') * 0.3) . ' балла(ов)<br/>';
+
+                    $points += (float)$this->request->post('o2_5') * 1.5;
                     $text .= $this->request->post('o2_5_name') . ' +' . ($this->request->post('o2_5') * 1.5) . ' балла(ов)<br/>';
+
+                    $points += (float)$this->request->post('o2_6') * 0.3;
+                    $text .= $this->request->post('o2_6_name') . ' +' . ($this->request->post('o2_5') * 0.3) . ' балла(ов)<br/>';
 
                     $points += (float)$this->request->post('o3_1');
                     $text .= $this->request->post('o3_1_name') . ' +' . ($this->request->post('o3_1')) . ' балла(ов)<br/>';
-
-                    $points += (float)$this->request->post('o3_2');
-                    $text .= $this->request->post('o3_2_name') . ' +' . ($this->request->post('o3_2')) . ' балла(ов)<br/>';
 
                     $points += (float)$this->request->post('o3_3');
                     $text .= $this->request->post('o3_3_name') . ' +' . ($this->request->post('o3_3')) . ' балла(ов)<br/>';
@@ -136,9 +149,6 @@ class Oukuser extends \App\Page
                     $text .= 'Сумма ' . $points;
                     break;
                 case 3:
-                    $points += (float)$this->request->post('o1_1');
-                    $text .= $this->request->post('o1_1_name') . ' +' . ($this->request->post('o1_1')) . ' балла(ов)<br/>';
-
                     $points += (float)$this->request->post('o4_1');
                     $text .= $this->request->post('o4_1_name') . ' +' . ($this->request->post('o4_1')) . ' балла(ов)<br/>';
 
@@ -159,17 +169,23 @@ class Oukuser extends \App\Page
                         $text .= ' +0.0 балла(ов)<br/>';
                     }
 
-                    $points += (float)$this->request->post('o6_1');
-                    $text .= $this->request->post('o6_1_name') . ' +' . ($this->request->post('o6_1')) . ' балла(ов)<br/>';
+                    $points += (float)$this->request->post('o5_1') * 0.7;
+                    $text .= $this->request->post('o5_1_name') . ' +' . ($this->request->post('o5_1') * 0.7) . ' балла(ов)<br/>';
 
-                    $points += (float)$this->request->post('o6_2');
-                    $text .= $this->request->post('o6_2_name') . ' +' . ($this->request->post('o6_2')) . ' балла(ов)<br/>';
+                    $points += (float)$this->request->post('o5_1a') * 0.3;
+                    $text .= $this->request->post('o5_1a_name') . ' +' . ($this->request->post('o5_1a') * 0.3) . ' балла(ов)<br/>';
 
-                    $points += (float)$this->request->post('o6_3');
-                    $text .= $this->request->post('o6_3_name') . ' +' . ($this->request->post('o6_3')) . ' балла(ов)<br/>';
+                    $points += (float)$this->request->post('o5_2') * 0.7;
+                    $text .= $this->request->post('o5_2_name') . ' +' . ($this->request->post('o5_2') *0.7) . ' балла(ов)<br/>';
 
-                    $points += (float)$this->request->post('o6_4');
-                    $text .= $this->request->post('o6_4_name') . ' +' . ($this->request->post('o6_4')) . ' балла(ов)<br/>';
+                    $points += (float)$this->request->post('o5_2a') * 0.3;
+                    $text .= $this->request->post('o5_2a_name') . ' +' . ($this->request->post('o5_2a') *0.3) . ' балла(ов)<br/>';
+
+                    $points += (float)$this->request->post('o5_3');
+                    $text .= $this->request->post('o5_3_name') . ' +' . ($this->request->post('o5_3')) . ' балла(ов)<br/>';
+
+                    $points += (float)$this->request->post('o5_4');
+                    $text .= $this->request->post('o5_4_name') . ' +' . ($this->request->post('o5_4')) . ' балла(ов)<br/>';
                     $text .= 'Сумма ' . $points;
                     break;
             }
