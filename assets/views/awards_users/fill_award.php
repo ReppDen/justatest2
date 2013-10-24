@@ -297,26 +297,59 @@ function third_stage()
         <label>Подготовка победителей  научных и
         творческих конкурсов, олимпиад,
         смотров, соревнований</label>
-        <input type="hidden" name="o6_1_name" value="Подготовка победителей  научных и
-        творческих конкурсов, олимпиад,
-        смотров, соревнований"/>
-        <select name="o6_1" required style="width:320px;">
-            <option value="0.7">федерального и международного уровней</option>
-            <option value="0.3">регионального уровня</option>
-        </select>
+        <table>
+        <tr>
+            <td>
+                федерального и международного уровней
+                 <input type="hidden" name="o6_1_name" value="Подготовка победителей  научных и
+                 творческих конкурсов, олимпиад,
+                 смотров, соревнований федерального и международного уровней"/>
+            </td>
+            <td style="padding-left: 10px;">
+                регионального уровня
+                <input type="hidden" name="o6_1a_name" value="Подготовка победителей  научных и
+                творческих конкурсов, олимпиад,
+                смотров, соревнований регионального уровня"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input type="number" name="o6_1" value="0" min="0" max="10000" required/>
+            </td>
+            <td style="padding-left: 10px;">
+                <input type="number" name="o6_1a" value="0" min="0" max="10000" required/>
+            </td>
+        </tr>
+        </table>
         <br/><br/>
 
-        <label>Наличие студенческих публикаций,
+         <label>Наличие студенческих публикаций,
         выступлений студентов на научных
         конференциях</label>
-        <input type="hidden" name="o6_2_name" value="Наличие студенческих публикаций,
-        выступлений студентов на научных
-        конференциях"/>
-        <select name="o6_2" required style="width:320px;">
-            <option value="0.7">федерального и международного уровней</option>
-            <option value="0.3">регионального уровня</option>
-            <option value="0.0">отсутствие</option>
-        </select>
+        <table>
+        <tr>
+            <td>
+                федерального и международного уровней
+                 <input type="hidden" name="o6_2_name" value="Наличие студенческих публикаций,
+                выступлений студентов на научных
+                конференциях федерального и международного уровней"/>
+            </td>
+            <td style="padding-left: 10px;">
+                регионального уровня
+                <input type="hidden" name="o6_2a_name" value="Наличие студенческих публикаций,
+                выступлений студентов на научных
+                конференциях регионального уровня"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input type="number" name="o6_2" value="0" min="0" max="10000" required/>
+            </td>
+            <td style="padding-left: 10px;">
+                <input type="number" name="o6_2a" value="0" min="0" max="10000" required/>
+            </td>
+        </tr>
+        </table>
         <br/><br/>
 
 

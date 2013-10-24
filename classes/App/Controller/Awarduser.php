@@ -117,7 +117,7 @@ class AwardUser extends \App\Page
                     $points += (float)$this->request->post('o2_4a') * 0.3;
                     $text .= $this->request->post('o2_4a_name') . ' +' . ($this->request->post('o2_4a') * 0.3) . ' балла(ов)<br/>';
 
-                    $points += (float)$this->request->post('o2_5');
+                    $points += (float)$this->request->post('o2_5') * 1.5;
                     $text .= $this->request->post('o2_5_name') . ' +' . ($this->request->post('o2_5') * 1.5) . ' балла(ов)<br/>';
 
                     $points += (float)$this->request->post('o3_1');
