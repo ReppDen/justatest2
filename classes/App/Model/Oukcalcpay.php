@@ -12,18 +12,18 @@ class Oukcalcpay extends \PHPixie\ORM\Model {
     public $table='ouk_calc_pay';
 
     protected $belongs_to = array(
-        'ouk_operation'=>array(
+        'oukoperation'=>array(
             'model'=>'oukoperation',
             'key'=>'ouk_operation_idtouk_operation'
         ),
-        'ouk_calc'=>array(
+        'oukcalc'=>array(
             'model'=>'oukcalc',
             'key'=>'ouk_calc_idouk_calc'
         )
     );
     protected $has_many=array(
         'oukcalcuserpay'=>array(
-            'model'=>'ouk_calc_user_pay',
+            'model'=>'oukcalcuserpay',
             'key'=>'ouk_calc_pay_idouk_calc_pay'
         )
     );

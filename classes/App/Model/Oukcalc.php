@@ -21,4 +21,11 @@ class Oukcalc extends \PHPixie\ORM\Model {
             'key'=>'stage_id'
         ),
     );
+
+    protected $has_many = array (
+        'oukcalcpay'=>array(
+            'model'=>'oukcalcpay',
+            'key'=>'ouk_calc_idouk_calc'
+        )
+    );
 }

@@ -29,7 +29,7 @@
 </script>
 
 <fieldset>
-    <legend>Список расчетов баллов преподавателей за <?php echo $year; ?> год</legend>
+    <legend>Список расчетов баллов преподавателей ОУК за <?php echo $year; ?> год</legend>
 
     <table>
         <tr>

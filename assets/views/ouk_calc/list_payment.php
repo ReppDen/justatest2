@@ -1,5 +1,5 @@
 <fieldset>
-    <legend>Список выплат по УВП за <?php echo $year; ?> год</legend>
+    <legend>Список выплат по ОУК за <?php echo $year; ?> год</legend>
     <table>
         <tr>
             <td>
@@ -9,10 +9,10 @@
                 <select id="stage" name="stage">
                     <?php
                     foreach($stages as $s) {
-                        if ($s->iduvp_stage == $stage) {
-                            echo '<option value="'.$s->iduvp_stage.'" selected>'.$s->name.'</option>';
+                        if ($s->id == $stage) {
+                            echo '<option value="'.$s->id.'" selected>'.$s->name.'</option>';
                         } else {
-                            echo '<option value="'.$s->iduvp_stage.'">'.$s->name.'</option>';
+                            echo '<option value="'.$s->id.'">'.$s->name.'</option>';
                         }
                     }
                     ?>
@@ -24,7 +24,7 @@
             <td>
                 <select id="year" class="year">
                     <?php
-                    for ($i = 2012; $i<$year + 2; $i++) {
+                    for ($i = 2012; $i<date("Y") + 2; $i++) {
                         if ($i == $year) {
                             echo '<option value="'.$i.'" selected>'.$i.'</option>';
                         } else {
@@ -48,27 +48,27 @@
             №
         </td>
         <td >
-            <a href="/uvp/list_payment/<?php echo $year;?>/<?php echo $stage?>/?sort=fio&dir=<?php echo getDir("fio");?>" class="sorter">ФИО<?php echo dirText("fio");?></a>
+            <a href="/oukcalc/list_payment/<?php echo $year;?>/<?php echo $stage?>/?sort=facult&dir=<?php echo getDir("facult");?>" class="sorter">Кафедра<?php echo dirText("facult");?></a>
         </td>
         <td >
-            <a href="/uvp/list_payment/<?php echo $year;?>/<?php echo $stage?>/?sort=money&dir=<?php echo getDir("money");?>" class="sorter">Год <?php echo $year; echo dirText("money");?></a>
+            <a href="/oukcalc/list_payment/<?php echo $year;?>/<?php echo $stage?>/?sort=money&dir=<?php echo getDir("money");?>" class="sorter">Сумма <?php echo $year; echo dirText("money");?></a>
         </td>
 
     </tr>
     <?php
     $i = 0;
-    foreach ($pays as $a) {
+    foreach ($oper as $a) {
         $i++;
         echo '
-        <tr id="tr_'.$a->iduvp_payment.'">
+        <tr id="tr_'.$a->idouk_calc_pay.'">
             <td class="n">
                 '.$i.'
             </td>
             <td>
-                '.$a->user->fio.'
+                '.$a->oukcalc->oukfaculty->name.'
             </td>
             <td class="float_value">';
-        echo number_format($a->payment, 2, ",", " ");
+        echo number_format($a->money, 2, ",", " ");
         echo
             '</td>
         </tr>';
@@ -85,7 +85,7 @@
                 params = window.location.href.substring(index);
             }
 
-            location.href="/uvp/list_payment/" + $("#year").val() + "/" + $("#stage").val() + "/" + params;
+            location.href="/oukcalc/list_payment/" + $("#year").val() + "/" + $("#stage").val() + "/" + params;
         });
 
         $("#sort").val($.url().param("sort"));

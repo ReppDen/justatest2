@@ -45,22 +45,27 @@ class Oukcalc extends \App\Page
                 // посчитать коэф выравнивания
                 $k = (float) $c->oukfaculty->pr_count / $all;
                 // посчитать приведенный балл каждой кафедры
-                $pb[$c->idouk_calc] = $c->sum * $k;
+                $pb[$c->idouk_calc] = (float) $c->sum * $k;
             }
             // посчитать сумму всех приведенных баллов
             $pb_sum = array_sum($pb);
             // посчитать вес однго приведенного балла
-            $s = (float) $money / $pb_sum;
+            if ($pb_sum == 0.0) {
+                $s = 0.0;
+            } else {
+                $s = (float) $money / $pb_sum;
+            }
+
             // посчитать фонд выплаты кафедре
             $fond_fac = array();
             $calcs = $this->pixie->orm->get('oukcalc')->where('year',$year)->where('stage_id',$stage)->find_all();
             foreach ($calcs as $c) {
-                $fond_fac[$c->idouk_calc] = $pb[$c->idouk_calc]  * $s;
+                $fond_fac[$c->idouk_calc] = (float) $pb[$c->idouk_calc]  * $s;
             }
 
             $test = array_sum($fond_fac);
             $epsilon = 0.0000000000000000000000000000000000000000000000000000001;
-            if (abs($test - $money) < $epsilon) {
+            if (abs($test - $money) > $epsilon) {
                 echo 'error in calcs';
             }
 
@@ -86,21 +91,121 @@ class Oukcalc extends \App\Page
                 $ouk_pay->ouk_calc_idouk_calc = $c->idouk_calc;
                 $ouk_pay->money = $fond_fac[$c->idouk_calc];
                 $ouk_pay->save();
+
+                // ============================== пользователи ==========================================
+
+                $user_calc = $this->pixie->orm->get('oukcalcuser')->
+                    where('year', $year)->
+                    where('stage_id',$stage)->
+                    with('user')->
+                    where('a0.ouk_faculty_idouk_faculty', $ouk_pay->oukcalc->ouk_faculty_idouk_faculty)->
+                    find_all(); // все расчеты пользователей, которые относятся к кафедре, этапу и году по которым идет распределение денег
+                $user_pb = array();
+                foreach ($user_calc as $us) {
+                    // посчитать приведенный рейтинг сотрудников
+                    $user_pb[$us->idouk_calc_user] = (float) $us->user->rate * $us->sum;
+                }
+                // посчитать приведенный рейтинг по кафедре (сумма)
+                $user_pb_sum = array_sum($user_pb);
+
+                $user_calc = $this->pixie->orm->get('oukcalcuser')->
+                    where('year', $year)->
+                    where('stage_id',$stage)->
+                    with('user')->
+                    where('a0.ouk_faculty_idouk_faculty', $ouk_pay->oukcalc->ouk_faculty_idouk_faculty)->
+                    find_all(); // все расчеты пользователей, которые относятся к кафедре, этапу и году по которым идет распределение денег
+                foreach ($user_calc as $us) {
+                    // посчитать стимулирующую выплату = Сумма(фак) * ПРейт[k] / ПРейт(фак)[k]
+                    if ($user_pb_sum == 0.0) {
+                        $user_fond[$us->idouk_calc_user] = 0.0;
+                    } else {
+                        $user_fond[$us->idouk_calc_user] = (float) $ouk_pay->money * $user_pb[$us->idouk_calc_user] / $user_pb_sum;
+                    }
+                }
+                $user_fond = array();
+
+                $test2 = array_sum($user_fond);
+                if ($test2 != 0 && abs($test2 - $ouk_pay->money) > $epsilon) {
+                    echo 'error in calcs users';
+                }
+                // сохранить данные
+                $user_calc = $this->pixie->orm->get('oukcalcuser')->
+                    where('year', $year)->
+                    where('stage_id',$stage)->
+                    with('user')->
+                    where('a0.ouk_faculty_idouk_faculty', $ouk_pay->oukcalc->ouk_faculty_idouk_faculty)->
+                    find_all(); // все расчеты пользователей, которые относятся к кафедре, этапу и году по которым идет распределение денег
+                $user_fond = array();
+                foreach ($user_calc as $us) {
+                    $ouk_user_pay = $this->pixie->orm->get('oukcalcuserpay')->where('ouk_calc_pay_idouk_calc_pay', $ouk_pay->idouk_calc_pay)->where('ouk_calc_user_idouk_calc_user', $us->idouk_calc_user)->find();
+                    if (!$ouk_user_pay->loaded()) {
+                        $ouk_user_pay = $this->pixie->orm->get('oukcalcuserpay');
+                    }
+                    $ouk_user_pay->ouk_calc_pay_idouk_calc_pay = $ouk_pay->idouk_calc_pay;
+                    $ouk_user_pay->ouk_calc_user_idouk_calc_user = $us->idouk_calc_user;
+                    $ouk_user_pay->money = isset($user_fond[$us->idouk_calc_user])? $user_fond[$us->idouk_calc_user] : 0 ;
+                    $ouk_user_pay->save();
+                }
             }
-
-
-
-            // посчитать приведенный рейтинг сотрудников
-            $user_calc = $this->pixie->orm->get('oukcalcuser')->where('year', $year)->where('stage_id',$stage)->find_all();
-            // посчитать приведенный рейтинг по кафедре (сумма)
-
-            // посчитать стимулирующую выплату = Сумма(фак) * ПРейт[k] / ПРейт(фак)[k]
-
             //  ========= И.... закончили упражнение!============
+            $this->redirect('/oukcalc/list_payment/'.$year.'/'.$stage);
         } else {
-            $this->redirect('/ouk_calc');
+            $this->redirect('/oukcalc');
         }
     }
+
+    /**
+     * просмотр списка расчетов
+     */
+    public function action_list_payment() {
+        if (!$this->logged_in('super'))
+            return;
+
+        $dir = 'asc';
+        $d = $this->request->get('dir');
+        if ($d != null && $d == 'desc') {
+            $dir = 'desc';
+        }
+
+        $sort = $this->request->get('sort');
+
+        $year = $this->request->param('year');
+
+        if ($year == null) {
+            $year = date("Y");
+        }
+        $stage_id = $this->request->param('stage');
+        if ($stage_id == null) {
+            $stage_id = 1;
+        }
+        $oper = null;
+        switch ($sort) {
+            case 'facult':
+                $oper = $this->pixie->orm->get('oukcalc')->
+                    where('stage_id', $stage_id)->
+                    where('year', $year)->
+                    with('oukfaculty')->
+                    oukcalcpay->
+                    order_by('a0.money', $dir)->
+                    find_all();
+                break;
+            default :
+                $oper = $this->pixie->orm->get('oukcalc')->
+                    where('stage_id', $stage_id)->
+                    where('year', $year)->
+                    oukcalcpay->
+                    order_by('a0.money', $dir)->
+                    find_all();
+        }
+
+        $this->view->stage = $stage_id;
+        $this->view->oper = $oper;
+        $this->view->year = $year;
+        $this->view->stages = $this->pixie->orm->get('stage')->find_all();
+        $this->view->subview = 'ouk_calc/list_payment';
+
+    }
+
     /**
      * просотр текущего расчета
      */

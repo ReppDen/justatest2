@@ -1,5 +1,5 @@
 <fieldset>
-    <legend>Список выплат по факультетам за <?php echo $year; ?> год</legend>
+    <legend>Список выплат по факультетам за <?php echo $year; ?> год для ППС</legend>
     <table>
         <tr>
             <td>

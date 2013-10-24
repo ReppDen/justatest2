@@ -24,7 +24,7 @@
             <td>
                 <select id="year" class="year">
                     <?php
-                    for ($i = 2012; $i<$year + 2; $i++) {
+                    for ($i = 2012; $i<date("Y") + 2; $i++) {
                         if ($i == $year) {
                             echo '<option value="'.$i.'" selected>'.$i.'</option>';
                         } else {
@@ -51,7 +51,7 @@
             <a href="/uvp/list_payment/<?php echo $year;?>/<?php echo $stage?>/?sort=fio&dir=<?php echo getDir("fio");?>" class="sorter">ФИО<?php echo dirText("fio");?></a>
         </td>
         <td >
-            <a href="/uvp/list_payment/<?php echo $year;?>/<?php echo $stage?>/?sort=money&dir=<?php echo getDir("money");?>" class="sorter">Год <?php echo $year; echo dirText("money");?></a>
+            <a href="/uvp/list_payment/<?php echo $year;?>/<?php echo $stage?>/?sort=money&dir=<?php echo getDir("money");?>" class="sorter">Cумма <?php echo $year; echo dirText("money");?></a>
         </td>
 
     </tr>

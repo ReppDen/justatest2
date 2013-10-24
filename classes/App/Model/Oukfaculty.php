@@ -15,6 +15,11 @@ class Oukfaculty extends \PHPixie\ORM\Model {
         'users'=>array(
             'model'=>'user',
             'key'=>'ouk_faculty_idouk_faculty'
+        ),
+        'oukcalc'=>array(
+            'model'=>'oukcalc',
+            'key'=>'ouk_faculty_idouk_faculty'
         )
     );
+
 }

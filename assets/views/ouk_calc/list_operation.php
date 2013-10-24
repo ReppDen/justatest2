@@ -1,5 +1,5 @@
 <fieldset>
-    <legend>Список всех расчетов фондов стимулурующих выплат для ППС университета</legend>
+    <legend>Список всех расчетов фондов стимулурующих выплат для университета</legend>
 </fieldset>
 <table class="table table_for_years">
     <tr class="title">

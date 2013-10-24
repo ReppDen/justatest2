@@ -38,7 +38,7 @@
             <a href="/uvp/list_uvp/<?php echo $year;?>/<?php echo $stage?>/?sort=stage&dir=<?php echo getDir("stage");?>" class="sorter">Этап<?php echo dirText("stage");?></a>
         </td>
         <td >
-            <a href="/uvp/list_uvp/<?php echo $year;?>/<?php echo $stage?>/?sort=money&dir=<?php echo getDir("money");?>" class="sorter">Сумма<?php echo $year; echo dirText("money");?></a>
+            <a href="/uvp/list_uvp/<?php echo $year;?>/<?php echo $stage?>/?sort=money&dir=<?php echo getDir("money");?>" class="sorter">Сумма <?php echo $year; echo dirText("money");?></a>
         </td>
         <td >
             <a href="/uvp/list_uvp/<?php echo $year;?>/<?php echo $stage?>/?sort=year&dir=<?php echo getDir("year");?>" class="sorter">Год<?php echo dirText("year");?></a>

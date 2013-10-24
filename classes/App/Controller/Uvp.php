@@ -294,7 +294,10 @@ class UVP extends \App\Page
                 $pays = $this->pixie->orm->get('uvpoperation')->where('uvp_stage_id', $stage_id)->where('year', $year)->uvppayment->with('user')->order_by('fio', $dir)->find_all();
                 break;
             default :
-                $pays = $this->pixie->orm->get('uvpoperation')->where('uvp_stage_id', $stage_id)->where('year', $year)->uvppayment->order_by('payment', $dir)->find_all();
+                $pays = $this->pixie->orm->get('uvpoperation')->
+                    where('uvp_stage_id', $stage_id)->
+                    where('year', $year)->
+                    uvppayment->order_by('payment', $dir)->find_all();
         }
 
         $this->view->stage = $stage_id;
