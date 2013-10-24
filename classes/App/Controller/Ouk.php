@@ -149,7 +149,7 @@ class Ouk extends \App\Page
                     break;
                 case 3:
                     $points += (float)$this->request->post('o4_1');
-                    $text .= $this->request->post('o4_1_name') . ' +' . ($this->request->post('o1_1')) . ' балла(ов)<br/>';
+                    $text .= $this->request->post('o4_1_name') . ' +' . ($this->request->post('o4_1')) . ' балла(ов)<br/>';
 
                     $points += (float)$this->request->post('o6_1');
                     $text .= $this->request->post('o6_1_name') . ' +' . ($this->request->post('o1_2')) . ' балла(ов)<br/>';

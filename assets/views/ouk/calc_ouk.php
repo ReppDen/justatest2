@@ -41,8 +41,6 @@
             <input type="number" id="nprf" name="nprf" min="0" max="100000" value="<?php echo get_val($nprf); ?>"
                    required/>
             <br/>
-            Количество штатных преподавателей: <?php echo $all;?>
-            <div class="alert alert-warning">значение подсчитано автоматически, основываясь на данных факультетов</div>
         </div>
     </div>
     </fieldset>
