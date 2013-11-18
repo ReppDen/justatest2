@@ -31,7 +31,7 @@ class Admin extends \App\Page
             return;
         }
 
-        $users = $this->pixie->orm->get('user')->find_all();
+        $users = $this->pixie->orm->get('user')->where('dismissed', 0)->order_by('fio','ASC')->find_all();
         $facsults = $this->pixie->orm->get('faculty')->find_all();
 
         $facs = array();
