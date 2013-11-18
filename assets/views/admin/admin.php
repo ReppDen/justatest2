@@ -35,6 +35,8 @@
         echo '<br/><a href="/ouk/list_ouk/">Список расчетов баллов ОУК</a><br/>
                 <a href="/oukuser/list_ouk">Список расчетов баллов сотрудников ОУК</a><br/>
                 <a href="/oukcalc/list_operation">Список расчетов выплат ОУК</a><br/>';
+        echo '<hr/><br/><b>Настройки</b>';
+        echo '<br/><a href="/admin/edit_roles">Настройка ролей пользователей</a>';
 
     }
     ?>
