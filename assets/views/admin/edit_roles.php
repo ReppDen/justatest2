@@ -1,4 +1,62 @@
+<script>
+    $(document).ready(function() {
+
+
+        $("a.savelink").click(function() {
+            console.log(this);
+            var uid = $(this).attr('id');
+
+            var fio = $('#fio_'+ uid).val();
+            var email = $('#email_'+ uid).val();
+            var fac = $('#fac_'+ uid).val();
+            var uvp = $('#uvp_'+ uid).val();
+            var ouk = $('#ouk_'+ uid).val();
+            var param = {
+                'uid':uid,
+                'fio': fio,
+                'email' : email,
+                'fac': fac,
+                'uvp':uvp,
+                'ouk':ouk
+            }
+
+            console.log($.param(param));
+
+            $.ajax({
+                type: "GET",
+                data: param,
+                url: "/ajax/save_user/",
+                success: function (res) {
+                    $.jGrowl("Запись с id " + uid + " успешно сохранена!");
+                },
+                error: function(res) {
+                    $.jGrowl("Произошла ошибка во время запроса к серверу! id = " + uid);
+                }
+            });
+        });
+
+    });
+
+    function delete_ouk(id) {
+        if (confirm("Внимание! После удаления необходимо произвести перерасчет премий ОУК. Удаляем запись?")) {
+            $.ajax({
+                type: "GET",
+                url: "/ajax/delete_oukuser/" + id,
+                success: function (res) {
+                    $.jGrowl("Запись успешно удалена!");
+                    $("#tr_" + id).remove();
+                },
+                error: function(res) {
+                    $.jGrowl("Произошла ошибка во время запроса к серверу");
+                }
+            });
+        }
+    }
+</script>
+
+
 <h3>Настройка ролей пользователей</h3>
+<blockquote>Измените строку таблицы и нажмите "Сохранить" для фиксации изменений</blockquote>
 <div>
     <table class="table">
         <tr>
@@ -6,27 +64,27 @@
                 ID
             </td>
             <td>
-                <a href="/admin/edit_roles/?sort=type&dir=<?php echo getDir("type"); ?>"
+                <a href="#"
                    class="sorter">ФИО<?php echo dirText("type"); ?></a>
             </td>
             <td>
-                <a href="/admin/edit_roles/?sort=date&dir=<?php echo getDir("date"); ?>"
+                <a href="#"
                    class="sorter">Email<?php echo dirText("date"); ?></a>
             </td>
             <td>
-                <a href="/admin/edit_roles/?sort=sum&dir=<?php echo getDir("sum"); ?>"
+                <a href="#"
                    class="sorter">Факультет<?php echo dirText("sum"); ?></a>
             </td>
             <td>
-                <a href="/admin/edit_roles/?sort=user&dir=<?php echo getDir("user"); ?>"
+                <a href="#"
                    class="sorter">УВП<?php echo dirText("user"); ?></a>
             </td>
             <td>
-                <a href="/admin/edit_roles/?sort=user&dir=<?php echo getDir("user"); ?>"
+                <a href="#"
                    class="sorter">ОУК<?php echo dirText("user"); ?></a>
             </td>
             <td>
-                Детали
+                Сохранить
             </td>
         </tr>
         <?php
@@ -40,10 +98,10 @@
                 ' . $u->id . '
             </td>
             <td>
-                <input value="' . $u->fio . '" type="text"/>
+                <input id="fio_'.$u->id.'" value="' . $u->fio . '" type="text" reqired/>
             </td>
             <td>
-                <input value="' . $u->email . '" type="email" style="width:150px;"/>
+                <input id="email_'.$u->id.'" value="' . $u->email . '" type="email" style="width:150px;" reqired/>
             </td>
             <td>
                ' . select_fac($u, $facs) . '
@@ -57,7 +115,7 @@
         ';
             echo '
             <td>
-                <a href="/admin/watch/' . $u->fio . '">Детали</a>
+                <a id="'.$u->id.'" class="savelink" href="#">Сохранить</a>
             </td>';
             echo '</tr>';
         }
@@ -101,7 +159,7 @@ function formatDate($date)
 
 function select_fac($u, $facult)
 {
-    $res = '<select id="fac_' . $u->id . '">';
+    $res = '<select id="fac_' . $u->id . '" reqired>';
     foreach ($facult as $f) {
         if ($u->faculties_id == $f['id']) {
             $res .= "<option value=" . $f['id'] . " selected>" . $f['name'] . "</option>";
@@ -117,9 +175,9 @@ function select_fac($u, $facult)
 
 function select_assist($u, $assist)
 {
-    $res = '<select id="assist_' . $u->id . '">';
+    $res = '<select id="uvp_' . $u->id . '" reqired>';
     foreach ($assist as $f) {
-        if ($f['id'] == null || $u->assist_type_id == $f['id']) {
+        if ($f['id'] == 0 || $u->assist_type_id == $f['id']) {
             $res .= "<option value=" . $f['id'] . " selected>" . $f['name'] . "</option>";
         } else {
             $res .= "<option value=" . $f['id'] . ">" . $f['name'] . "</option>";
@@ -133,9 +191,9 @@ function select_assist($u, $assist)
 
 function select_ouk($u, $ouk)
 {
-    $res = '<select id="assist_' . $u->id . '">';
+    $res = '<select id="ouk_' . $u->id . '" reqired>';
     foreach ($ouk as $f) {
-        if ($f['id'] == null || $u->ouk_faculty_idouk_faculty == $f['id']) {
+        if ($f['id'] == 0 || $u->ouk_faculty_idouk_faculty == $f['id']) {
             $res .= "<option value=" . $f['id'] . " selected>" . $f['name'] . "</option>";
         } else {
             $res .= "<option value=" . $f['id'] . ">" . $f['name'] . "</option>";

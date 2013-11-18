@@ -288,4 +288,32 @@ class Ajax extends \PHPixie\Controller
             $a->delete();
         }
     }
+
+    /**
+     * сохраняет пользовтаеля
+     */
+    public function action_save_user() {
+        if (!$this->logged_in('super'))
+            return;
+
+        $uid = $this->request->get('uid');
+        $fio = $this->request->get('fio');
+        $fac = $this->request->get('fac');
+        $ouk = $this->request->get('ouk');
+        $uvp = $this->request->get('uvp');
+        $email = $this->request->get('email');
+
+        $user = $this->pixie->orm->get('user')->where('id',$uid)->find();
+        if ($user->loaded()) {
+            $user->fio = $fio;
+            $user->faculties_id = $fac;
+            $user->email = $email;
+            $user->assist_type_id = $uvp != 0 ? $uvp : null;
+            $user->ouk_faculty_idouk_faculty = $ouk != 0 ? $ouk : null;
+            $user->save();
+
+        } else {
+            die ("error");
+        }
+    }
 }

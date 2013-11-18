@@ -82,7 +82,7 @@
 <div id="loading">
     <img src="/img/black-load.gif">
 </div>
-<div id="old_browser" class="alert-error" >
+<div id="old_browser" class="alert-error" hidden>
     Система не будет корректно работать с устаревшими браузерами. Обновите свой бразузер или установите какой либо из списка ниже <br/>
     <a href="http://download.microsoft.com/download/5/D/4/5D405568-02E9-414D-BA52-A8D9890C1D31/IE10-Windows6.1-ru-ru.exe">Internet Explorer 10</a><br/>
     <a href="https://download.mozilla.org/?product=firefox-21.0&os=win&lang=ru">Fire Fox</a><br/>

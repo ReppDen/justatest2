@@ -42,17 +42,17 @@ class Admin extends \App\Page
         $assists_types = $this->pixie->orm->get('assisttype')->find_all();
 
         $assists = array();
-        $assists[] = array('id'=> null, 'name' => 'Не является УВП');
+        $assists[] = array('id' => 0, 'name' => 'Не является УВП');
         foreach ($assists_types as $a) {
-            $assists[] = array('id'=> $a->idassist_type, 'name' => $a->name);
+            $assists[] = array('id' => $a->idassist_type, 'name' => $a->name);
         }
 
         $ouk_types = $this->pixie->orm->get('oukfaculty')->find_all();
         $ouk = array();
+        $ouk[] = array('id' => 0, 'name' => 'Не числися в ОУК');
         foreach ($ouk_types as $a) {
-            $ouk[] = array('id'=> $a->idouk_faculty, 'name' => $a->name);
+            $ouk[] = array('id' => $a->idouk_faculty, 'name' => $a->name);
         }
-
 
 
         $this->view->users = $users;
